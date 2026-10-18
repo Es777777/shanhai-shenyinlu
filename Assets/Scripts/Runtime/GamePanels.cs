@@ -13,7 +13,7 @@ namespace ShanHai
             P.Panel(new Rect(120,80,1360,740));
             string title=panel=="menu"?"行 卷":panel=="history"?"前 尘 · 对话回看":panel=="save"?"留 卷 · 存档":panel=="load"?"续 卷 · 读档":panel=="settings"?"调 弦 · 设置":panel=="chapters"?"山 海 行 迹":panel=="codex"?"山 海 图 鉴":panel=="endings"?"终 卷 收 藏":"此 卷 已 成";
             P.Label(new Rect(170,112,1040,64),title,36,P.Gold);
-            if(P.Button(new Rect(1310,112,112,48),"返回")){panel="";LocalSaves.SaveProfile(profile);return;}
+            if(P.Button(new Rect(1310,Compact?98:112,112,Compact?90:48),"返回")){panel="";LocalSaves.SaveProfile(profile);return;}
             P.Line(new Vector2(170,191),new Vector2(1420,191),new Color(P.Gold.r,P.Gold.g,P.Gold.b,.4f));
             if(panel=="menu")DrawMenuPanel();
             else if(panel=="settings")DrawSettings();
@@ -40,7 +40,7 @@ namespace ShanHai
             for(int i=0;i<labels.Length;i++)
             {
                 int index=i;
-                if(P.Button(new Rect(220+i%2*610,335+i/2*94,550,68),labels[i]))
+                if(P.Button(new Rect(220+i%2*610,Compact?300+i/2*122:335+i/2*94,550,Compact?108:68),labels[i]))
                 {
                     if(index==7)Ask("返回主菜单？当前旅程会自动保存。",()=>{Persist();playing=false;panel="";autoPlay=skipping=false;audioBus.PlayMusic("prologue");});
                     else OpenPanel(panels[index]);
@@ -57,7 +57,8 @@ namespace ShanHai
             P.Label(new Rect(1230,485,150,45),profile.autoDelay.ToString("0.0")+" 秒",23,P.Gold);
             if(P.Button(new Rect(200,590,560,62),profile.skipUnread?"快进范围：全部对白":"快进范围：仅已读对白"))profile.skipUnread=!profile.skipUnread;
             if(P.Button(new Rect(810,590,560,62),profile.reducedMotion?"减少动态效果：开":"减少动态效果：关"))profile.reducedMotion=!profile.reducedMotion;
-            P.Label(new Rect(200,698,1170,65),"点击对白或按空格继续；调查场景实物，拾取器物后直接使用。互动时自动阅读会等待。\n存档保存在当前浏览器中。清理站点数据会移除本地存档。",22,P.Muted);
+            DrawTextScale();
+            if(!Compact) P.Label(new Rect(200,770,1170,32),"存档保存在当前浏览器中。清理站点数据会移除本地存档。",20,P.Muted);
         }
         float Slider(Rect rect,float value,float min,float max)
         {
@@ -82,7 +83,7 @@ namespace ShanHai
                 P.Label(new Rect(x+20,y+12,550,34),(slot==0?"自动存档":"卷页 "+slot)+"  ·  "+node,23,P.Paper);
                 P.Label(new Rect(x+20,y+62,360,32),state==null?"尚未写入":state.savedAt+"  "+state.route,19,P.Muted);
                 bool save=panel=="save";
-                if(P.Button(new Rect(x+412,y+57,156,40),save?"写入":"读取",false,save?playing&&slot!=0:state!=null,21))
+                if(P.Button(new Rect(x+412,Compact?y+15:y+57,156,Compact?90:40),save?"写入":"读取",false,save?playing&&slot!=0:state!=null,21))
                 {
                     if(save)
                     {

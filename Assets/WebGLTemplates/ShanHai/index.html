@@ -8,15 +8,16 @@ const loading=document.getElementById('loading');
 const fullscreen=document.getElementById('fullscreen');
 let ready=false;
 function placeFullscreen(){
-  const w=window.innerWidth,h=window.innerHeight,s=Math.min(w/1600,h/900);
+  const w=window.innerWidth,h=window.innerHeight,s=Math.min(w/1600,h/900),compact=h<650||/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Macintosh/.test(navigator.userAgent));
+  const bx=compact?320:650,by=compact?800:856,bw=compact?280:130,bh=compact?98:37;
   fullscreen.style.display=ready&&w>=h&&document.fullscreenEnabled!==false?'block':'none';
-  Object.assign(fullscreen.style,{left:((w-1600*s)/2+650*s)+'px',top:((h-900*s)/2+856*s)+'px',width:(130*s)+'px',height:(37*s)+'px',fontSize:(20*s)+'px'});
+  Object.assign(fullscreen.style,{left:((w-1600*s)/2+bx*s)+'px',top:((h-900*s)/2+by*s)+'px',width:(bw*s)+'px',height:(bh*s)+'px',fontSize:((compact?36:20)*s)+'px'});
 }
 window.addEventListener('resize',placeFullscreen);
 const script=document.createElement('script');script.src='Build/{{{ LOADER_FILENAME }}}';
 script.onload=()=>createUnityInstance(canvas,{
 dataUrl:'Build/{{{ DATA_FILENAME }}}',frameworkUrl:'Build/{{{ FRAMEWORK_FILENAME }}}',codeUrl:'Build/{{{ CODE_FILENAME }}}',
-streamingAssetsUrl:'StreamingAssets',companyName:'ShanHai Studio',productName:'山海神隐录',productVersion:'0.4.1',
+streamingAssetsUrl:'StreamingAssets',companyName:'ShanHai Studio',productName:'山海神隐录',productVersion:'0.5.0',
 matchWebGLToCanvasSize:true,devicePixelRatio:Math.min(window.devicePixelRatio||1,1.5)
 },p=>document.getElementById('progress').value=p).then(instance=>{loading.style.display='none';canvas.focus();ready=true;placeFullscreen();fullscreen.onclick=()=>instance.SetFullscreen(1);}).catch(e=>document.getElementById('error').textContent='加载失败：'+e+'\n请刷新页面，或使用支持 WebGL 2 的浏览器。');
 script.onerror=()=>document.getElementById('error').textContent='构建文件未能加载，请检查网络连接。';document.body.appendChild(script);

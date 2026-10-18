@@ -1,3 +1,4 @@
+import {observeArt,waitArtwork} from './unity-art-loading.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -25,7 +26,7 @@ async function instrument(context){
       };
     }
   });
-  const page=await context.newPage();
+  const page=await context.newPage();observeArt(page);
   page.on('pageerror',error=>errors.push(error.message));
   page.on('console',message=>{
     if(message.type()==='error'||/Uncaught|Exception:|Aborted\(|Failed to initialize player|No GlobalGameManagers/.test(message.text()))errors.push(message.text());
@@ -40,10 +41,11 @@ async function loaded(page){
   assert(canvas.width>0&&canvas.height>0);
 }
 async function clickGame(page,x,y,touch=false){
+  await waitArtwork(page);
   const v=page.viewportSize(),s=Math.min(v.width/1600,v.height/900);
   const px=(v.width-1600*s)/2+x*s,py=(v.height-900*s)/2+y*s;
   if(touch)await page.touchscreen.tap(px,py);else await page.mouse.click(px,py,{delay:60});
-  await page.waitForTimeout(250);
+  await page.waitForTimeout(250);await waitArtwork(page);
 }
 async function capture(page,name){
   await page.screenshot({path:path.join(out,name+'.png')});
@@ -108,7 +110,7 @@ try{
 
   const mobile=await browser.newContext({viewport:{width:844,height:390},deviceScaleFactor:1,isMobile:true,hasTouch:true});
   const phone=await instrument(mobile);await phone.goto(url);await loaded(phone);
-  await clickGame(phone,310,535,true);await clickGame(phone,790,745,true);
+  await clickGame(phone,310,345,true);await clickGame(phone,790,745,true);
   await capture(phone,'06-mobile-landscape');
   await phone.setViewportSize({width:390,height:844});await phone.waitForTimeout(1000);
   await capture(phone,'07-mobile-portrait');

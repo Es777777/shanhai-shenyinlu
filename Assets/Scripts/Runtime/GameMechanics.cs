@@ -45,8 +45,13 @@ namespace ShanHai
             P.Image(new Rect(180,132,1240,680),Art("Investigations/worktable"));
             P.Fill(new Rect(220,154,1160,133),new Color(.025f,.02f,.015f,.65f));
             P.Label(new Rect(235,164,1130,55),title,34,P.Gold);
-            P.Label(new Rect(235,226,1130,58),instruction,24,P.Paper);
-            if(miniMessage!="")P.Label(new Rect(235,741,1130,46),miniMessage,23,P.Gold,TextAnchor.MiddleCenter);
+            P.Label(new Rect(235,218,1130,83),instruction,24,P.Paper);
+            if(miniMessage!="")
+            {
+                bool mounting=engine.Node.mechanic=="mount";
+                string message=Compact&&!mounting&&miniMessage.Length>34?miniMessage.Substring(0,31)+"…":miniMessage;
+                P.Label(mounting?new Rect(235,710,780,83):new Rect(235,741,1130,46),message,23,P.Gold,TextAnchor.MiddleCenter);
+            }
         }
         // Coordinates are local to a square calligraphy grid; the first eight are 金, last four 乌.
         static readonly Point2[][] BrushGuides={
@@ -83,13 +88,14 @@ namespace ShanHai
             for(int i=0;i<BrushGuides.Length;i++)
             {
                 Color c=i<step?P.Red:i==step?new Color(.46f,.30f,.1f,.65f):new Color(.38f,.34f,.25f,.14f);
-                for(int j=1;j<BrushGuides[i].Length;j++)P.Line(BrushPoint(BrushGuides[i][j-1],i),BrushPoint(BrushGuides[i][j],i),c,i<step?12:7);
+                if(i<step)P.Brush(BrushGuides[i].Select(p=>{var v=BrushPoint(p,i);return new Point2(v.x,v.y);}).ToArray(),c,15);
+                else for(int j=1;j<BrushGuides[i].Length;j++)P.Line(BrushPoint(BrushGuides[i][j-1],i),BrushPoint(BrushGuides[i][j],i),c,5);
             }
             if(step<BrushGuides.Length)P.Diamond(BrushPoint(BrushGuides[step][0],step),13,P.Red);
-            for(int i=1;i<drawnStroke.Count;i++)P.Line(new Vector2(drawnStroke[i-1].x,drawnStroke[i-1].y),new Vector2(drawnStroke[i].x,drawnStroke[i].y),P.Red,10);
+            P.Brush(drawnStroke,P.Red,13);
             P.Label(new Rect(350,284,380,30),"金",21,P.Gold,TextAnchor.MiddleCenter);
             P.Label(new Rect(825,284,380,30),"乌",21,P.Gold,TextAnchor.MiddleCenter);
-            if(P.Button(new Rect(1220,410,144,54),"重新落笔",false,true,22)){engine.State.miniStep=0;tracing=false;drawnStroke.Clear();miniMessage="已清空，可以重新开始。";Persist();}
+            if(P.Button(new Rect(1220,410,170,Compact?100:54),"重新落笔",false,true,22)){engine.State.miniStep=0;tracing=false;drawnStroke.Clear();miniMessage="已清空，可以重新开始。";Persist();}
             P.Label(new Rect(1220,500,144,90),"笔画\n"+step+" / 12",25,P.Gold,TextAnchor.MiddleCenter);
             Event e=Event.current;
             if(GUI.enabled&&step<BrushGuides.Length)
@@ -116,6 +122,7 @@ namespace ShanHai
         }
         void DrawRubbing()
         {
+            if(Art("Investigations/workshop-paper")==null || Art("Props/rubbing-atlas")==null)return;
             MiniPanel("绘 异 传 拓","按住并擦拭拓纸，让凤凰形影逐渐显现。覆盖八成纸面即可落印入册。");
             Rect board=new Rect(340,310,920,390);
             PaperSurface(board);
@@ -128,7 +135,7 @@ namespace ShanHai
                 rubbingVeil=new Texture2D(paperWidth,paperHeight,TextureFormat.RGBA32,false);rubbingVeil.filterMode=FilterMode.Bilinear;rubbingVeil.wrapMode=TextureWrapMode.Clamp;
                 if(rubbingPaperPixels==null)
                 {
-                    var paper=Art("Investigations/workshop-paper");var source=paper.GetPixels32();
+                    var paper=Art("Investigations/workshop-paper");if(paper==null)return;var source=paper.GetPixels32();
                     rubbingPaperPixels=new Color32[paperWidth*paperHeight];
                     for(int y=0;y<paperHeight;y++)for(int x=0;x<paperWidth;x++)
                     {
@@ -171,39 +178,51 @@ namespace ShanHai
         }
         void DrawMount()
         {
-            MiniPanel("拓 片 装 裱","将左侧金乌拓片拖入右侧装裱框，然后落印。图鉴将保存这次相遇。");
-            Rect source=new Rect(290,350,425,285),target=new Rect(870,330,430,325);
+            MiniPanel("拓 片 装 裱","观察鸟足与日轮，辨认拓片。转正画面后放入框中，再选择与这次相遇相合的印记。");
+            Rect source=new Rect(290,330,425,Compact?240:285),target=new Rect(870,320,430,Compact?250:290);
             PaperSurface(new Rect(target.x+50,target.y+28,target.width-100,target.height-58));PaperArt(new Rect(target.x-10,target.y-14,target.width+20,target.height+28),2);
             bool mounted=engine.State.miniStep>0;
-            if(mounted)RubbingArt(new Rect(target.center.x-105,target.center.y-105,210,210),0);
+            if(mounted)RubbingArt(new Rect(target.center.x-100,target.center.y-100,200,200),0);
             else
             {
-                P.Label(target,"将拓片置于此处",25,new Color(.29f,.29f,.22f,1),TextAnchor.MiddleCenter);
-                if(!draggingMount){PaperSurface(source);RubbingArt(new Rect(source.center.x-142,source.y,285,285),0);}
+                P.Label(target,"展平拓片后入框",Compact?33:25,new Color(.29f,.29f,.22f,1),TextAnchor.MiddleCenter);
+                if(!draggingMount){PaperSurface(source);Atlas(new Rect(source.center.x-135,source.y,270,270),"Props/rubbing-atlas",0,2,1,Color.white,(engine.State.mountingRotation+2)*90);}
             }
+            if(P.Button(new Rect(290,Compact?590:625,210,Compact?100:75),"细看拓片",false,true,Compact?34:24))
+            {if(!engine.State.deductions.Contains("crow-observed"))engine.State.deductions.Add("crow-observed");miniMessage="三足托起晨曦，身后是一轮太阳。鸟首应朝上，印记应回应它带来的光。";Persist();}
+            if(P.Button(new Rect(525,Compact?590:625,210,Compact?100:75),"转动拓片",false,!mounted,Compact?34:24))
+            {engine.State.mountingRotation=(engine.State.mountingRotation+1)%4;audioBus.Sound("paper");Persist();}
+            string[] seals={"日轮","月纹","山纹"};
+            for(int i=0;i<3;i++)if(P.Button(new Rect(860+i*160,Compact?590:625,150,Compact?100:75),seals[i],engine.State.mountingSeal==i,true,Compact?33:24))
+            {engine.State.mountingSeal=i;Persist();}
             var e=Event.current;
             if(GUI.enabled&&!mounted&&e.type==EventType.MouseDown&&source.Contains(e.mousePosition)){draggingMount=true;e.Use();}
             if(draggingMount)
             {
-                PaperSurface(new Rect(e.mousePosition.x-190,e.mousePosition.y-125,380,250));
-                RubbingArt(new Rect(e.mousePosition.x-125,e.mousePosition.y-125,250,250),0);
+                PaperSurface(new Rect(e.mousePosition.x-150,e.mousePosition.y-115,300,230));
+                Atlas(new Rect(e.mousePosition.x-110,e.mousePosition.y-110,220,220),"Props/rubbing-atlas",0,2,1,Color.white,(engine.State.mountingRotation+2)*90);
                 if(GUI.enabled&&e.type==EventType.MouseUp)
                 {
                     draggingMount=false;
-                    if(target.Contains(e.mousePosition)){engine.State.miniStep=1;audioBus.Sound("puzzle");miniMessage="拓片已就位，请落印。";Persist();}
-                    else miniMessage="将拓片放进右侧装裱框。";
+                    if(target.Contains(e.mousePosition)&&WorkshopRules.CanMount(engine.State)){engine.State.miniStep=1;audioBus.Sound("paper");miniMessage="拓片已展平。选择与金乌相合的印记，再落印入册。";Persist();}
+                    else miniMessage=engine.State.deductions.Contains("crow-observed")?"鸟首还没有朝上。转正后再放入框中。":"先细看拓片，辨认这次相遇留下的痕迹。";
                     e.Use();
                 }
             }
-            if(P.Button(new Rect(1060,684,240,52),"落印入册",true,mounted))DoneMechanic("金乌拓片已装裱入册。");
+            if(P.Button(new Rect(1060,Compact?695:711,240,Compact?95:70),"落印入册",true,mounted,Compact?34:24))
+            {
+                if(WorkshopRules.CanSeal(engine.State))DoneMechanic("三足与日轮相合，金乌拓片已装裱入册。");
+                else {miniMessage="这枚印记与拓片不合。三足之鸟托起的是什么？";audioBus.Sound("error");}
+            }
         }
         void DrawPuzzle()
         {
             MiniPanel("拾 遗 之 页","拖动一块碎片到另一块上交换位置；也可依次点击两块。拼回玄曜遗落的记忆。");
             var tiles=engine.State.puzzle;
-            if(tiles.Count==0){tiles.AddRange(new[]{4,2,0,5,1,3});Persist();}
+            if(tiles.Count==0){tiles.AddRange(new[]{0,1,2,3,4,5});for(int i=5;i>0;i--)InteractionRules.Swap(tiles,i,Random.Range(0,i+1));if(InteractionRules.IsSolved(tiles))InteractionRules.Swap(tiles,0,1);Persist();}
+            if(InteractionRules.IsSolved(tiles)){DrawReasoning(true);return;}
             Rect board=new Rect(320,310,840,390);float w=board.width/3,h=board.height/2;
-            Texture2D tex=Art("Investigations/memory");
+            Texture2D tex=Art("Investigations/memory");if(tex==null)return;
             for(int slot=0;slot<6;slot++)
             {
                 Rect r=new Rect(board.x+slot%3*w,board.y+slot/3*h,w-4,h-4);int piece=tiles[slot];
@@ -224,15 +243,16 @@ namespace ShanHai
                     else selectedTile=target;
                 }
                 dragTile=-1;Persist();ev.Use();
-                if(InteractionRules.IsSolved(tiles))DoneMechanic("散落的记忆重新相接，记忆碎片 +1。");
+                if(InteractionRules.IsSolved(tiles)){miniMessage="画面恢复了。找出能认出两人的证据。";audioBus.Sound("reveal");}
             }
             P.Label(new Rect(1200,350,170,85),"完整图景",24,P.Gold,TextAnchor.MiddleCenter);
             P.Image(new Rect(1188,427,190,105),tex);
-            if(P.Button(new Rect(1200,575,165,60),showHint?"收起序号":"显示提示",false,true,22))showHint=!showHint;
+            if(P.Button(new Rect(1200,575,165,Compact?100:60),showHint?"收起序号":"显示提示",false,true,22))showHint=!showHint;
             miniMessage=showHint?"碎片按 1、2、3 / 4、5、6 的顺序排列。":"每片记忆，都有它的位置。";
         }
         void DrawMirror()
         {
+            if(engine.State.matched.Count==4){DrawReasoning(false);return;}
             MiniPanel("双 卷 映 照","先选择左卷的一段记名，再选择右卷对应的形影。让四段见闻互相补全。");
             string[] left={"金乌之名","凤凰之影","相柳之问","罔象之行"};
             string[] right={"烈焰中新生的羽","不辨善恶的遗忘","托起晨曦的三足","九重回声中的困惑"};
@@ -255,7 +275,7 @@ namespace ShanHai
                 if(matched)P.Line(new Vector2(715,383+i*87),new Vector2(885,383+matches[i]*87),P.Gold,3);
             }
             if(engine.State.miniStep>=3)miniMessage="提示：金乌—三足；凤凰—新生；相柳—九重回声；罔象—遗忘。";
-            if(done.Count==4)DoneMechanic("双卷映照完成，记忆碎片 +2。相柳与罔象的关联已记入图鉴。");
+            if(done.Count==4){miniMessage="见闻已经相照，还需要推演记与忘的关系。";}
         }
         void PaperSurface(Rect r)
         {

@@ -1,3 +1,4 @@
+import {observeArt,waitArtwork} from './unity-art-loading.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -36,7 +37,7 @@ async function mark(title,node=''){
 }
 async function beginSegment(key,title){segment=key;await startCapture(page,path.join(out,key+'.webm'));await mark(title);}
 async function endSegment(){if(!demo)return;report.segments.push({key:segment,...await stopCapture(page)});}
-async function click(x,y){const p=gamePoint(page,x,y);if(demo)await page.mouse.move(...p,{steps:8});if(touch)await page.touchscreen.tap(...p);else await page.mouse.click(...p,{delay:demo?80:50});await page.waitForTimeout(demo?650:180);}
+async function click(x,y){await waitArtwork(page);const p=gamePoint(page,x,y);if(demo)await page.mouse.move(...p,{steps:8});if(touch)await page.touchscreen.tap(...p);else await page.mouse.click(...p,{delay:demo?80:50});await page.waitForTimeout(demo?650:180);await waitArtwork(page);}
 async function shot(name){await page.screenshot({path:path.join(out,name+'.png')});if(demo)await page.waitForTimeout(name.includes('notebook')?5500:name.includes('before')?2500:name.includes('scene-changed')?2200:600);}
 async function drag(points){
   async function move(type,x,y){
@@ -67,8 +68,21 @@ async function mechanic(node){
       await waitSaved(page,s=>s.miniStep===i+1);
     }
   }else if(node.mechanic==='mount'){
+    // Wrong orientation and seal must remain recoverable without awarding progress.
+    await drag([[500,490],[1080,490]]);assert.equal((await readSavedData(page)).miniStep,0);
+    await click(390,660);await click(630,660);
+    if(!demo){
+      const before=await readSavedData(page);
+      await page.reload();await page.waitForFunction(()=>document.getElementById('loading')?.style.display==='none',null,{timeout:180000});await page.waitForTimeout(4000);
+      await click(310,page.viewportSize().height<650?465:614);
+      const after=await waitSaved(page,s=>s.nodeId==='N104'&&s.mountingRotation===1);
+      assert.deepEqual(after.deductions,before.deductions);
+      await shot('N104-mount-resumed');
+    }
+    await click(630,660);
     await drag([[500,490],[1080,490]]);await waitSaved(page,s=>s.miniStep===1);
-    await click(1180,710);
+    await click(1260,660);await click(1180,745);assert.equal((await readSavedData(page)).mechanicDone,false);
+    await click(930,660);await click(1180,745);
   }else if(node.mechanic==='rubbing'){
     const points=[];
     for(let row=0;row<8;row++){
@@ -86,11 +100,19 @@ async function mechanic(node){
       await click(460+(target%3)*280,407+Math.floor(target/3)*195);
       s=await waitSaved(page,s=>s.puzzle[target]===target);
     }
+    await shot(node.id+'-deduction');
+    await click(800,690);assert.equal((await readSavedData(page)).mechanicDone,false);
+    await click(1080,345);await click(1080,427);await click(1080,590);
+    await click(800,690);assert.equal((await readSavedData(page)).mechanicDone,false);
+    await click(1080,590);await click(800,690);
   }else if(node.mechanic==='mirror'){
     for(const [left,right] of [2,0,3,1].entries()){
       await click(500,383+left*87);await click(1100,383+right*87);
       await waitSaved(page,s=>s.matched.includes(left));
     }
+    await shot(node.id+'-deduction');
+    await click(400,690);assert.equal((await readSavedData(page)).mechanicDone,false);
+    await click(800,690);
   }else throw new Error('Unknown mechanic '+node.mechanic);
   const completed=await waitSaved(page,s=>s.mechanicDone);
   assert(completed.completed.includes(node.id),'Mechanic reward must apply immediately');
@@ -102,7 +124,7 @@ try{
     if(resume&&route===0)continue;
     const context=await browser.newContext({viewport:touch?{width:844,height:390}:{width:1600,height:900},hasTouch:touch,deviceScaleFactor:1});
     if(recordingRun)await installCapture(context);
-    page=await context.newPage();
+    page=await context.newPage();observeArt(page);
     page.on('crash',()=>{report.errors.push('Browser renderer crashed');void context.browser().close();});
     cdp=await context.newCDPSession(page);
     page.on('pageerror',e=>report.errors.push(e.message));
@@ -111,7 +133,7 @@ try{
     await page.waitForFunction(()=>document.getElementById('loading')?.style.display==='none',null,{timeout:180000});
     await page.waitForTimeout(4000);
     if(demo){await page.mouse.click(780,400);await beginSegment(route===0?'xuanyao':'lingxi',route===0?'玄曜主线 · 主菜单':'灵曦主线 · 主菜单');await page.waitForTimeout(3000);}
-    await click(310,535);
+    await click(310,page.viewportSize().height<650?345:535);
     const run={route:route===0?'玄曜':'灵曦',nodes:[],mechanics:[],endings:[]};report.routes.push(run);
     let replayBalanced=false;
     let state=await waitSaved(page,s=>s.nodeId==='N001');

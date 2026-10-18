@@ -82,7 +82,7 @@ def convert(path=None):
             raise ValueError(f'Missing authored content for {node_id}')
         node = {'id': node_id, 'title': r['B'], 'plot': r['C'], 'chapter': r.get('D', ''), 'kind': r['E'], 'summary': r.get('G', ''), 'background': background, 'characters': [a[5:].lower() for a in assets if a.startswith('CHAR_')], 'music': r.get('P', 'M_PROLOGUE').replace('M_', '').lower(), 'changes': changes, 'lines': [], 'mechanic': '', 'targets': [], 'choices': [], 'unlocks': [], 'effects': r.get('O', '')}
         node.update(item)
-        node['lines'] = [{'speaker': line[0], 'text': line[1]} for line in item['lines']]
+        node['lines'] = [{'speaker': line[0], 'text': line[1], 'expression': line[2] if len(line)>2 else 0} for line in item['lines']]
         nodes.append(node)
     story = {'version': 1, 'title': '山海神隐录', 'entry': 'N001', 'variables': variables, 'nodes': nodes, 'edges': edges, 'codex': authored['codex']}
     validate(story)

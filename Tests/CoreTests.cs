@@ -129,6 +129,19 @@ static class CoreTests
         var tiles=new List<int>{4,2,0,5,1,3};Check(!InteractionRules.IsSolved(tiles),"Puzzle starts unsolved");
         for(int i=0;i<6;i++)InteractionRules.Swap(tiles,i,tiles.IndexOf(i));Check(InteractionRules.IsSolved(tiles),"Puzzle can be solved by swaps");
         var invalid=Copy(e.State);invalid.nodeId="missing";blocked=false;try{e.Restore(invalid);}catch(ArgumentException){blocked=true;}Check(blocked,"Reject invalid saves");
+        var workshop=new SaveState();
+        Check(!WorkshopRules.CanMount(workshop),"Unexamined upside-down rubbing cannot be mounted");
+        workshop.mountingRotation=2;Check(!WorkshopRules.CanMount(workshop),"Orientation alone does not replace observation");
+        workshop.deductions.Add("crow-observed");Check(WorkshopRules.CanMount(workshop),"Observed upright rubbing can be mounted");
+        workshop.miniStep=1;workshop.mountingSeal=2;Check(!WorkshopRules.CanSeal(workshop),"Wrong seal is recoverable but not accepted");
+        workshop.mountingSeal=0;Check(WorkshopRules.CanSeal(workshop),"Solar seal matches the crow");
+        workshop.puzzle=new List<int>{0,1,2,3,4,5};Check(!WorkshopRules.MemoryConclusion(workshop,1),"Assembly alone does not finish deduction");
+        workshop.deductions.Add("red-brush");workshop.deductions.Add("blue-scroll");Check(WorkshopRules.MemoryConclusion(workshop,1),"Both character clues support shared journey");
+        workshop.deductions.Add("leaves");Check(!WorkshopRules.MemoryConclusion(workshop,1),"Unrelated evidence is not accepted");
+        workshop.deductions.Remove("leaves");Check(!WorkshopRules.MemoryConclusion(workshop,0),"Wrong conclusion can be retried");
+        workshop.matched.AddRange(new[]{0,1,2,3});Check(WorkshopRules.MirrorConclusion(workshop,1),"Four pairs support balanced relationship");
+        Check(!WorkshopRules.MirrorConclusion(workshop,0),"Names-only conclusion rejected");
+        var legacy=Copy(e.State);legacy.deductions=null;e.Restore(legacy);Check(e.State.deductions!=null,"Legacy v1 saves gain deduction state");
         Console.WriteLine("PASS: "+assertions+" assertions; "+paths+" complete paths; "+reached.Count+" reachable nodes; endings="+string.Join(",",endingCounts.Skip(1)));
     }
 }

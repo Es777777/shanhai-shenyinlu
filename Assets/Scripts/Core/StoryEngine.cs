@@ -37,6 +37,8 @@ namespace ShanHai
                 if (state.values.Count(v => v.key == def.key) != 1) throw new ArgumentException("存档数值无效");
             if (state.line < 0 || state.line > nodes[state.nodeId].lines.Length) throw new ArgumentException("存档对白位置无效");
             if (state.puzzle.Count != 0 && (state.puzzle.Count != 6 || state.puzzle.Distinct().Count() != 6 || state.puzzle.Any(v => v < 0 || v > 5))) throw new ArgumentException("拼图存档无效");
+            if (state.deductions == null) state.deductions = new List<string>();
+            state.mountingRotation = ((state.mountingRotation % 4) + 4) % 4;
             State = state;
             // Older v1 saves have no investigation fields. Keep their story progress.
             if(State.items==null)State.items=new List<string>();
@@ -127,6 +129,7 @@ namespace ShanHai
         {
             State.nodeId = id; State.line = 0; State.miniStep = 0; State.mechanicDone = false;
             State.inspected.Clear(); State.puzzle.Clear(); State.rubbed.Clear(); State.matched.Clear(); State.choiceReply = "";
+            State.deductions.Clear(); State.mountingRotation = 0; State.mountingSeal = -1;
             State.playerX = .14f; State.playerY = .65f;
             State.investigation=new InvestigationState();
             if (!State.visited.Contains(id)) State.visited.Add(id);

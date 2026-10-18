@@ -1,10 +1,10 @@
 {
   "date": "2026-10-18",
-  "gameVersion": "0.4.1",
+  "gameVersion": "0.5.0",
   "engine": "Tuanjie 1.10.4 / 2022.3.62t16",
   "buildStatus": "succeeded",
   "core": {
-    "assertions": 377,
+    "assertions": 389,
     "completePaths": 24,
     "reachableNodes": 36,
     "endingPathCounts": [
@@ -13,8 +13,44 @@
       10
     ]
   },
+  "quality": {
+    "status": "passed",
+    "checks": [
+      "1600px: title loads only needed art; text size persists; dialogue and settings captured",
+      "844px: title loads only needed art; text size persists; dialogue and settings captured"
+    ],
+    "errors": [],
+    "viewports": [
+      {
+        "viewport": {
+          "width": 1600,
+          "height": 900
+        },
+        "titleLoadSeconds": 8.881,
+        "titleTransferBytes": 22402013,
+        "titleArtRequests": 1
+      },
+      {
+        "viewport": {
+          "width": 844,
+          "height": 390
+        },
+        "titleLoadSeconds": 6.983,
+        "titleTransferBytes": 22402013,
+        "titleArtRequests": 1
+      }
+    ],
+    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+  },
+  "artRetry": {
+    "status": "passed",
+    "errors": [],
+    "expectedHttp503": 1,
+    "attempts": 2,
+    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+  },
   "webglSmoke": {
-    "url": "http://127.0.0.1:8766/",
+    "url": "http://127.0.0.1:8772/",
     "checks": [
       "Real Unity loader completed with a nonempty canvas",
       "Audio context running after a real mouse click",
@@ -38,7 +74,7 @@
       "running"
     ],
     "errors": [],
-    "initialLoadSeconds": 14.2,
+    "initialLoadSeconds": 7.7,
     "storageDatabases": [
       "/idbfs",
       "IDBCached",
@@ -46,8 +82,8 @@
     ],
     "storageFiles": [
       {
-        "path": "/idbfs/0899db8e7ae7e1ca69db309f9e93da24/PlayerPrefs",
-        "bytes": 2452,
+        "path": "/idbfs/08414f55e636991cc8eabdcd65cd9e90/PlayerPrefs",
+        "bytes": 2639,
         "preview": "UnityPrf\u0000\u0000\u0001\u0000\u0000\u0000\u0010\u0000\u0012shanhai.v1.profile��\u0003\u0000\u0000{\"version\":1,\"unlocked\":[],\"readLines\":[\"N001:0\"],\"endings\":[],\"checkpoints\":[{\"nodeId\":\":N001\",\"title\":\"序章·天缺惊变\",\"json\":\"{\\\"version\\\":1,\\\"nodeId\\\":\\\"N001\\\",\\\"route\\\":\\\"\\\",\\\"savedAt\\\":\\\"\\\",\\\"choiceReply\\\":\\\"\\\",\\\"line\\\":0,\\\"miniStep\\\":0,\\\"mechanicDone\\\":false,\\\"playerX\\\":0.14000000059604646,\\\"playerY\\\":0.6499999761581421,\\\"values\\\":[{\\\"key\\\":\\\"mcv\\\",\\\"value\\\":50},{\\\"key\\\":\\\"candle\\\",\\\"value\\\":0},{\\\"key\\\":\\\"fragments\\\",\\\"value\\\":0},{\\\"key\\\":\\\"pacts\\\",\\\"value\\\":0},{\\\"key\\\":\\\"ending\\\",\\\"value\\\":0}],\\\"completed\\\":[],\\\"visited\\\":[\\\"N001\\\"],\\\"inspected\\\":[],\\\"c"
       }
     ],
@@ -56,7 +92,8 @@
       "line": 1
     },
     "status": "passed",
-    "note": "Screenshots require visual review. This browser smoke test does not replace real phone testing or certify every story route in Unity."
+    "note": "Screenshots require visual review. This browser smoke test does not replace real phone testing or certify every story route in Unity.",
+    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
   },
   "webglPlaythrough": {
     "routes": [
@@ -196,7 +233,8 @@
     "note": "Two actual WebGL routes using mouse at 1600x900. Saves observed read-only; no state injection.",
     "segments": [],
     "bookmarks": [],
-    "status": "passed"
+    "status": "passed",
+    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
   },
   "touchPlaythrough": {
     "routes": [
@@ -336,7 +374,8 @@
     "note": "Two actual WebGL routes using touch at 844x390. Saves observed read-only; no state injection.",
     "segments": [],
     "bookmarks": [],
-    "status": "passed"
+    "status": "passed",
+    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
   },
   "traceScaling": {
     "errors": [],
@@ -414,84 +453,86 @@
         "input": "touch"
       }
     ],
-    "status": "passed"
+    "status": "passed",
+    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
   },
   "tracePixels": {
     "status": "passed",
     "checks": [
       {
         "file": "stroke-0-held.png",
-        "inkPixels": 2671,
+        "inkPixels": 2487,
         "outsidePaper": 0,
-        "unchangedArtPixels": 2
+        "unchangedArtPixels": 1
       },
       {
         "file": "stroke-1-held.png",
-        "inkPixels": 5433,
+        "inkPixels": 5092,
         "outsidePaper": 0,
-        "unchangedArtPixels": 2
+        "unchangedArtPixels": 1
       },
       {
         "file": "stroke-10-held.png",
-        "inkPixels": 4172,
+        "inkPixels": 4053,
         "outsidePaper": 0,
         "unchangedArtPixels": 0
       },
       {
         "file": "stroke-11-held.png",
-        "inkPixels": 4714,
+        "inkPixels": 4485,
         "outsidePaper": 0,
         "unchangedArtPixels": 0
       },
       {
         "file": "stroke-2-held.png",
-        "inkPixels": 7952,
+        "inkPixels": 7291,
         "outsidePaper": 0,
-        "unchangedArtPixels": 2
+        "unchangedArtPixels": 1
       },
       {
         "file": "stroke-3-held.png",
-        "inkPixels": 5016,
+        "inkPixels": 4748,
         "outsidePaper": 0,
         "unchangedArtPixels": 1
       },
       {
         "file": "stroke-4-held.png",
-        "inkPixels": 6336,
+        "inkPixels": 5820,
         "outsidePaper": 0,
         "unchangedArtPixels": 1
       },
       {
         "file": "stroke-5-held.png",
-        "inkPixels": 7005,
+        "inkPixels": 6377,
         "outsidePaper": 0,
         "unchangedArtPixels": 1
       },
       {
         "file": "stroke-6-held.png",
-        "inkPixels": 11502,
+        "inkPixels": 10658,
         "outsidePaper": 0,
-        "unchangedArtPixels": 3
+        "unchangedArtPixels": 1
       },
       {
         "file": "stroke-7-held.png",
-        "inkPixels": 14125,
+        "inkPixels": 13173,
         "outsidePaper": 0,
-        "unchangedArtPixels": 3
+        "unchangedArtPixels": 1
       },
       {
         "file": "stroke-8-held.png",
-        "inkPixels": 15375,
+        "inkPixels": 14238,
         "outsidePaper": 0,
-        "unchangedArtPixels": 3
+        "unchangedArtPixels": 1
       },
       {
         "file": "stroke-9-held.png",
-        "inkPixels": 3275,
+        "inkPixels": 3191,
         "outsidePaper": 0,
         "unchangedArtPixels": 0
       }
-    ]
+    ],
+    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
   },
   "danxueScene": {
     "status": "passed",
@@ -509,7 +550,8 @@
       "Actual right staircase finishes N401"
     ],
     "errors": [],
-    "note": "Real Unity WebGL, no state injection. Desktop mouse and CDP touch gestures. IndexedDB is read only."
+    "note": "Real Unity WebGL, no state injection. Desktop mouse and CDP touch gestures. IndexedDB is read only.",
+    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
   },
   "interruptedDrag": {
     "status": "passed",
@@ -518,10 +560,11 @@
       "A fresh drag still swaps normally after interruption.",
       "Opening the menu while dragging also cancels the gesture without a swap."
     ],
-    "errors": []
+    "errors": [],
+    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
   },
   "visualReview": {
-    "version": "0.4.1",
+    "version": "0.5.0",
     "status": "passed",
     "method": "Visual inspection of actual H5 screenshots, including art registration, glyphs, layer clipping, physical object identity, progress feedback and scaled input. Codex contact sheet uses cropped actual screenshots, not mockups.",
     "screenshots": [
@@ -541,6 +584,13 @@
       "Documentation/review/玄曜-N911-final-scene.png",
       "Documentation/review/灵曦-N912-final-scene.png",
       "Documentation/review/玄曜-N913-final-scene.png",
+      "Documentation/review/N603-deduction.png",
+      "Documentation/review/N702-deduction.png",
+      "Documentation/review/N104-mount-resumed.png",
+      "Documentation/review/844-title.png",
+      "Documentation/review/844-large-text.png",
+      "Documentation/review/844-settings.png",
+      "Documentation/review/load-failure.png",
       "Documentation/review/codex-review.png"
     ],
     "source": "Builds/QA/Unity",
@@ -551,6 +601,11 @@
       "endingScenes": 3
     },
     "findingsResolved": [
+      "Ending CGs no longer receive duplicate foreground actors; collection and replay remain accessible",
+      "Compact title, toolbar and persistent text-size setting",
+      "Fractional-scale portrait seams fixed by drawing the body once and feathering only pixel-aligned outer edges",
+      "Bridge perspective and leaf-gate ambient shading adjusted",
+      "Mount orientation and seal, randomized memory evidence, and mirror reasoning verified",
       "Lantern pickup no longer overlaps the ice inscription hit area",
       "Paper stays inside the mounting frame",
       "Workshop header contrast increased",
@@ -591,25 +646,229 @@
     "newGeneratedAssets": 27
   },
   "buildFiles": {
-    "Build/H5.data.unityweb": {
-      "bytes": 204104241,
-      "sha256": "fe818cb76fb6eabe950adc35eb5154acda77a98ab75599f43104fb8fd4b548f6"
+    "Build/H5-0.5.0-publish.data.unityweb": {
+      "bytes": 15406860,
+      "sha256": "0383c917640dc634efdda779f08b8f36c5b7234c9ac87ce241f596188714d3b9"
     },
-    "Build/H5.framework.js.unityweb": {
-      "bytes": 83577,
-      "sha256": "6df9a2a01726c4bbe8689aea331d34d9431c2835b6c3e12f8a4ff67bdf5f1913"
+    "Build/H5-0.5.0-publish.framework.js.unityweb": {
+      "bytes": 83703,
+      "sha256": "cb2d9a8abba04485e15568ce59eef0ca3ec21d9a80245430de9cd88b148a6983"
     },
-    "Build/H5.loader.js": {
+    "Build/H5-0.5.0-publish.loader.js": {
       "bytes": 44358,
       "sha256": "2931859c57c92d36566076bba415689450db2392bcee81f93ed1649bbbff0904"
     },
-    "Build/H5.wasm.unityweb": {
-      "bytes": 6334970,
-      "sha256": "65804fef0288f272a35e67466632d3c6d76491382b60857a19cbb0b1820e72ad"
+    "Build/H5-0.5.0-publish.wasm.unityweb": {
+      "bytes": 6429452,
+      "sha256": "2bbaa1271d91de8f880dc5779b5c12cc06e909632934089fa9dec0a73001c86b"
+    },
+    "build-manifest.json": {
+      "bytes": 12438,
+      "sha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
     },
     "index.html": {
-      "bytes": 2926,
-      "sha256": "849a824c3ebee5f53392967841bd255b3846513024ad510a9071ab1638c9d976"
+      "bytes": 3237,
+      "sha256": "87b3ac77994839b3d181657a9a7d1b86ece9819020680483cab89faa9f948727"
+    },
+    "StreamingAssets/Art/Backgrounds_buzhou-205fcf10acc28129.jpg": {
+      "bytes": 381127,
+      "sha256": "205fcf10acc28129947042867ffd6c03e6ea398cc50c6cbd77f43631bf7cdcc6"
+    },
+    "StreamingAssets/Art/Backgrounds_danxue-6ab32af26c6d106f.jpg": {
+      "bytes": 445033,
+      "sha256": "6ab32af26c6d106f0f6408ff5eef7c632865deaedfd4309a1dcfdb18b4481d9b"
+    },
+    "StreamingAssets/Art/Backgrounds_finale-ecff157b08708864.jpg": {
+      "bytes": 452067,
+      "sha256": "ecff157b087088643b8a5c6631b78ac355b1225978b92fe306f91c4ec47d5835"
+    },
+    "StreamingAssets/Art/Backgrounds_fusang-638658abe49e436d.jpg": {
+      "bytes": 435107,
+      "sha256": "638658abe49e436dd35caab28778d4da2e37d2305cef785b98b8fe0b81fc37f1"
+    },
+    "StreamingAssets/Art/Backgrounds_tianque-0b27d18ea999b00c.jpg": {
+      "bytes": 437640,
+      "sha256": "0b27d18ea999b00ced876fb22e7dd4ca083068a605a5a5bc1c953226bc10fcdd"
+    },
+    "StreamingAssets/Art/Backgrounds_wuxian-998a8d97ba85b202.jpg": {
+      "bytes": 439786,
+      "sha256": "998a8d97ba85b20281615d5494ed69c9f0eb2f29c4e08429dbe8dd8c45f63b3a"
+    },
+    "StreamingAssets/Art/Backgrounds_xiongli-b30f05e83a5596d3.jpg": {
+      "bytes": 418590,
+      "sha256": "b30f05e83a5596d30869c60abd2ecfd56921e9912599a2e827eb6dc7f892ed83"
+    },
+    "StreamingAssets/Art/Backgrounds_youdu-f6083c4e2d5684bc.jpg": {
+      "bytes": 408319,
+      "sha256": "f6083c4e2d5684bce9778c3401aa0f8f4905cc0a4be033d27c4a37dfa9d89c73"
+    },
+    "StreamingAssets/Art/Backgrounds_zhongshan-9e3beb6a2b3fd574.jpg": {
+      "bytes": 428916,
+      "sha256": "9e3beb6a2b3fd57419b9ee597210d7215a5e5baa8e697c53e66fc4b77d988da4"
+    },
+    "StreamingAssets/Art/Characters_baize-6bc190f953e6fc82.png": {
+      "bytes": 3169874,
+      "sha256": "6bc190f953e6fc82029337cece9808773c343e1ee68d3b94b13e22a4fd914290"
+    },
+    "StreamingAssets/Art/Characters_dinv-64418e364ca5c48b.png": {
+      "bytes": 2852815,
+      "sha256": "64418e364ca5c48bc47749235f35cd8121703081f8985ccc21d5eb109e880718"
+    },
+    "StreamingAssets/Art/Characters_gonggong-e424be02cb81a6ff.png": {
+      "bytes": 3515929,
+      "sha256": "e424be02cb81a6ff34d8aad3f820bb47176ffa8f164bf10f824624873e6d08cd"
+    },
+    "StreamingAssets/Art/Characters_lingxi-cf419360a12129d5.png": {
+      "bytes": 3078790,
+      "sha256": "cf419360a12129d5eeb080e673f9dd8901afe5ff4d2b7e9299a7b0f7dff4b7d4"
+    },
+    "StreamingAssets/Art/Characters_wangxiang-881245c3d5717d1f.png": {
+      "bytes": 2953641,
+      "sha256": "881245c3d5717d1f99378d73ad5c0cfdd8039b201546207a2fc8b8608a8c8354"
+    },
+    "StreamingAssets/Art/Characters_wuxian-07d7cd9eaeb6696f.png": {
+      "bytes": 2950620,
+      "sha256": "07d7cd9eaeb6696f2791afbec91ac907485d7d231893c0475ad87624faf800e7"
+    },
+    "StreamingAssets/Art/Characters_wuxian2-6b4a10a3f764a42b.png": {
+      "bytes": 2954958,
+      "sha256": "6b4a10a3f764a42bb1bffc781d1f3358718c40cb2589d2beaafc14ad825a8416"
+    },
+    "StreamingAssets/Art/Characters_xiangliu-aaf5f7f520f9b2e8.png": {
+      "bytes": 3386669,
+      "sha256": "aaf5f7f520f9b2e86439b01f8eacfe8d82b614e7a06df997e668925a29158ff8"
+    },
+    "StreamingAssets/Art/Characters_xuanyao-835fe5fafcd2f0a2.png": {
+      "bytes": 2866032,
+      "sha256": "835fe5fafcd2f0a2199dbecacc13939ba408f7c996eac3e8ab2aef3814a0d853"
+    },
+    "StreamingAssets/Art/Characters_zhuyin-dfe373d60fdc8636.png": {
+      "bytes": 3234467,
+      "sha256": "dfe373d60fdc86361638b4676bab57b9a53c5d3edef933fdd921282c3fca4ba7"
+    },
+    "StreamingAssets/Art/Investigations_bridge-layers-e16ae320a34f5b3b.png": {
+      "bytes": 1600895,
+      "sha256": "e16ae320a34f5b3b9b4cd97800f9289b2203e7daf6aecf3221183f16944f2a36"
+    },
+    "StreamingAssets/Art/Investigations_buzhou-room-326d1d5a55cd87bb.jpg": {
+      "bytes": 412183,
+      "sha256": "326d1d5a55cd87bbdedf01cc68192e8d73d7827e57b840b05f5bc11618c76bde"
+    },
+    "StreamingAssets/Art/Investigations_codex-items-178ddc7b1b703d0f.png": {
+      "bytes": 2075572,
+      "sha256": "178ddc7b1b703d0f2de785a7aab16022dc8867ae5764dda100b19e0ea0eb1a08"
+    },
+    "StreamingAssets/Art/Investigations_danxue-awake-ec771cf498460d21.jpg": {
+      "bytes": 480297,
+      "sha256": "ec771cf498460d2180bf3e0e9c93c0208edc6fd7a591dba5c2511b97b45ffe5a"
+    },
+    "StreamingAssets/Art/Investigations_danxue-layers-48db64d4820d643e.png": {
+      "bytes": 2636975,
+      "sha256": "48db64d4820d643eb6dc8c1de8294d2b2fe03ec1c19eca0568b66a60d64e21f7"
+    },
+    "StreamingAssets/Art/Investigations_danxue-room-c0443d7daa8cd906.jpg": {
+      "bytes": 452741,
+      "sha256": "c0443d7daa8cd9068208a3d553675ad45252e2ad2501abbfa41445f9a70aea6f"
+    },
+    "StreamingAssets/Art/Investigations_ending-balance-da0c5f4fb7001724.jpg": {
+      "bytes": 490610,
+      "sha256": "da0c5f4fb70017245f68782e57f37dc8f4e7acb80112c85d3b2bb81b726abcff"
+    },
+    "StreamingAssets/Art/Investigations_ending-coexist-57f3ad3bac0d8410.jpg": {
+      "bytes": 495766,
+      "sha256": "57f3ad3bac0d84107125537f883c8b60ccd4e3cf8621359cb0eed1357a316d40"
+    },
+    "StreamingAssets/Art/Investigations_ending-everbright-946240e5f132e855.jpg": {
+      "bytes": 523969,
+      "sha256": "946240e5f132e855fe9baad41f3b21fd880c7527b1f6f06dea8cc5c8992ff4af"
+    },
+    "StreamingAssets/Art/Investigations_ferry-28ffebbc6428fd0e.png": {
+      "bytes": 1411197,
+      "sha256": "28ffebbc6428fd0e4093655e211f879dcbfc84ad200b4272740b94ea091eec76"
+    },
+    "StreamingAssets/Art/Investigations_fusang-awake-73139b24d7059849.jpg": {
+      "bytes": 477472,
+      "sha256": "73139b24d70598493dce9cc9e19ccdfbe93c1c4b94a33a3489c0a0d6d6562f85"
+    },
+    "StreamingAssets/Art/Investigations_fusang-room-e827dad26df3b706.jpg": {
+      "bytes": 500789,
+      "sha256": "e827dad26df3b7067c603a98df2788132710a8f2ebccde5123b64b3158602b6c"
+    },
+    "StreamingAssets/Art/Investigations_journey-items-c3ec684e411b5f2b.png": {
+      "bytes": 2192005,
+      "sha256": "c3ec684e411b5f2b9f94cdc17751449f52bf1ce48d2b024500333d30d7a4a4a8"
+    },
+    "StreamingAssets/Art/Investigations_leaf-rings-3d2e06f57f1c3311.png": {
+      "bytes": 1916749,
+      "sha256": "3d2e06f57f1c3311307007d387491f56cb2a67aa008324c3648ad6ef7773f34d"
+    },
+    "StreamingAssets/Art/Investigations_mechanism-stone-dry-6416c318432cea46.png": {
+      "bytes": 2573027,
+      "sha256": "6416c318432cea462919aa6f658c4937ff54a3389a1e2c858740dd1e09512608"
+    },
+    "StreamingAssets/Art/Investigations_memory-761374124c8c19ab.jpg": {
+      "bytes": 566369,
+      "sha256": "761374124c8c19ab5d4ee39fb0b578ee2e08c989e7109f7f34d4c4411b7d52c5"
+    },
+    "StreamingAssets/Art/Investigations_wangchuan-room-2a66476945b200bd.jpg": {
+      "bytes": 313185,
+      "sha256": "2a66476945b200bd4ecf2dfa6790f7490e4b263b810a77afaa3ce7eed53e836b"
+    },
+    "StreamingAssets/Art/Investigations_workshop-paper-6e3942c78c840462.png": {
+      "bytes": 2066695,
+      "sha256": "6e3942c78c840462f80d1d548eec1b2cf44038e964dcb92eba1538684f1d1702"
+    },
+    "StreamingAssets/Art/Investigations_worktable-83ef8bf823a1b942.jpg": {
+      "bytes": 341751,
+      "sha256": "83ef8bf823a1b942c4ac574f48573623483504ca7dd5452c05e4bfeeabf71795"
+    },
+    "StreamingAssets/Art/Investigations_xiongli-awake-67f6c81c360bc304.jpg": {
+      "bytes": 396812,
+      "sha256": "67f6c81c360bc3045a984cdc846f9279f237db3139055364e5a169c154f9494b"
+    },
+    "StreamingAssets/Art/Investigations_xiongli-covered-4930194f6e94a1d3.jpg": {
+      "bytes": 390830,
+      "sha256": "4930194f6e94a1d35ff6cabb588a45e0c5e9a31a39d78e63cbbcd93fa5f7f4b3"
+    },
+    "StreamingAssets/Art/Investigations_xiongli-room-0cdee55f8dfcf986.jpg": {
+      "bytes": 423552,
+      "sha256": "0cdee55f8dfcf986dd43ddb7550ae11964270c5159d551edf8db8227b0242c5c"
+    },
+    "StreamingAssets/Art/Investigations_youdu-lamps-awake-d74fd426c1918765.jpg": {
+      "bytes": 358130,
+      "sha256": "d74fd426c1918765b93825fc889d2a320fe0100f47a66fa9711a16ec7972bbef"
+    },
+    "StreamingAssets/Art/Investigations_youdu-lamps-room-16db9523f0c80dc3.jpg": {
+      "bytes": 367349,
+      "sha256": "16db9523f0c80dc321ed486aede9a42a50486990f6dcac7bf3a1ee69d8e71ef4"
+    },
+    "StreamingAssets/Art/Investigations_youdu-leaf-awake-f5e98bd6e5229041.jpg": {
+      "bytes": 376962,
+      "sha256": "f5e98bd6e52290414f819161dcd0b52bf24228a99ddec1979cb1df45cf5092ba"
+    },
+    "StreamingAssets/Art/Investigations_youdu-leaf-room-371fea6060695bbe.jpg": {
+      "bytes": 379047,
+      "sha256": "371fea6060695bbe406e58c1e7191155f44bb3f1b9540db58697b59b33e7e150"
+    },
+    "StreamingAssets/Art/Investigations_zhongshan-awake-0e90e6408bd0404a.jpg": {
+      "bytes": 455376,
+      "sha256": "0e90e6408bd0404aaad2c476afeb36885e3000133959c3ab60043d183f9b900d"
+    },
+    "StreamingAssets/Art/Investigations_zhongshan-room-28872ac0ca75c2fe.jpg": {
+      "bytes": 471921,
+      "sha256": "28872ac0ca75c2fe532601d2eb204b33f2d3bed678263003f1a0ea39ac824df8"
+    },
+    "StreamingAssets/Art/Investigations_zhongshan-thawed-6397ceff33b44c62.jpg": {
+      "bytes": 455854,
+      "sha256": "6397ceff33b44c627b084a382da52da78fb6f827671aa6c154f058f178aedcb3"
+    },
+    "StreamingAssets/Art/Props_investigation-atlas-850d17130fc14cbb.png": {
+      "bytes": 1828348,
+      "sha256": "850d17130fc14cbb0023e3ac58db7a012eaf1483a9e3c0ef8b6fa5f0d49c5216"
+    },
+    "StreamingAssets/Art/Props_rubbing-atlas-f2f13d9e7f7049c7.png": {
+      "bytes": 2283848,
+      "sha256": "f2f13d9e7f7049c79f7e4e12870d53a3a92c2b9b587e80c9542bdf4ea085ce2c"
     }
   },
   "limits": [

@@ -24,7 +24,7 @@ def matches_running_build(url, directory, entry, h5):
     if not same_served_file(url,entry):
         return False
     if h5:
-        for file in sorted((directory/'Build').rglob('*')):
+        for file in sorted([*(directory/'Build').rglob('*'),*(directory/'StreamingAssets').rglob('*')]):
             if file.is_file() and not same_served_file(
                     urllib.parse.urljoin(url,urllib.parse.quote(file.relative_to(directory).as_posix())),file):
                 return False
@@ -40,7 +40,8 @@ def main():
     args.port = args.port or (8766 if args.h5 else 8765)
     directory = ROOT
     if args.h5:
-        directory = ROOT / 'Builds' / 'H5' if (ROOT / 'Builds' / 'H5').is_dir() else ROOT
+        candidates=[p for p in (ROOT/'Builds').glob('H5*') if (p/'build-manifest.json').is_file()]
+        directory=max(candidates,key=lambda p:(p/'build-manifest.json').stat().st_mtime) if candidates else ROOT/'Builds/H5' if (ROOT/'Builds/H5').is_dir() else ROOT
     relative_url = '/' if args.h5 else '/Preview/'
     url = f'http://127.0.0.1:{args.port}{relative_url}'
     entry = directory / ('index.html' if args.h5 else 'Preview/index.html')

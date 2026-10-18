@@ -52,7 +52,7 @@ namespace ShanHai
         {
             if(Investigation.solved||!InvestigationRules.IsSolved(Investigation))return;
             Investigation.solved=true;worldSolvedAt=Time.unscaledTime;
-            investigationMessage=d.success;audioBus.Sound("pact");
+            investigationMessage=d.success;audioBus.Sound("reveal");
             engine.State.history.Add(new HistoryEntry{node=d.id,speaker="解谜 · "+d.title,text=d.success});Persist();
         }
         void FinishInvestigation(InvestigationDefinition d)

@@ -23,3 +23,6 @@
 *.lic
 *.pfx
 *.p12
+/Assets/StreamingAssets/Art/
+/Assets/Resources/ArtCatalog.json
+/Assets/Resources/ArtCatalog.json.meta

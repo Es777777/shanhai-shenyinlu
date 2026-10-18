@@ -6,6 +6,7 @@ namespace ShanHai
     public static class PaintUI
     {
         public static Font Font;
+        public static bool SmallScreen;
         public static readonly Color Ink = new Color(.035f,.075f,.085f,.94f);
         public static readonly Color Gold = new Color(.76f,.64f,.4f,1);
         public static readonly Color Paper = new Color(.94f,.9f,.79f,1);
@@ -53,6 +54,24 @@ namespace ShanHai
                 Line(center+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*radius,center+new Vector2(Mathf.Cos(b),Mathf.Sin(b))*radius,color,width);
             }
         }
+        public static void Brush(IList<Point2> points,Color ink,float width)
+        {
+            if(Event.current.type!=EventType.Repaint||points.Count<2)return;
+            float total=0;for(int i=1;i<points.Count;i++)total+=Vector2.Distance(new Vector2(points[i-1].x,points[i-1].y),new Vector2(points[i].x,points[i].y));
+            float distance=0;
+            for(int i=1;i<points.Count;i++)
+            {
+                var a=new Vector2(points[i-1].x,points[i-1].y);var b=new Vector2(points[i].x,points[i].y);float length=Vector2.Distance(a,b);
+                int parts=Mathf.Max(1,Mathf.CeilToInt(length/5));
+                for(int j=0;j<parts;j++)
+                {
+                    float t=(distance+length*(j+.5f)/parts)/Mathf.Max(total,.1f);
+                    float pressure=Mathf.Lerp(.23f,1,Mathf.Sin(Mathf.PI*Mathf.Clamp01(t)));
+                    Line(Vector2.Lerp(a,b,j/(float)parts),Vector2.Lerp(a,b,(j+1f)/parts),ink,width*pressure);
+                }
+                distance+=length;
+            }
+        }
         public static void Border(Rect r, Color c, float width = 1)
         {
             Fill(new Rect(r.x,r.y,r.width,width),c); Fill(new Rect(r.x,r.yMax-width,r.width,width),c);
@@ -69,7 +88,7 @@ namespace ShanHai
                 Line(p, p+new Vector2(dx*k,0),Gold,2); Line(p,p+new Vector2(0,dy*k),Gold,2);
             }
         }
-        public static void Label(Rect r, string t, int size = 24, Color? color = null, TextAnchor align = TextAnchor.UpperLeft) { GUI.Label(r,t,Style(size,align,color)); }
+        public static void Label(Rect r, string t, int size = 24, Color? color = null, TextAnchor align = TextAnchor.UpperLeft) { GUI.Label(r,t,Style(SmallScreen?Mathf.Max(size,32):size,align,color)); }
         public static bool Button(Rect r, string text, bool accent = false, bool enabled = true, int size = 23)
         {
             bool hover = enabled && r.Contains(Event.current.mousePosition);
@@ -87,7 +106,7 @@ namespace ShanHai
         public static void Image(Rect rect, Texture texture, Color? tint = null)
         {
             if (texture == null) return;
-            Color old = GUI.color; GUI.color = tint ?? Color.white;
+            Color old = GUI.color; GUI.color = tint ?? old;
             GUI.DrawTexture(rect,texture,ScaleMode.ScaleAndCrop,true); GUI.color = old;
         }
     }

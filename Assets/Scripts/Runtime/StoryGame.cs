@@ -11,7 +11,8 @@ namespace ShanHai
         StoryEngine engine;
         PlayerProfile profile;
         GameAudio audioBus;
-        readonly Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
+        ArtStream artStream;
+        bool Compact { get { return Screen.height < 650 || Application.isMobilePlatform; } }
         bool playing, autoPlay, skipping;
         string panel = "", notice = "", confirmText = "";
         Action confirmed;
@@ -46,6 +47,7 @@ namespace ShanHai
             Screen.orientation = ScreenOrientation.LandscapeLeft;
 #endif
             profile = LocalSaves.LoadProfile();
+            artStream = gameObject.AddComponent<ArtStream>();
             var text = Resources.Load<TextAsset>("Story/story");
             if (text == null) { Debug.LogError("缺少剧情数据，请运行 Tools/import_story.py"); enabled = false; return; }
             engine = new StoryEngine(JsonUtility.FromJson<StoryData>(text.text),profile);
@@ -58,7 +60,7 @@ namespace ShanHai
         {
             if (engine == null) return;
             transitionTime = Mathf.Max(0,transitionTime-Time.unscaledDeltaTime);
-            if (!playing || panel != "" || confirmed != null || Screen.height > Screen.width) return;
+            if (!playing || panel != "" || confirmed != null || Screen.height > Screen.width || artStream.Busy || artStream.Error != null) return;
             if (!engine.DialogueFinished)
             {
                 shownCharacters += Time.unscaledDeltaTime * profile.textSpeed;
@@ -87,14 +89,7 @@ namespace ShanHai
         void OnApplicationFocus(bool focused) { if (!focused && playing) { CancelPointerGesture();Persist(); } }
         void OnApplicationQuit() { if (playing) Persist(); LocalSaves.SaveProfile(profile); }
         void Persist() { LocalSaves.Save(0,engine.State); LocalSaves.SaveProfile(profile); }
-        Texture2D Art(string path)
-        {
-            Texture2D tex;
-            if (textures.TryGetValue(path,out tex)) return tex;
-            tex = Resources.Load<Texture2D>("Art/" + path);
-            if (tex != null) textures[path] = tex;
-            return tex;
-        }
+        Texture2D Art(string path) { return artStream.Get(path); }
         void NewGame()
         {
             engine.NewGame(); playing = true; panel = ""; autoPlay = skipping = false;
@@ -119,7 +114,7 @@ namespace ShanHai
                 if (!profile.checkpoints.Any(c => c.nodeId == key))
                     profile.checkpoints.Add(new Checkpoint { nodeId=key, title=engine.Node.title, json=JsonUtility.ToJson(engine.State) });
             }
-            if (textures.Count > 7) { textures.Clear(); Resources.UnloadUnusedAssets(); }
+
             Persist();
             if (!string.IsNullOrEmpty(engine.State.choiceReply)) Notify(engine.State.choiceReply,6);
         }
@@ -156,6 +151,8 @@ namespace ShanHai
         void OnGUI()
         {
             if (engine == null) return;
+            artStream.BeginFrame();
+            P.SmallScreen = Compact;
             GUI.depth = 0;
             GUI.matrix = Matrix4x4.identity;
             P.Fill(new Rect(0,0,Screen.width,Screen.height),Color.black);
@@ -169,11 +166,11 @@ namespace ShanHai
             }
             float scale = Mathf.Min(Screen.width/Width,Screen.height/Height);
             GUI.matrix = Matrix4x4.TRS(new Vector3((Screen.width-Width*scale)/2,(Screen.height-Height*scale)/2,0),Quaternion.identity,new Vector3(scale,scale,1));
-            bool locked = panel != "" || confirmed != null;
+            bool locked = panel != "" || confirmed != null || artStream.Busy || artStream.Error != null;
             GUI.enabled = !locked;
             if (playing) DrawGame(); else DrawTitle();
             GUI.enabled = true;
-            if (panel != "") { GUI.enabled = confirmed == null; DrawPanel(); }
+            if (panel != "") { GUI.enabled = confirmed == null && !artStream.Busy && artStream.Error == null; DrawPanel(); }
             GUI.enabled = true;
             if (confirmed != null) DrawConfirmation();
             if (Time.unscaledTime < noticeUntil)
@@ -182,10 +179,18 @@ namespace ShanHai
                 P.Label(new Rect(350,121,900,68),notice,23,P.Paper,TextAnchor.MiddleCenter);
             }
             if (!string.IsNullOrEmpty(LocalSaves.LastError)) P.Label(new Rect(60,850,1480,36),LocalSaves.LastError,20,P.Red);
+            if (artStream.Busy || artStream.Error != null)
+            {
+                CancelPointerGesture();GUI.enabled=true;
+                P.Fill(new Rect(0,0,Width,Height),new Color(.02f,.05f,.06f,.94f));
+                P.Label(new Rect(280,345,1040,100),artStream.Error ?? "正在展开这一幕 · 余下 "+artStream.Remaining+" 幅卷页",36,P.Paper,TextAnchor.MiddleCenter);
+                if(artStream.Error!=null && P.Button(new Rect(600,495,400,100),"重新加载",true,true,34))artStream.Retry();
+            }
             GUI.matrix = Matrix4x4.identity;
         }
         void DrawTitle()
         {
+            if(Compact){DrawCompactTitle();return;}
             P.Image(new Rect(0,0,Width,Height),Art("Backgrounds/tianque"));
             for (int i=0;i<18;i++) P.Fill(new Rect(0,i*50,Width,50),new Color(.015f,.055f,.065f,.08f+ i*.012f));
             P.Fill(new Rect(0,0,630,Height),new Color(.015f,.045f,.05f,.70f));
@@ -216,8 +221,8 @@ namespace ShanHai
             else if(engine.IsEnding)P.Image(new Rect(0,0,Width,Height),Art("Investigations/"+EndingArt(n.id=="N911"?1:n.id=="N912"?2:3)));
             else {P.Image(new Rect(0,0,Width,Height),Art("Backgrounds/"+n.background));DrawAtmosphere();}
             bool exploring = engine.DialogueFinished && engine.NeedsMechanic && (n.mechanic=="explore" || n.mechanic=="climb");
-            if (!exploring) DrawCharacters();
-            DrawHUD();
+            if (!exploring && !engine.IsEnding) DrawCharacters();
+            if (!(engine.IsEnding && engine.DialogueFinished)) DrawHUD();
             if (!engine.DialogueFinished) DrawDialogue();
             else if (engine.NeedsMechanic) DrawMechanic();
             else
@@ -226,6 +231,7 @@ namespace ShanHai
                 if (choices.Length>0) DrawChoices(choices);
                 else
                 {
+                    if(engine.IsEnding){DrawEndingClose();DrawToolbar();return;}
                     P.Panel(new Rect(60,710,1480,134));
                     P.Label(new Rect(100,730,1050,70),engine.IsEnding ? "此卷已成。山海因你的抉择，留下了新的篇章。" : "这一幕已经完成。",28,P.Paper,TextAnchor.MiddleLeft);
                     if (P.Button(new Rect(1215,749,265,56),engine.IsEnding?"收卷 · 记录结局":"继续行卷",true)) Next();
@@ -263,15 +269,7 @@ namespace ShanHai
             switch(id){case "xuanyao":return "玄曜";case "lingxi":return "灵曦";case "baize":return "白泽";case "zhuyin":return "烛阴";case "xiangliu":return "相柳";case "dinv":return "帝女";case "wuxian":return "巫咸";case "wuxian2":return "巫彭";case "gonggong":return "共工";default:return "罔象";}
         }
         int ExpressionFor(string speaker)
-        {
-            if(engine.DialogueFinished)return 0;
-            string t=engine.Node.lines[engine.State.line].text;
-            if(t.Contains("？"))return 2;
-            if(t.Contains("痛")||t.Contains("失去")||t.Contains("疼")||t.Contains("遗失"))return 3;
-            if(t.Contains("谢谢")||t.Contains("温暖")||t.Contains("一起"))return 1;
-            if(engine.Node.id=="N803"||engine.Node.id=="N304"||engine.Node.id=="N604")return 4;
-            return 0;
-        }
+        { return engine.DialogueFinished ? 0 : Mathf.Clamp(engine.Node.lines[engine.State.line].expression,0,4); }
         void DrawCharacter(string id,Rect rect,float opacity,int frame=0)
         {
             var tex=Art("Characters/"+id); if(tex==null)return;
@@ -280,12 +278,13 @@ namespace ShanHai
             float w=rect.height*aspect;
             Rect target=new Rect(rect.center.x-w/2,rect.y,w,rect.height);
             Color old=GUI.color; GUI.color=new Color(opacity,opacity,opacity,1);
-            if(frames>1)GUI.DrawTextureWithTexCoords(target,tex,new Rect((Mathf.Clamp(frame,0,4)+.008f)/5f,0,.984f/5,1));
+            if(frames>1)DrawPortraitEdges(target,tex,new Rect((Mathf.Clamp(frame,0,4)+.008f)/5f,0,.984f/5,1));
             else GUI.DrawTexture(target,tex,ScaleMode.ScaleToFit,true);
             GUI.color=old;
         }
         void DrawHUD()
         {
+            if(Compact){DrawCompactHUD();return;}
             if(engine.Node.id=="N401"||engine.Node.id=="N402"||CurrentWorld!=null){DrawDanxueHUD();return;}
             P.Fill(new Rect(0,0,Width,94),new Color(.015f,.045f,.055f,.88f));
             P.Label(new Rect(46,20,650,50),engine.Node.title,28,P.Paper,TextAnchor.MiddleLeft);
@@ -300,6 +299,7 @@ namespace ShanHai
         void DrawDialogue()
         {
             var line=engine.Node.lines[engine.State.line];
+            if(Compact || profile.textScale>1.02f){DrawReadableDialogue(line);return;}
             P.Panel(new Rect(60,625,1480,217));
             P.Fill(new Rect(89,646,4,39),line.speaker=="灵曦"?P.Jade:P.Gold);
             P.Label(new Rect(111,645,700,44),line.speaker,29,P.Gold);
@@ -324,6 +324,7 @@ namespace ShanHai
         }
         void DrawToolbar()
         {
+            if(Compact){DrawCompactToolbar();return;}
             P.Fill(new Rect(0,850,Width,50),new Color(.015f,.04f,.05f,.96f));
             P.Label(new Rect(45,859,550,32),engine.State.route==""?"山海初卷":"执卷者 · "+engine.State.route,19,P.Muted);
             var names=new[]{autoPlay?"自动 · 开":"自动",skipping?"快进 · 开":"快进","回看","存档","读档","设置"};

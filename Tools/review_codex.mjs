@@ -9,7 +9,7 @@ const story=JSON.parse(await fs.readFile(path.join(root,'Assets/Resources/Story/
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe'});
 try{
  const page=await browser.newPage({viewport:{width:1300,height:1800}});
- let html='<body style="background:#102025;color:#ead8ac;font:22px sans-serif;padding:20px"><h2>0.4.1 — 图鉴实际截图核对</h2><main style="display:grid;grid-template-columns:repeat(3,400px);gap:20px">';
+ let html='<body style="background:#102025;color:#ead8ac;font:22px sans-serif;padding:20px"><h2>0.5.0 — 图鉴实际截图核对</h2><main style="display:grid;grid-template-columns:repeat(3,400px);gap:20px">';
  for(const entry of story.codex){
   const file=path.join(root,'Builds/QA/Unity/Playthrough/codex-'+entry.id+'.png');
   const base64=(await fs.readFile(file)).toString('base64');

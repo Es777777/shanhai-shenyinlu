@@ -39,12 +39,12 @@ export async function solveInvestigation(page,id,click,shot=async()=>{},options=
  }else await click(...s[id==='N201'?0:2]);
  await waitSaved(page,x=>x.investigation.prepared);
  await shot(id+'-mechanism');
- await click(1340,100);await shot(id+'-notebook');await click(1345,198);
+ await click(page.viewportSize().height<650?1180:1340,page.viewportSize().height<650?150:100);await shot(id+'-notebook');await click(1345,198);
  if(id==='N101'){
   await click(684,497);await waitSaved(page,x=>x.investigation.dials[0]===0);
   if(options.reload){
    const saved=await readSavedData(page);await page.reload();await page.waitForFunction(()=>document.getElementById('loading')?.style.display==='none',null,{timeout:180000});await page.waitForTimeout(2500);
-   await click(310,614);await waitSaved(page,x=>x.nodeId===id&&x.investigation.dials[0]===0);
+   await click(310,page.viewportSize().height<650?465:614);await waitSaved(page,x=>x.nodeId===id&&x.investigation.dials[0]===0);
    assert.deepEqual((await readSavedData(page)).investigation,saved.investigation);
   }
   await click(684,222);await click(1100,222);

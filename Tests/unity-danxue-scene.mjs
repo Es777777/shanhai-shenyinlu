@@ -1,3 +1,4 @@
+import {observeArt,waitArtwork} from './unity-art-loading.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -15,14 +16,14 @@ const report={status:'running',checks:[],errors:[],note:'Real Unity WebGL, no st
 let page;
 try{
  const context=await browser.newContext({viewport:{width:1894,height:1140},hasTouch:true,deviceScaleFactor:1});
- page=await context.newPage();
+ page=await context.newPage();observeArt(page);
  page.on('pageerror',e=>report.errors.push(e.message));
  page.on('console',m=>{if(m.type()==='error'||/Uncaught|Exception:|Aborted\(/.test(m.text()))report.errors.push(m.text());});
  const click=async(x,y)=>{await page.mouse.click(...gamePoint(page,x,y),{delay:60});await page.waitForTimeout(200);};
  const shot=async(name)=>{await page.mouse.move(...gamePoint(page,10,710));await page.waitForTimeout(250);await page.screenshot({path:path.join(out,name+'.png')});};
- await page.goto('http://127.0.0.1:8766/');
+ await page.goto(process.env.SHANHAI_WEBGL_URL||'http://127.0.0.1:8766/');
  await page.waitForFunction(()=>document.getElementById('loading')?.style.display==='none',null,{timeout:180000});await page.waitForTimeout(3000);
- await click(310,535);let state=await waitSaved(page,s=>s.nodeId==='N001');
+ await click(310,page.viewportSize().height<650?345:535);let state=await waitSaved(page,s=>s.nodeId==='N001');
  while(state.nodeId!=='N401'||state.line<story.nodes.find(n=>n.id==='N401').lines.length){
   const node=story.nodes.find(n=>n.id===state.nodeId);
   if(state.line<node.lines.length){

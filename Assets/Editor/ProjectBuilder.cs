@@ -15,7 +15,7 @@ namespace ShanHai.Editor
         public static void Setup()
         {
             // Preserve source aspect ratios for painted scenes and expression atlases.
-            foreach(string guid in AssetDatabase.FindAssets("t:Texture2D",new[]{"Assets/Resources/Art"}))
+            foreach(string guid in AssetDatabase.FindAssets("t:Texture2D",new[]{"Assets/Art"}))
             {
                 var importer=AssetImporter.GetAtPath(AssetDatabase.GUIDToAssetPath(guid)) as TextureImporter;
                 bool readable=AssetDatabase.GUIDToAssetPath(guid).EndsWith("/workshop-paper.png");
@@ -38,7 +38,7 @@ namespace ShanHai.Editor
                 new GameObject("StoryGame").AddComponent<StoryGame>();
                 EditorSceneManager.SaveScene(storyScene);
             }
-            PlayerSettings.companyName="ShanHai Studio";PlayerSettings.productName="山海神隐录";PlayerSettings.bundleVersion="0.4.1";
+            PlayerSettings.companyName="ShanHai Studio";PlayerSettings.productName="山海神隐录";PlayerSettings.bundleVersion="0.5.0";
             PlayerSettings.defaultScreenWidth=1600;PlayerSettings.defaultScreenHeight=900;
             PlayerSettings.defaultInterfaceOrientation=UIOrientation.LandscapeLeft;
             PlayerSettings.runInBackground=true;
@@ -60,7 +60,9 @@ namespace ShanHai.Editor
         {
             Setup();
             Validate();
-            Directory.CreateDirectory("Builds/H5");
+            ArtExporter.Export();
+            string output=Environment.GetEnvironmentVariable("SHANHAI_BUILD_OUTPUT") ?? "Builds/H5";
+            Directory.CreateDirectory(output);
             // Unity 2022 does not forward -job-worker-count to native compilation.
             // Opt-in helper adds Bee's supported -j flag, without changing editor files.
             string wrapper=Environment.GetEnvironmentVariable("SHANHAI_BEE_WRAPPER");
@@ -77,11 +79,26 @@ namespace ShanHai.Editor
                     Debug.Log("BUILD_CONCURRENCY_LIMIT: "+Environment.GetEnvironmentVariable("SHANHAI_BEE_JOBS"));
                 }
                 var options=Environment.GetEnvironmentVariable("SHANHAI_CLEAN_BUILD")=="1"?BuildOptions.CleanBuildCache:BuildOptions.None;
-                var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=new[]{"Assets/Scenes/Story.unity"},locationPathName="Builds/H5",target=BuildTarget.WebGL,options=options});
+                var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=new[]{"Assets/Scenes/Story.unity"},locationPathName=output,target=BuildTarget.WebGL,options=options});
                 if(report.summary.result!=BuildResult.Succeeded)throw new Exception("WebGL build failed: "+report.summary.result);
+                WriteManifest(output);
                 Debug.Log("H5_BUILD_SUCCESS "+report.summary.totalSize+" bytes");
             }
             finally { if(backend!=null&&original!=null)backend.SetValue(null,original); }
+        }
+        [Serializable] class BuildFile { public string path,sha256;public long bytes; }
+        [Serializable] class BuildManifest { public string version;public BuildFile[] files; }
+        static void WriteManifest(string root)
+        {
+            var files=new System.Collections.Generic.List<BuildFile>();
+            foreach(string path in Directory.GetFiles(root,"*",SearchOption.AllDirectories))
+            {
+                string name=path.Replace('\\','/').Substring(root.Length+1);
+                if(name=="build-manifest.json")continue;
+                using(var sha=System.Security.Cryptography.SHA256.Create())using(var stream=File.OpenRead(path))
+                    files.Add(new BuildFile{path=name,bytes=stream.Length,sha256=BitConverter.ToString(sha.ComputeHash(stream)).Replace("-","").ToLowerInvariant()});
+            }
+            File.WriteAllText(root+"/build-manifest.json",JsonUtility.ToJson(new BuildManifest{version="0.5.0",files=files.ToArray()},true));
         }
         [MenuItem("山海神隐录/检查剧情与资源")]
         public static void Validate()
@@ -90,12 +107,12 @@ namespace ShanHai.Editor
             new StoryEngine(data,new PlayerProfile());
             foreach(var node in data.nodes)
             {
-                if(Resources.Load<Texture2D>("Art/Backgrounds/"+node.background)==null)throw new Exception("Missing background "+node.background);
-                foreach(var character in node.characters)if(Resources.Load<Texture2D>("Art/Characters/"+character)==null)throw new Exception("Missing character "+character);
+                if(ArtExporter.Get("Backgrounds/"+node.background)==null)throw new Exception("Missing background "+node.background);
+                foreach(var character in node.characters)if(ArtExporter.Get("Characters/"+character)==null)throw new Exception("Missing character "+character);
             }
             if(Resources.Load<Font>("Fonts/StorySerif")==null)throw new Exception("Missing font");
             foreach(string layer in new[]{"danxue-room","danxue-layers","danxue-awake","fusang-room","fusang-awake","zhongshan-room","zhongshan-thawed","zhongshan-awake","youdu-lamps-room","youdu-lamps-awake","xiongli-room","xiongli-covered","xiongli-awake","wangchuan-room","youdu-leaf-room","youdu-leaf-awake","buzhou-room","mechanism-stone-dry","leaf-rings","ferry","bridge-layers","journey-items","worktable","workshop-paper","memory","codex-items","ending-everbright","ending-coexist","ending-balance"})
-                if(Resources.Load<Texture2D>("Art/Investigations/"+layer)==null)throw new Exception("Missing scene layer "+layer);
+                if(ArtExporter.Get("Investigations/"+layer)==null)throw new Exception("Missing scene layer "+layer);
             Debug.Log("VALIDATION_SUCCESS: "+data.nodes.Length+" nodes");
         }
     }
@@ -103,7 +120,7 @@ namespace ShanHai.Editor
     {
         void OnPreprocessTexture()
         {
-            if(!assetPath.StartsWith("Assets/Resources/Art/"))return;
+            if(!assetPath.StartsWith("Assets/Art/"))return;
             var t=(TextureImporter)assetImporter;
             t.textureType=TextureImporterType.Default;t.npotScale=TextureImporterNPOTScale.None;t.mipmapEnabled=false;t.isReadable=assetPath.EndsWith("/workshop-paper.png");
             t.alphaIsTransparency=true;t.wrapMode=TextureWrapMode.Clamp;

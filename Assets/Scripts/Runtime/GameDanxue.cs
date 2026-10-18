@@ -28,6 +28,7 @@ namespace ShanHai
         }
         void DrawDanxueHUD()
         {
+            if(Compact){DrawCompactHUD();return;}
             P.Fill(new Rect(0,0,Width,62),new Color(.015f,.035f,.04f,.84f));
             P.Label(new Rect(42,9,530,42),engine.Node.title,24,P.Paper,TextAnchor.MiddleLeft);
             P.Label(new Rect(620,16,280,32),"碎片 "+engine.Get("fragments")+"    烛火 "+engine.Get("candle"),18,P.Muted,TextAnchor.MiddleRight);
@@ -117,7 +118,7 @@ namespace ShanHai
                 }
                 if(!hasFan&&!Investigation.prepared&&GUI.Button(fanHit,GUIContent.none,GUIStyle.none))
                 {
-                    engine.State.items.Add("fan");selectedItem="fan";audioBus.Sound("puzzle");
+                    engine.State.items.Add("fan");selectedItem="fan";audioBus.Sound("stone");
                     investigationMessage="拿起蒲叶扇。在三个炉口前按住并左右扫动，把堵住风道的灰拂开。";Persist();
                 }
                 if(GUI.Button(StairHit,GUIContent.none,GUIStyle.none))
@@ -135,7 +136,7 @@ namespace ShanHai
                         if(!Investigation.prepared)investigationMessage=clear?"先把其余风口里的灰也清开，风闸才能活动。":"灰里还藏着余火。石台上的蒲叶扇或许能派上用场。";
                         else if(!Investigation.solved)
                         {
-                            InvestigationRules.ToggleVent(Investigation,i);audioBus.Sound("puzzle");
+                            InvestigationRules.ToggleVent(Investigation,i);audioBus.Sound("stone");
                             investigationMessage=Investigation.dials[1]==1?"腹闸也被带开了，巢中的火羽摇晃起来。壁画上的胸前，却是静止的。":"中间的气流停下了。再看两翼，是否都已接住风？";
                             bool wasSolved=Investigation.solved;CheckInvestigationSolved(d);
                             if(!wasSolved&&Investigation.solved){phoenixStart=Time.unscaledTime;investigationMessage="两翼的风托起凤凰！沿右侧石阶，去看它留下的新羽。";}
@@ -151,6 +152,15 @@ namespace ShanHai
                     hover="轻轻扫动……灰正从羽纹间散开。";
                 }
             }
+            if(Compact)
+            {
+                P.Fill(new Rect(0,675,1600,120),new Color(.015f,.026f,.026f,.94f));
+                string message=investigationMessage!=""?investigationMessage:DanxueDefaultMessage();
+                if(message.Length>76)message=message.Substring(0,73)+"…";
+                P.Label(new Rect(35,688,1530,100),message,36,P.Paper);
+                if(engine.State.items.Contains("fan")&&!Investigation.prepared){selectedItem="fan";DanxueLayer(new Rect(60,800,160,80),1);}
+            }
+            else {
             // Text sits on the dark floor, leaving the painting and objects unobstructed.
             for(int j=0;j<8;j++)P.Fill(new Rect(0,724+j*16,1600,16),new Color(.015f,.026f,.026f,.12f+j*.075f));
             P.Label(new Rect(50,747,245,34),"丹穴 · 两翼生风",24,P.Gold);
@@ -168,9 +178,10 @@ namespace ShanHai
                 // A restored in-progress save immediately resumes with the owned fan available.
                 selectedItem="fan";
             }
-            if(P.Button(new Rect(1280,79,125,42),"线索手记",false,true,19))
+            }
+            if(P.Button(new Rect(Compact?1070:1280,Compact?105:79,Compact?220:125,Compact?90:42),"线索手记",false,true,19))
             {investigationFocus=investigationFocus=="notes"?"":"notes";notesScroll=Vector2.zero;CancelFanStroke();}
-            if(P.Button(new Rect(1420,79,125,42),"一点提示",false,true,19))
+            if(P.Button(new Rect(Compact?1310:1420,Compact?105:79,Compact?250:125,Compact?90:42),"一点提示",false,true,19))
             {
                 Investigation.hints=Math.Min(3,Investigation.hints+1);clueGlintUntil=Time.unscaledTime+5;
                 investigationMessage=!engine.State.items.Contains("fan")&&!Investigation.prepared?"壁画下方的石台上放着扇子。拾起它，可以拂开风口里的余烬。":!Investigation.prepared?"按住风口并左右扫动，三个风口都要清开。每清开一处都会自动记录。":d.hints[Math.Max(1,Investigation.hints-1)];Persist();
@@ -200,7 +211,7 @@ namespace ShanHai
                     if(!profile.reducedMotion&&Time.unscaledTime-dustStart[index]>.5f)dustStart[index]=Time.unscaledTime;
                     if(fanDistance>=280&&fanTurns>=2)
                     {
-                        InvestigationRules.ClearVent(engine.State,index);CancelFanStroke();dustStart[index]=Time.unscaledTime;audioBus.Sound("puzzle");
+                        InvestigationRules.ClearVent(engine.State,index);CancelFanStroke();dustStart[index]=Time.unscaledTime;audioBus.Sound("stone");
                         investigationMessage=Investigation.prepared?"三个风口都清开了。现在拨动风闸，按壁画的提示调通两翼。":"灰散开，露出了青铜风闸。继续拂开其余风口。";Persist();
                     }
                 }

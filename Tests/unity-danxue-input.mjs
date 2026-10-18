@@ -35,7 +35,7 @@ export async function solveDanxue(page,click,shot=async()=>{},options={}){
  if(options.reload){
   const old=await readSavedData(page);await page.reload();
   await page.waitForFunction(()=>document.getElementById('loading')?.style.display==='none',null,{timeout:180000});await page.waitForTimeout(2500);
-  await click(310,614);await waitSaved(page,s=>s.nodeId==='N401'&&s.investigation.progress===1);
+  await click(310,page.viewportSize().height<650?465:614);await waitSaved(page,s=>s.nodeId==='N401'&&s.investigation.progress===1);
   assert.deepEqual((await readSavedData(page)).investigation,old.investigation);
  }
  await sweepVent(page,1,{touch:options.touch});await waitSaved(page,s=>s.investigation.progress===3);

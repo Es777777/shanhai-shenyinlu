@@ -1,0 +1,109 @@
+{
+  "reviewedAt": "2026-10-18T17:02:00",
+  "release": "v0.5.0",
+  "status": "addressed",
+  "method": "Source review, actual exported H5 mouse/touch playthroughs, fresh runtime screenshots and build-bound checks. No claim of physical phone testing.",
+  "coverage": {
+    "investigations": 8,
+    "workshops": 5,
+    "codexEntries": 17,
+    "endingScenes": 3,
+    "other": "Dialogue, settings and mobile layout"
+  },
+  "assets": {
+    "sourcePngFiles": 51,
+    "requiredStreamedImages": 50,
+    "missing": [],
+    "unusedExcludedImage": "mechanism-stone.png",
+    "oldWorldPlacardPlaceholders": "Not found in the eight reviewed integrated investigation scenes."
+  },
+  "findings": [
+    {
+      "id": "Q01",
+      "priority": 1,
+      "kind": "visual_defect",
+      "status": "resolved",
+      "finding": "共生结局 CG 已含两名主角，通用 DrawCharacters 仍叠加大幅立绘，遮挡放灯情节；其他结局同样继续叠加立绘。",
+      "action": "结局 CG 去掉重复立绘，收卷后仍能进入图鉴与章节回放。",
+      "evidence": [
+        "review/灵曦-N912-final-scene.png",
+        "review/玄曜-N913-final-scene.png"
+      ]
+    },
+    {
+      "id": "Q02",
+      "priority": 1,
+      "kind": "mobile_usability",
+      "status": "improved_and_verified",
+      "finding": "固定 1600x900 画布整体缩小；844x390 下工具栏 20 单位字号约为 8.7 CSS px、37 单位按钮高度约为 16 CSS px。设置没有独立字号选项。",
+      "action": "手机标题页和工具栏重排，放大对白及主要按钮，三档字号跨刷新保存。",
+      "evidence": [
+        "review/844-title.png",
+        "review/844-settings.png",
+        "review/844-large-text.png"
+      ]
+    },
+    {
+      "id": "Q03",
+      "priority": 2,
+      "kind": "art_polish",
+      "status": "improved_and_verified",
+      "finding": "不周桥板重复使用同规格纹理且缺少远近缩放，叶脉门机关的明暗和边缘融合偏弱；主角立绘肩部存在硬裁切观感。",
+      "action": "桥板加入远近比例、雾色和阴影；叶门按环境调暗；人物边缘改为屏幕像素对齐渐隐，主体一次绘制避免竖缝。",
+      "evidence": [
+        "review/N801-scene-changed.png",
+        "review/844-large-text.png"
+      ]
+    },
+    {
+      "id": "Q04",
+      "priority": 2,
+      "kind": "gameplay_depth",
+      "status": "implemented_and_verified",
+      "finding": "装裱为单次拖入框后确认，记忆拼图为固定六块交换，双卷是固定词组配对；剧情关联有了，但推理空间仍有限。",
+      "action": "装裱增加观察、旋转和选印；拼图随机开局后需要双证据推理；双卷配对后结合人物经历推演。",
+      "evidence": [
+        "review/N104-mount-resumed.png",
+        "review/N603-deduction.png",
+        "review/N702-deduction.png"
+      ]
+    },
+    {
+      "id": "Q05",
+      "priority": 1,
+      "kind": "loading_and_distribution",
+      "status": "improved_and_verified",
+      "finding": "当前游玩包约 201 MiB；WebGL 美术统一强制 RGBA32，Resources 全量随包加载；本地入口依赖 Python 3。",
+      "action": "50 幅所需美术独立加载，不透明场景 JPEG、透明素材 PNG；失败可重试；随包 Windows 启动器不依赖 Python，并校验全部文件。",
+      "evidence": [
+        "review/load-failure.png",
+        "verification.json"
+      ]
+    },
+    {
+      "id": "Q06",
+      "priority": 3,
+      "kind": "presentation",
+      "status": "improved_and_verified",
+      "finding": "描字仍以等宽折线表现；场景互动大量使用通用 puzzle 音效，角色表情由关键词推断。",
+      "action": "笔画增加粗细变化，六类原创合成反馈音效，111 段对白使用显式表情配置。",
+      "evidence": [
+        "review/stroke-11-held.png",
+        "../Source/content.json"
+      ]
+    }
+  ],
+  "limits": [
+    "Physical iOS/Android testing pending",
+    "WeChat/Douyin mini-game SDKs not integrated",
+    "Existing demo video documents v0.4.1"
+  ],
+  "comparedWith": "v0.4.1",
+  "metrics": {
+    "previousBuildBytes": 210570072,
+    "currentBuildBytes": 86506704,
+    "titleTransferBytes": 22402013,
+    "note": "Local Chrome measurements; no claim of physical-phone network timing or measured peak GPU memory."
+  },
+  "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+}

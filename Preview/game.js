@@ -1,7 +1,7 @@
 import {StoryEngine,defaultProfile} from './engine.js';
 import {mountMechanic} from './mechanics.js';
 const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export const asset=(kind,id)=>`../Assets/Resources/Art/${kind}/${id}.png`;
+export const asset=(kind,id)=>`../Assets/Art/${kind}/${id}.png`;
 const prefix='shanhai.preview.v1.';
 let storageError='';
 function read(key,fallback=null){try{const raw=localStorage.getItem(prefix+key);return raw?JSON.parse(raw):fallback}catch{return fallback}}

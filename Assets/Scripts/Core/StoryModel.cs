@@ -14,7 +14,7 @@ namespace ShanHai
     }
     [Serializable] public class VariableDef { public string key, name; public int initial, min, max; }
     [Serializable] public class Change { public string key, op; public int value; }
-    [Serializable] public class DialogueLine { public string speaker, text; }
+    [Serializable] public class DialogueLine { public string speaker, text; public int expression; }
     [Serializable] public class ExploreTarget { public string id, title, text; public float x, y; }
     [Serializable] public class StoryChoice
     {
@@ -57,6 +57,8 @@ namespace ShanHai
         public List<int> puzzle = new List<int>();
         public List<int> rubbed = new List<int>();
         public List<int> matched = new List<int>();
+        public List<string> deductions = new List<string>();
+        public int mountingRotation, mountingSeal = -1;
         public List<HistoryEntry> history = new List<HistoryEntry>();
         public List<string> items = new List<string>();
         public List<string> evidence = new List<string>();
@@ -78,6 +80,7 @@ namespace ShanHai
         public List<int> endings = new List<int>();
         public List<Checkpoint> checkpoints = new List<Checkpoint>();
         public float musicVolume = .45f, soundVolume = .65f, textSpeed = 30f, autoDelay = 2.2f;
+        public float textScale = 1f;
         public bool skipUnread = false, reducedMotion = false;
     }
 }

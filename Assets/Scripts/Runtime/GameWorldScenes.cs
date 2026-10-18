@@ -57,7 +57,7 @@ namespace ShanHai
             if(!engine.State.items.Contains(d.tool))
             {investigationMessage="这里还缺一件器物。观察近处的石台、岸边或行囊。";return false;}
             if(!InvestigationRules.UseTool(engine.State,d.tool))return false;
-            selectedItem="";worldPreparedAt=Time.unscaledTime;audioBus.Sound("puzzle");
+            selectedItem="";worldPreparedAt=Time.unscaledTime;audioBus.Sound(d.id=="N403"?"sand":d.id=="N501"?"wood":"stone");
             investigationMessage=d.id=="N201"?"暖光融开冰霜，日月星辰的浮雕露了出来。":d.id=="N403"?"浮沙落下，河纹清晰了。转动石渠，让沙沿旧河而出。":d.id=="N801"?"绳索系牢了。选择朱卷或青卷，逐步修复相邻的残阶。":d.instruction;
             if(d.id=="N201"||d.id=="N403"){ObserveClue(d);investigationFocus="";}
             Persist();return true;
@@ -85,7 +85,7 @@ namespace ShanHai
                     Rect hit=scene.tool;hit.xMin-=18;hit.xMax+=18;hit.yMin-=12;hit.yMax+=12;
                     if(hit.Contains(Event.current.mousePosition))worldHover="拾取 · "+d.toolName;
                     if(WorldButton(hit))
-                    {engine.State.items.Add(d.tool);selectedItem=d.tool;investigationMessage="拿起了"+d.toolName+"。"+(d.id=="N403"?"在河碑表面按住并来回轻扫。":d.id=="N201"?"把暖光移到左侧的冰碑上。":"观察它能与场景中的哪处痕迹相合。");audioBus.Sound("puzzle");Persist();}
+                    {engine.State.items.Add(d.tool);selectedItem=d.tool;investigationMessage="拿起了"+d.toolName+"。"+(d.id=="N403"?"在河碑表面按住并来回轻扫。":d.id=="N201"?"把暖光移到左侧的冰碑上。":"观察它能与场景中的哪处痕迹相合。");audioBus.Sound("stone");Persist();}
                 }
                 if(!Investigation.prepared&&d.id!="N201"&&d.id!="N403")
                 {
@@ -103,10 +103,20 @@ namespace ShanHai
                 if(worldBrushing)Prop(new Rect(worldBrushPoint.x-18,worldBrushPoint.y-40,75,75),3);
             }
             GUI.enabled=controls;
+            if(Compact)
+            {
+                P.Fill(new Rect(0,675,1600,120),new Color(.012f,.025f,.029f,.94f));
+                string message=investigationMessage!=""?investigationMessage:Investigation.solved?d.success:d.goal;
+                if(message.Length>76)message=message.Substring(0,73)+"…";
+                P.Label(new Rect(35,688,1530,100),message,36,P.Paper);
+            }
+            else
+            {
             for(int j=0;j<8;j++)P.Fill(new Rect(0,722+j*16,1600,16),new Color(.012f,.025f,.029f,.12f+j*.075f));
             P.Label(new Rect(42,741,300,39),d.title,25,P.Gold);
             P.Label(new Rect(350,735,1030,75),investigationMessage!=""?investigationMessage:Investigation.solved?d.success:d.goal,25,P.Paper,TextAnchor.MiddleLeft);
             P.Label(new Rect(350,815,1030,28),worldHover!=""?worldHover:Investigation.solved?"观察场景中的变化，然后点击前路继续。":Investigation.prepared?"机关就在场景里。点击器物，观察它们的回应。":"可点实物调查；拾取器物后，直接用于场景。",20,P.Gold);
+            }
             if(d.id=="N801"&&Investigation.prepared&&!Investigation.solved)
             {
                 for(int s=0;s<2;s++)
@@ -121,10 +131,10 @@ namespace ShanHai
                 Prop(new Rect(45,783,55,55),d.sprite);
                 P.Label(new Rect(110,793,225,35),"持有 · "+d.toolName,19,P.Paper);
             }
-            else P.Label(new Rect(45,796,285,34),Investigation.solved?"见闻已成 · 前路可行":Investigation.prepared?"器物已就位":"留意近处的痕迹与器物",18,P.Muted);
-            if(P.Button(new Rect(1280,79,125,42),"线索手记",false,true,19))
+            else if(!Compact) P.Label(new Rect(45,796,285,34),Investigation.solved?"见闻已成 · 前路可行":Investigation.prepared?"器物已就位":"留意近处的痕迹与器物",18,P.Muted);
+            if(P.Button(new Rect(Compact?1070:1280,Compact?105:79,Compact?220:125,Compact?90:42),"线索手记",false,true,19))
             {investigationFocus=investigationFocus=="notes"?"":"notes";notesScroll=Vector2.zero;CancelWorldGesture();}
-            if(P.Button(new Rect(1420,79,125,42),"一点提示",false,true,19))
+            if(P.Button(new Rect(Compact?1310:1420,Compact?105:79,Compact?250:125,Compact?90:42),"一点提示",false,true,19))
             {
                 Investigation.hints=Math.Min(3,Investigation.hints+1);clueGlintUntil=Time.unscaledTime+5;
                 investigationMessage=d.hints[Investigation.hints-1];Persist();
@@ -177,7 +187,7 @@ namespace ShanHai
                 var c=centers[i];Rect r=new Rect(c.x-48,c.y-48,96,96);
                 if(!input&&(i>0||Investigation.prepared))Stone(r,6+Investigation.dials[i]);
                 if(input&&WorldButton(new Rect(c.x-57,c.y-57,114,114)))
-                {Investigation.dials[i]=1-Investigation.dials[i];investigationMessage="镜面转过，晨光换了方向。让它接着走到下一面镜。";audioBus.Sound("puzzle");Persist();}
+                {Investigation.dials[i]=1-Investigation.dials[i];investigationMessage="镜面转过，晨光换了方向。让它接着走到下一面镜。";audioBus.Sound("stone");Persist();}
             }
         }
         void WorldEyes(bool input)
@@ -187,7 +197,7 @@ namespace ShanHai
                 Rect r=new Rect(779+i*201,185,117,117);
                 if(!input)Stone(r,Investigation.dials[i]);
                 else if(WorldButton(r))
-                {Investigation.dials[i]=(Investigation.dials[i]+1)%4;investigationMessage="石眼映出"+new[]{"日","云","月","星"}[Investigation.dials[i]]+"。再想想铭文里的昼夜次序。";audioBus.Sound("puzzle");Persist();}
+                {Investigation.dials[i]=(Investigation.dials[i]+1)%4;investigationMessage="石眼映出"+new[]{"日","云","月","星"}[Investigation.dials[i]]+"。再想想铭文里的昼夜次序。";audioBus.Sound("stone");Persist();}
             }
         }
         void WorldLamps(bool input)
@@ -237,7 +247,7 @@ namespace ShanHai
                     }
                 }
                 else if(WorldButton(r))
-                {Investigation.dials[i]=(Investigation.dials[i]+1)%4;audioBus.Sound("puzzle");investigationMessage="河纹石转动了。看流沙停在哪里，把下一段石渠接上。";Persist();}
+                {Investigation.dials[i]=(Investigation.dials[i]+1)%4;audioBus.Sound("stone");investigationMessage="河纹石转动了。看流沙停在哪里，把下一段石渠接上。";Persist();}
             }
         }
         void WorldFerry(bool input)
@@ -264,7 +274,7 @@ namespace ShanHai
                     if(input&&WorldButton(r))
                     {
                         if(selectedStone<0){selectedStone=i;investigationMessage="选中这块镇舟石，再点击另一块交换。";}
-                        else {InteractionRules.Swap(Investigation.dials,selectedStone,i);selectedStone=-1;int t=InvestigationRules.Torque(Investigation.dials);investigationMessage=t==0?"舟身平稳了，可以登舟过河。":t>0?"右侧仍在下沉。离船心越远，同样的石头压得越重。":"左侧仍在下沉。试着调整远端与近端石头的位置。";audioBus.Sound("puzzle");Persist();}
+                        else {InteractionRules.Swap(Investigation.dials,selectedStone,i);selectedStone=-1;int t=InvestigationRules.Torque(Investigation.dials);investigationMessage=t==0?"舟身平稳了，可以登舟过河。":t>0?"右侧仍在下沉。离船心越远，同样的石头压得越重。":"左侧仍在下沉。试着调整远端与近端石头的位置。";audioBus.Sound("wood");Persist();}
                     }
                 }
             }
@@ -279,7 +289,8 @@ namespace ShanHai
                 Rect r=new Rect(c.x-size[i]/2,c.y-size[i]/2,size[i],size[i]);
                 if(!input&&alpha>.005f)
                 {
-                    Atlas(r,"Investigations/leaf-rings",i,2,2,new Color(1,1,1,alpha),Investigation.dials[i]*90);
+                    Atlas(new Rect(r.x+3,r.y+6,r.width,r.height),"Investigations/leaf-rings",i,2,2,new Color(.015f,.025f,.02f,alpha*.65f),Investigation.dials[i]*90);
+                    Atlas(r,"Investigations/leaf-rings",i,2,2,new Color(.72f,.83f,.78f,alpha),Investigation.dials[i]*90);
                     float a=(correct[i]*90-90)*Mathf.Deg2Rad;
                     Vector2 direction=new Vector2(Mathf.Cos(a),Mathf.Sin(a));
                     P.Line(c+direction*(size[i]*.47f),c+direction*(size[i]*.53f),new Color(.95f,.74f,.3f,alpha),5);
@@ -288,7 +299,7 @@ namespace ShanHai
             if(input&&Event.current.type==EventType.MouseDown)
             {
                 float radius=Vector2.Distance(Event.current.mousePosition,c);int ring=radius>107&&radius<151?0:radius>67&&radius<=107?1:radius<=67?2:-1;
-                if(ring>=0){Investigation.dials[ring]=(Investigation.dials[ring]+1)%4;audioBus.Sound("puzzle");investigationMessage="青色叶尖随圆环转动，须与石门上同一圈的金色叶脉接合。";Persist();Event.current.Use();}
+                if(ring>=0){Investigation.dials[ring]=(Investigation.dials[ring]+1)%4;audioBus.Sound("stone");investigationMessage="青色叶尖随圆环转动，须与石门上同一圈的金色叶脉接合。";Persist();Event.current.Use();}
             }
         }
         Vector2 BridgePlace(int cell){return new Vector2(610+cell%4*180,300+cell/4*150);}
@@ -297,12 +308,17 @@ namespace ShanHai
             for(int step=0;step<6;step++)
             {
                 int cell=InvestigationRules.BridgeCells[step];Vector2 c=BridgePlace(cell);bool repaired=step<Investigation.progress;
-                Rect r=new Rect(c.x-110,c.y-125,220,220);
-                if(!input)Atlas(r,"Investigations/bridge-layers",(repaired?2:0)+step%2,2,2,Color.white);
-                if(input&&WorldButton(new Rect(c.x-106,c.y-55,212,100)))
+                float depth=1f-(2-cell/4)*.12f;
+                Rect r=new Rect(c.x-110*depth,c.y-125*depth,220*depth,220*depth);
+                if(!input)
+                {
+                    Atlas(new Rect(r.x+3,r.y+7*depth,r.width,r.height),"Investigations/bridge-layers",(repaired?2:0)+step%2,2,2,new Color(.02f,.03f,.04f,.38f));
+                    Atlas(r,"Investigations/bridge-layers",(repaired?2:0)+step%2,2,2,new Color(.83f+.17f*depth,.9f+.1f*depth,1,1));
+                }
+                if(input&&WorldButton(new Rect(c.x-106*depth,c.y-55*depth,212*depth,100*depth)))
                 {
                     if(InvestigationRules.BridgeStep(Investigation,cell,activeScroll))
-                    {investigationMessage="残阶稳住了，两人向前一步。接着辨认相邻的裂纹或虚影。";audioBus.Sound("puzzle");Persist();}
+                    {investigationMessage="残阶稳住了，两人向前一步。接着辨认相邻的裂纹或虚影。";audioBus.Sound("stone");Persist();}
                     else investigationMessage="这一步还够不到，或卷别不合。朱卷镇裂纹，青卷映虚影，要从近处逐步前行。";
                 }
             }

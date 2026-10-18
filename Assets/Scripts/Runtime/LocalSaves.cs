@@ -35,6 +35,7 @@ namespace ShanHai
                 if (p == null || p.version != 1 || p.unlocked == null || p.readLines == null || p.endings == null || p.checkpoints == null) return new PlayerProfile();
                 p.musicVolume = Mathf.Clamp01(p.musicVolume); p.soundVolume = Mathf.Clamp01(p.soundVolume);
                 p.textSpeed = Mathf.Clamp(p.textSpeed, 10, 80); p.autoDelay = Mathf.Clamp(p.autoDelay, 1, 6);
+                p.textScale = Mathf.Clamp(p.textScale <= 0 ? 1 : p.textScale, 1, 1.3f);
                 return p;
             }
             catch (Exception) { return new PlayerProfile(); }

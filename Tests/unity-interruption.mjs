@@ -1,3 +1,4 @@
+import {observeArt,waitArtwork} from './unity-art-loading.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -11,13 +12,13 @@ const out=path.join(root,'Builds/QA/Unity/Interruptions');await fs.mkdir(out,{re
 const require=createRequire('C:/Users/asd/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/.loader.cjs');
 const {chromium}=require('playwright');
 const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--enable-unsafe-swiftshader']});
-const context=await browser.newContext({viewport:{width:1600,height:900}}),page=await context.newPage();
+const context=await browser.newContext({viewport:{width:1600,height:900}}),page=await context.newPage();observeArt(page);
 const report={status:'running',checks:[],errors:[]};page.on('pageerror',e=>report.errors.push(e.message));
 page.on('console',m=>{if(m.type()==='error'||/Uncaught|Exception:|Aborted\(|Failed to initialize player|No GlobalGameManagers/.test(m.text()))report.errors.push(m.text());});
-async function click(x,y){await page.mouse.click(x,y,{delay:50});await page.waitForTimeout(170);}
+async function click(x,y){await waitArtwork(page);await page.mouse.click(x,y,{delay:50});await page.waitForTimeout(170);await waitArtwork(page);}
 async function shot(name){await page.screenshot({path:path.join(out,name+'.png')});}
 try{
- await page.goto('http://127.0.0.1:8766/');await page.waitForFunction(()=>document.getElementById('loading')?.style.display==='none',null,{timeout:180000});await page.waitForTimeout(2500);await click(310,535);
+ await page.goto(process.env.SHANHAI_WEBGL_URL||'http://127.0.0.1:8766/');await page.waitForFunction(()=>document.getElementById('loading')?.style.display==='none',null,{timeout:180000});await page.waitForTimeout(2500);await click(310,page.viewportSize().height<650?345:535);
  let s=await waitSaved(page,x=>x.nodeId==='N001');
  while(true){
   const n=story.nodes.find(n=>n.id===s.nodeId);

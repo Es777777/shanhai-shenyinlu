@@ -1,5 +1,5 @@
 {
-  "version": "0.4.1",
+  "version": "0.5.0",
   "status": "passed",
   "method": "Visual inspection of actual H5 screenshots, including art registration, glyphs, layer clipping, physical object identity, progress feedback and scaled input. Codex contact sheet uses cropped actual screenshots, not mockups.",
   "screenshots": [
@@ -19,6 +19,13 @@
     "Documentation/review/玄曜-N911-final-scene.png",
     "Documentation/review/灵曦-N912-final-scene.png",
     "Documentation/review/玄曜-N913-final-scene.png",
+    "Documentation/review/N603-deduction.png",
+    "Documentation/review/N702-deduction.png",
+    "Documentation/review/N104-mount-resumed.png",
+    "Documentation/review/844-title.png",
+    "Documentation/review/844-large-text.png",
+    "Documentation/review/844-settings.png",
+    "Documentation/review/load-failure.png",
     "Documentation/review/codex-review.png"
   ],
   "source": "Builds/QA/Unity",
@@ -29,6 +36,11 @@
     "endingScenes": 3
   },
   "findingsResolved": [
+    "Ending CGs no longer receive duplicate foreground actors; collection and replay remain accessible",
+    "Compact title, toolbar and persistent text-size setting",
+    "Fractional-scale portrait seams fixed by drawing the body once and feathering only pixel-aligned outer edges",
+    "Bridge perspective and leaf-gate ambient shading adjusted",
+    "Mount orientation and seal, randomized memory evidence, and mirror reasoning verified",
     "Lantern pickup no longer overlaps the ice inscription hit area",
     "Paper stays inside the mounting frame",
     "Workshop header contrast increased",

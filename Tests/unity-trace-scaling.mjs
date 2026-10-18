@@ -1,3 +1,4 @@
+import {observeArt,waitArtwork} from './unity-art-loading.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -13,11 +14,11 @@ const baseline=process.argv.includes('--baseline');
 const out=path.join(root,'Builds/QA/Unity',baseline?'TraceBaseline':'TraceScaling');await fs.mkdir(out,{recursive:true});
 const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--enable-unsafe-swiftshader']});
 const context=await browser.newContext({viewport:{width:1894,height:1140},deviceScaleFactor:1,hasTouch:true});
-const page=await context.newPage(),report={errors:[],checks:[]};
+const page=await context.newPage();observeArt(page);const report={errors:[],checks:[]};
 const touchClient=await context.newCDPSession(page);
 page.on('pageerror',e=>report.errors.push(e.message));
 function pos(x,y){const v=page.viewportSize(),s=Math.min(v.width/1600,v.height/900);return [(v.width-1600*s)/2+x*s,(v.height-900*s)/2+y*s];}
-async function click(x,y){await page.mouse.click(...pos(x,y),{delay:60});await page.waitForTimeout(160);}
+async function click(x,y){await waitArtwork(page);await page.mouse.click(...pos(x,y),{delay:60});await page.waitForTimeout(160);await waitArtwork(page);}
 async function shot(name){await page.screenshot({path:path.join(out,name+'.png')});}
 const brush=[[[.5,.13],[.34,.3],[.16,.39]],[[.5,.13],[.66,.29],[.85,.38]],[[.32,.37],[.68,.37]],[[.23,.52],[.77,.52]],[[.5,.38],[.5,.84]],[[.28,.63],[.36,.74]],[[.73,.62],[.63,.75]],[[.17,.85],[.83,.85]],[[.48,.13],[.37,.28]],[[.35,.29],[.69,.29],[.68,.53],[.59,.57]],[[.31,.29],[.29,.66],[.77,.66],[.73,.85],[.61,.87]],[[.15,.77],[.61,.77]]];
 async function stroke(i){
@@ -29,12 +30,12 @@ async function stroke(i){
   const a=points[j-1],b=points[j],steps=24;
   for(let k=1;k<=steps;k++){const p=[a[0]+(b[0]-a[0])*k/steps,a[1]+(b[1]-a[1])*k/steps];if(touch)await finger('touchMove',p);else await page.mouse.move(...pos(...p));await page.waitForTimeout(20);}
  }
- await shot('stroke-'+i+'-held');if(touch)await finger('touchEnd',points.at(-1));else await page.mouse.up();await page.waitForTimeout(250);
+ await shot('stroke-'+i+'-held');if(touch)await finger('touchEnd',points.at(-1));else await page.mouse.up();await page.waitForTimeout(250);await waitArtwork(page);
 }
 try{
- await page.goto('http://127.0.0.1:8766/');
+ await page.goto(process.env.SHANHAI_WEBGL_URL||'http://127.0.0.1:8766/');
  await page.waitForFunction(()=>document.getElementById('loading')?.style.display==='none',null,{timeout:180000});
- await page.waitForTimeout(3000);await click(310,535);
+ await page.waitForTimeout(3000);await click(310,page.viewportSize().height<650?345:535);
  let state=await waitSaved(page,s=>s.nodeId==='N001');
  while(state.nodeId!=='N102'||state.line<story.nodes.find(n=>n.id==='N102').lines.length){
   const n=story.nodes.find(n=>n.id===state.nodeId);
