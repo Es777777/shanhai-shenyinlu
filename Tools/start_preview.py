@@ -3,9 +3,32 @@ import argparse
 import functools
 import http.server
 import urllib.error
+import urllib.parse
 import urllib.request
 import webbrowser
 from serve import Handler, ROOT
+
+
+def same_served_file(url, file):
+    """Compare bounded streams so a reused address really serves this package."""
+    with urllib.request.urlopen(url, timeout=5) as response, file.open('rb') as local:
+        while True:
+            block=local.read(1024*1024)
+            if not block:
+                return response.read(1)==b''
+            if response.read(len(block))!=block:
+                return False
+
+
+def matches_running_build(url, directory, entry, h5):
+    if not same_served_file(url,entry):
+        return False
+    if h5:
+        for file in sorted((directory/'Build').rglob('*')):
+            if file.is_file() and not same_served_file(
+                    urllib.parse.urljoin(url,urllib.parse.quote(file.relative_to(directory).as_posix())),file):
+                return False
+    return True
 
 
 def main():
@@ -19,11 +42,19 @@ def main():
     if args.h5:
         directory = ROOT / 'Builds' / 'H5' if (ROOT / 'Builds' / 'H5').is_dir() else ROOT
     relative_url = '/' if args.h5 else '/Preview/'
-    marker = '<title>山海神隐录</title>' if args.h5 else '山海神隐录 · 浏览器预览'
     url = f'http://127.0.0.1:{args.port}{relative_url}'
+    entry = directory / ('index.html' if args.h5 else 'Preview/index.html')
+    if not entry.is_file() or (args.h5 and not any((directory / 'Build').glob('*.wasm*'))):
+        raise SystemExit('Game files are missing. Extract the complete package or build H5 first.')
     try:
-        with urllib.request.urlopen(url, timeout=2) as response:
-            running = marker in response.read(65536).decode('utf-8')
+        running = matches_running_build(url,directory,entry,args.h5)
+        if not running:
+            raise SystemExit(
+                f'Another game build is using {url}\n'
+                'Close the previous game server window, then start this package again.\n'
+                'Reuse the same address to keep access to your browser saves.\n'
+                '检测到同一地址正在运行其他版本。请关闭旧游戏的服务窗口，再启动本包；'
+                '沿用原地址可继续访问原浏览器存档。')
     except (OSError, UnicodeError, urllib.error.URLError):
         running = False
     if running:
@@ -31,9 +62,6 @@ def main():
         if not args.no_browser:
             webbrowser.open(url)
         return
-    entry = directory / ('index.html' if args.h5 else 'Preview/index.html')
-    if not entry.is_file() or (args.h5 and not any((directory / 'Build').glob('*.wasm*'))):
-        raise SystemExit('Game files are missing. Extract the complete package or build H5 first.')
     try:
         server = http.server.ThreadingHTTPServer(
             ('127.0.0.1', args.port), functools.partial(Handler, directory=str(directory)))
