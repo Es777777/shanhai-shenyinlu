@@ -1,0 +1,38 @@
+{
+  "version": "0.4.1",
+  "status": "passed",
+  "method": "Visual inspection of actual H5 screenshots, including art registration, glyphs, layer clipping, physical object identity, progress feedback and scaled input. Codex contact sheet uses cropped actual screenshots, not mockups.",
+  "screenshots": [
+    "Documentation/review/N101-scene-changed.png",
+    "Documentation/review/N201-scene-changed.png",
+    "Documentation/review/N301-scene-changed.png",
+    "Documentation/review/N401-phoenix-awake.png",
+    "Documentation/review/N403-scene-changed.png",
+    "Documentation/review/N501-scene-changed.png",
+    "Documentation/review/N601-scene-changed.png",
+    "Documentation/review/N801-scene-changed.png",
+    "Documentation/review/stroke-11-held.png",
+    "Documentation/review/N402-rubbing-partial.png",
+    "Documentation/review/N104-mount-before.png",
+    "Documentation/review/N603-puzzle-before.png",
+    "Documentation/review/N702-mirror-before.png",
+    "Documentation/review/玄曜-N911-final-scene.png",
+    "Documentation/review/灵曦-N912-final-scene.png",
+    "Documentation/review/玄曜-N913-final-scene.png",
+    "Documentation/review/codex-review.png"
+  ],
+  "source": "Builds/QA/Unity",
+  "coverage": {
+    "investigations": 8,
+    "workshops": 5,
+    "codexEntries": 17,
+    "endingScenes": 3
+  },
+  "findingsResolved": [
+    "Lantern pickup no longer overlaps the ice inscription hit area",
+    "Paper stays inside the mounting frame",
+    "Workshop header contrast increased",
+    "Rubbing mask preserves generated paper grain and blends reveal edges",
+    "World clues and mechanism panels replaced throughout the eight investigations"
+  ]
+}

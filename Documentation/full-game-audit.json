@@ -1,0 +1,79 @@
+{
+  "version": "0.4.1",
+  "status": "passed",
+  "scope": "All playable scenes, eight investigations, five workshop mechanics, codex and endings. Replace prototype world geometry with generated integrated art, verify actual H5 on both routes.",
+  "investigations": [
+    {
+      "node": "N101",
+      "status": "implemented_and_verified"
+    },
+    {
+      "node": "N201",
+      "status": "implemented_and_verified"
+    },
+    {
+      "node": "N301",
+      "status": "implemented_and_verified"
+    },
+    {
+      "node": "N401",
+      "status": "implemented_and_verified"
+    },
+    {
+      "node": "N403",
+      "status": "implemented_and_verified"
+    },
+    {
+      "node": "N501",
+      "status": "implemented_and_verified"
+    },
+    {
+      "node": "N601",
+      "status": "implemented_and_verified"
+    },
+    {
+      "node": "N801",
+      "status": "implemented_and_verified"
+    }
+  ],
+  "workshops": [
+    {
+      "mechanic": "trace",
+      "status": "implemented_and_verified"
+    },
+    {
+      "mechanic": "rubbing",
+      "status": "implemented_and_verified"
+    },
+    {
+      "mechanic": "mount",
+      "status": "implemented_and_verified"
+    },
+    {
+      "mechanic": "puzzle",
+      "status": "implemented_and_verified"
+    },
+    {
+      "mechanic": "mirror",
+      "status": "implemented_and_verified"
+    }
+  ],
+  "acceptance": [
+    "No generic rectangular clue plaques in world scenes",
+    "No old diagram-panel investigation renderer in runtime",
+    "Physical scene targets and inventory tools",
+    "Visible mechanism changes and solved exits",
+    "All assets bundled in project",
+    "Fresh H5 mouse and scaled touch route checks",
+    "Save/load/reward and all three endings regression",
+    "Inspect screenshots for every playable mechanic"
+  ],
+  "date": "2026-10-18",
+  "evidence": "Documentation/verification.json",
+  "visualReview": "Documentation/visual-review.json",
+  "limits": [
+    "Real iOS and Android devices not tested",
+    "WeChat and Douyin mini-game SDKs not integrated",
+    "Legacy JavaScript Preview is not the current gameplay implementation"
+  ]
+}

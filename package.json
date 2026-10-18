@@ -1,0 +1,9 @@
+{
+  "name": "shanhai-story-game",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:preview": "node Tests/preview-tests.mjs",
+    "serve:preview": "python Tools/serve.py --directory ."
+  }
+}

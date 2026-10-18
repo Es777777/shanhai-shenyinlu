@@ -1,0 +1,2123 @@
+{
+  "version": 1,
+  "title": "山海神隐录",
+  "entry": "N001",
+  "variables": [
+    {
+      "key": "mcv",
+      "name": "明昧值",
+      "initial": 50,
+      "min": 0,
+      "max": 100
+    },
+    {
+      "key": "candle",
+      "name": "不灭烛烛火",
+      "initial": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "key": "fragments",
+      "name": "记忆碎片",
+      "initial": 0,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "key": "pacts",
+      "name": "结契纹数",
+      "initial": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "key": "ending",
+      "name": "结局号",
+      "initial": 0,
+      "min": 0,
+      "max": 3
+    }
+  ],
+  "nodes": [
+    {
+      "id": "N001",
+      "title": "序章·天缺惊变",
+      "plot": "P_MAIN",
+      "chapter": "序章",
+      "kind": "起点",
+      "summary": "01 天穹裂开，暗潮吞没山川之名。\n02 白泽告知：名字被忘，形体即灭。\n03 双卷残页显现，二人各自接卷。",
+      "background": "tianque",
+      "characters": [
+        "xuanyao",
+        "lingxi",
+        "baize"
+      ],
+      "music": "prologue",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "天穹裂开时，先消失的不是山川，而是它们的名字。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "那座山……方才还在。我记得它的轮廓，却想不起它的名。"
+        },
+        {
+          "speaker": "白泽",
+          "text": "名字被忘，形体即灭。暗潮已经漫过天缺。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "若将所有名字留下，就能止住暗潮吗？"
+        },
+        {
+          "speaker": "白泽",
+          "text": "这答案，藏在两卷残页之间。执卷而行，亲眼去看。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "一卷映着朱光，一卷泛起青雾。玄曜与灵曦各自接过半卷山海。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "baize",
+        "scroll"
+      ],
+      "effects": "暗潮粒子轻档；开场淡入1秒"
+    },
+    {
+      "id": "N002",
+      "title": "序章·双生启程",
+      "plot": "P_MAIN",
+      "chapter": "序章",
+      "kind": "选择",
+      "summary": "显示两项选择：随玄曜北上扶桑／随灵曦东行丹穴。",
+      "background": "tianque",
+      "characters": [
+        "xuanyao",
+        "lingxi"
+      ],
+      "music": "prologue",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "玄曜",
+          "text": "我去北方。扶桑树下，或许还有未被吞没的古名。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "我往丹穴。若遗忘也有它的道理，我想听一听。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "双卷分途，此行的见闻将成为你的选择。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "选中高亮0.3秒"
+    },
+    {
+      "id": "N101",
+      "title": "第一章·扶桑初遇",
+      "plot": "P_XUANYAO",
+      "chapter": "第一章 扶桑",
+      "kind": "剧情",
+      "summary": "01 玄曜抵达晨曦神木。\n02 目睹金乌栖枝，记下其名。",
+      "background": "fusang",
+      "characters": [
+        "xuanyao",
+        "baize"
+      ],
+      "music": "fusang",
+      "changes": [
+        {
+          "key": "mcv",
+          "op": "add",
+          "value": 8
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "扶桑托起初日，枝叶如金，层云在树根下缓缓流动。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "光还在。只要有人记得，金乌便不会消失。"
+        },
+        {
+          "speaker": "白泽",
+          "text": "先看清它，再写下它的名字。记名不是占有。"
+        }
+      ],
+      "mechanic": "explore",
+      "targets": [
+        {
+          "id": "tree",
+          "x": 0.32,
+          "y": 0.45,
+          "title": "扶桑古纹",
+          "text": "树皮上，古老的名字随晨光一明一灭。"
+        },
+        {
+          "id": "crow",
+          "x": 0.73,
+          "y": 0.29,
+          "title": "枝上金乌",
+          "text": "三足金乌栖在高枝，衔起一点金光。玄曜将它的名字记入卷中。"
+        }
+      ],
+      "choices": [],
+      "unlocks": [
+        "fusang",
+        "jinwu"
+      ],
+      "effects": "光尘粒子；转场淡入0.5秒"
+    },
+    {
+      "id": "N102",
+      "title": "第一章·白泽授名",
+      "plot": "P_XUANYAO",
+      "chapter": "第一章 扶桑",
+      "kind": "玩法",
+      "summary": "墨韵落笔教学：白泽示范以名显形，玩家临摹「金乌」二字。",
+      "background": "fusang",
+      "characters": [
+        "xuanyao",
+        "baize"
+      ],
+      "music": "fusang",
+      "changes": [
+        {
+          "key": "mcv",
+          "op": "add",
+          "value": 8
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "白泽",
+          "text": "以名显形，须让每一笔都有来处。跟着墨痕，写下“金乌”。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "若写错了呢？"
+        },
+        {
+          "speaker": "白泽",
+          "text": "收笔，再来。名字不催促真心。"
+        }
+      ],
+      "mechanic": "trace",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "落笔晕染动画"
+    },
+    {
+      "id": "N103",
+      "title": "第一章·金乌试笔",
+      "plot": "P_XUANYAO",
+      "chapter": "第一章 扶桑",
+      "kind": "剧情",
+      "summary": "写名显形：金乌现身衔来一枚残简。",
+      "background": "fusang",
+      "characters": [
+        "xuanyao"
+      ],
+      "music": "fusang",
+      "changes": [
+        {
+          "key": "mcv",
+          "op": "add",
+          "value": 8
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "最后一笔落定，枝头的金影振翅而起。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "金乌。原来被唤回的名字，也会回应。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "金乌衔来一枚残简。纸上山川尚缺半边，余下的纹路却温暖如初日。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "scroll"
+      ],
+      "effects": "羽毛粒子"
+    },
+    {
+      "id": "N104",
+      "title": "第一章·拓片装裱",
+      "plot": "P_XUANYAO",
+      "chapter": "第一章 扶桑",
+      "kind": "玩法",
+      "summary": "将金乌拓片装裱入册，学习图鉴系统。",
+      "background": "fusang",
+      "characters": [
+        "xuanyao"
+      ],
+      "music": "fusang",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "玄曜",
+          "text": "将拓片装入册中，往后就不必只靠记忆。"
+        },
+        {
+          "speaker": "白泽",
+          "text": "册页记下形影，也记下相遇。将金乌拓片拖入装裱框，再落印。"
+        }
+      ],
+      "mechanic": "mount",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "jinwu"
+      ],
+      "effects": "印章落纸"
+    },
+    {
+      "id": "N201",
+      "title": "第二章·钟山雪径",
+      "plot": "P_XUANYAO",
+      "chapter": "第二章 钟山",
+      "kind": "剧情",
+      "summary": "01 玄曜踏雪北上。\n02 冰封铭文若隐若现。",
+      "background": "zhongshan",
+      "characters": [
+        "xuanyao"
+      ],
+      "music": "ming",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "北上的雪径越走越静。钟山覆着千年寒霜，连脚步也被雪吞没。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "那些冰下的字还没有消失。洞里一定有人守着它们。"
+        }
+      ],
+      "mechanic": "explore",
+      "targets": [
+        {
+          "id": "inscription",
+          "x": 0.3,
+          "y": 0.48,
+          "title": "冰封铭文",
+          "text": "冰层下有断续的铭文，字痕像一条盘旋的长蛇。"
+        },
+        {
+          "id": "cave",
+          "x": 0.78,
+          "y": 0.43,
+          "title": "洞府微光",
+          "text": "风雪尽头，一点烛光仍在。玄曜沿着石阶走入洞府。"
+        }
+      ],
+      "choices": [],
+      "unlocks": [],
+      "effects": "飘雪粒子"
+    },
+    {
+      "id": "N202",
+      "title": "第二章·烛阴衔烛",
+      "plot": "P_XUANYAO",
+      "chapter": "第二章 钟山",
+      "kind": "剧情",
+      "summary": "01 烛阴衔不灭烛现身。\n02 告知：烛旺则名存，烛微则名危。",
+      "background": "zhongshan",
+      "characters": [
+        "xuanyao",
+        "zhuyin"
+      ],
+      "music": "ming",
+      "changes": [
+        {
+          "key": "candle",
+          "op": "set",
+          "value": 3
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "洞中，烛阴缓缓睁眼。长躯盘在冰石间，衔烛如衔一颗不肯熄灭的星。"
+        },
+        {
+          "speaker": "烛阴",
+          "text": "烛旺则名存，烛微则名危。带上这支不灭烛。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "既称不灭，为什么还会微弱？"
+        },
+        {
+          "speaker": "烛阴",
+          "text": "火可续，执火之人却会疲倦。记住这一点。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "zhuyin",
+        "candle"
+      ],
+      "effects": "烛光呼吸明暗"
+    },
+    {
+      "id": "N203",
+      "title": "第二章·巫咸执念",
+      "plot": "P_XUANYAO",
+      "chapter": "第二章 钟山",
+      "kind": "选择",
+      "summary": "巫咸强记亡者之名而成执念，玄曜可助其放下或固化其记。",
+      "background": "wuxian",
+      "characters": [
+        "xuanyao",
+        "wuxian"
+      ],
+      "music": "ming",
+      "changes": [
+        {
+          "key": "pacts",
+          "op": "add",
+          "value": 1
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "巫咸的祭坛上，亡者的木牌层层叠起。"
+        },
+        {
+          "speaker": "巫咸",
+          "text": "少念一遍，我就怕他们再也回来不了。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "你记住了他们，却多久没有睡过一个安稳的夜了？"
+        },
+        {
+          "speaker": "巫咸",
+          "text": "若连我也放下，还有谁记得？"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [
+        {
+          "id": "release",
+          "text": "助他放下执念",
+          "to": "N301",
+          "delta": 0,
+          "toward": false,
+          "reply": "玄曜将木牌轻轻放回祭坛。名字仍在，巫咸终于松开了紧握的手。"
+        },
+        {
+          "id": "remember",
+          "text": "陪他守住旧名",
+          "to": "N301",
+          "delta": 0,
+          "toward": false,
+          "reply": "玄曜与巫咸一同念过旧名。记忆得到回应，不再只是一个人的重负。"
+        }
+      ],
+      "unlocks": [
+        "wuxian"
+      ],
+      "effects": "执念雾气涌动"
+    },
+    {
+      "id": "N301",
+      "title": "第三章·玄曜入幽都",
+      "plot": "P_XUANYAO",
+      "chapter": "第三章 幽都",
+      "kind": "剧情",
+      "summary": "玄曜循不灭烛之光入幽都，闻相柳之名。",
+      "background": "youdu",
+      "characters": [
+        "xuanyao"
+      ],
+      "music": "youdu",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "不灭烛引着玄曜走到幽都。彼岸花沿石阶盛开，城门在薄雾中无声敞开。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "这里的名字，为什么都像在等一个回答？"
+        }
+      ],
+      "mechanic": "explore",
+      "targets": [
+        {
+          "id": "lantern",
+          "x": 0.3,
+          "y": 0.35,
+          "title": "幽都名灯",
+          "text": "灯上写着一个模糊的名字。烛光经过时，它又清晰了一瞬。"
+        },
+        {
+          "id": "gate",
+          "x": 0.76,
+          "y": 0.43,
+          "title": "城门",
+          "text": "城门内传来九重回声，每一道都在呼唤同一个名字：相柳。"
+        }
+      ],
+      "choices": [],
+      "unlocks": [],
+      "effects": "幽雾流动"
+    },
+    {
+      "id": "N302",
+      "title": "第三章·相柳之辨·明",
+      "plot": "P_XUANYAO",
+      "chapter": "第三章 幽都",
+      "kind": "选择",
+      "summary": "相柳索名：写下其名镇之，或任其自忘。",
+      "background": "youdu",
+      "characters": [
+        "xuanyao",
+        "xiangliu"
+      ],
+      "music": "youdu",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "相柳",
+          "text": "你以名镇物。若我的名字本身就是痛苦，你也要留下它吗？"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "失了名，你便会消散。"
+        },
+        {
+          "speaker": "相柳",
+          "text": "那是你的恐惧，还是我的愿望？"
+        },
+        {
+          "speaker": "旁白",
+          "text": "笔尖悬在卷上。九首的影子在幽雾中时聚时散。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "xiangliu"
+      ],
+      "effects": "毒雾粒子"
+    },
+    {
+      "id": "N303",
+      "title": "第三章·强记之价",
+      "plot": "P_XUANYAO",
+      "chapter": "第三章 幽都",
+      "kind": "剧情",
+      "summary": "玄曜强记过度，眼前之名开始模糊——记住亦有代价。",
+      "background": "youdu",
+      "characters": [
+        "xuanyao"
+      ],
+      "music": "ming",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "走出大殿，玄曜忽然看不清卷上的几个字。熟悉的笔画，像隔着一层水。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "记住一切……原来人的心装不下那么多。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他将笔放下。不灭烛仍在燃烧，而另一半卷页正从雾中传来微光。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "名纹碎裂粒子"
+    },
+    {
+      "id": "N304",
+      "title": "第三章·镇名结算",
+      "plot": "P_XUANYAO",
+      "chapter": "第三章 幽都",
+      "kind": "结算",
+      "summary": "01 玄曜落笔，以新名镇住相柳躁动。\n02 选项代价落账。",
+      "background": "youdu",
+      "characters": [
+        "xuanyao"
+      ],
+      "music": "youdu",
+      "changes": [
+        {
+          "key": "mcv",
+          "op": "add",
+          "value": 8
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "玄曜",
+          "text": "相柳。我记住你的名字，也记住你曾问过我的话。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "朱墨落下，躁动的九重影子渐渐安定。卷页却比方才更沉了一分。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "无新增"
+    },
+    {
+      "id": "N305",
+      "title": "第三章·任忘结算",
+      "plot": "P_XUANYAO",
+      "chapter": "第三章 幽都",
+      "kind": "结算",
+      "summary": "01 玄曜收笔，任相柳之名自散。\n02 选项代价落账。",
+      "background": "youdu",
+      "characters": [
+        "xuanyao"
+      ],
+      "music": "youdu",
+      "changes": [
+        {
+          "key": "mcv",
+          "op": "add",
+          "value": -8
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "玄曜",
+          "text": "若这是你的愿望，我便收笔。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "相柳之名随幽雾缓缓散开。玄曜看着空白处，第一次没有急着填满。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "无新增"
+    },
+    {
+      "id": "N401",
+      "title": "第一章·丹穴凤鸣",
+      "plot": "P_LINGXI",
+      "chapter": "第一章 丹穴",
+      "kind": "剧情",
+      "summary": "01 灵曦抵达赤焰凤巢。\n02 凤凰浴火而不留痕——放下之美。",
+      "background": "danxue",
+      "characters": [
+        "lingxi"
+      ],
+      "music": "mei",
+      "changes": [
+        {
+          "key": "mcv",
+          "op": "add",
+          "value": -8
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "丹穴深处，赤焰映亮石壁。凤凰从火里升起，羽上不留旧痕。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "原来放下，也能这样明亮。"
+        }
+      ],
+      "mechanic": "explore",
+      "targets": [
+        {
+          "id": "fire",
+          "x": 0.3,
+          "y": 0.45,
+          "title": "旧羽余烬",
+          "text": "旧羽化为灰烬，新生的轮廓却从火中展开。"
+        },
+        {
+          "id": "nest",
+          "x": 0.75,
+          "y": 0.38,
+          "title": "丹穴凤巢",
+          "text": "凤凰展翅，未将旧日的灰烬带走。灵曦凝望着这一场无声的告别。"
+        }
+      ],
+      "choices": [],
+      "unlocks": [
+        "phoenix"
+      ],
+      "effects": "火星粒子"
+    },
+    {
+      "id": "N402",
+      "title": "第一章·传拓初成",
+      "plot": "P_LINGXI",
+      "chapter": "第一章 丹穴",
+      "kind": "玩法",
+      "summary": "绘异传拓教学：拓印凤凰形影，入册图鉴。",
+      "background": "danxue",
+      "characters": [
+        "lingxi"
+      ],
+      "music": "mei",
+      "changes": [
+        {
+          "key": "fragments",
+          "op": "add",
+          "value": 1
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "灵曦",
+          "text": "我不必留住那一瞬火焰，但可以记下它曾来过。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她将薄纸覆在石壁上。沿着凤凰的纹路轻轻传拓，形影一点点浮出。"
+        }
+      ],
+      "mechanic": "rubbing",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "phoenix"
+      ],
+      "effects": "拓印晕染动画"
+    },
+    {
+      "id": "N403",
+      "title": "第一章·凶犁旱魃",
+      "plot": "P_LINGXI",
+      "chapter": "第一章 凶犁",
+      "kind": "剧情",
+      "summary": "灵曦行经旱地，见枯河之上名字随风而散。",
+      "background": "xiongli",
+      "characters": [
+        "lingxi"
+      ],
+      "music": "mei",
+      "changes": [
+        {
+          "key": "mcv",
+          "op": "add",
+          "value": -8
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "凶犁的河已经干涸。风掠过焦土，也吹散了河岸最后几个名字。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "我记得这里曾有水。可我不能让每一粒沙，都替过去留下。"
+        }
+      ],
+      "mechanic": "explore",
+      "targets": [
+        {
+          "id": "name",
+          "x": 0.32,
+          "y": 0.5,
+          "title": "无名河碑",
+          "text": "河碑的字被风磨平。灵曦没有强行补上，只为它拂去浮沙。"
+        },
+        {
+          "id": "river",
+          "x": 0.76,
+          "y": 0.44,
+          "title": "枯河尽头",
+          "text": "干涸河床延伸向远处，风里掠过一缕金色羽光。"
+        }
+      ],
+      "choices": [],
+      "unlocks": [],
+      "effects": "热浪扭曲滤镜"
+    },
+    {
+      "id": "N404",
+      "title": "第一章·凤翎相赠",
+      "plot": "P_LINGXI",
+      "chapter": "第一章 凶犁",
+      "kind": "剧情",
+      "summary": "凤凰以翎相赠，护其穿行旱地。",
+      "background": "xiongli",
+      "characters": [
+        "lingxi"
+      ],
+      "music": "mei",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "一根凤翎缓缓落在灵曦掌中。远处凤鸣将歇，余温却替她挡住了旱地的风。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "谢谢。你不必回头，我会带着这一点温暖走下去。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "feather"
+      ],
+      "effects": "羽毛粒子"
+    },
+    {
+      "id": "N501",
+      "title": "第二章·忘川渡口",
+      "plot": "P_LINGXI",
+      "chapter": "第二章 忘川",
+      "kind": "剧情",
+      "summary": "灵曦渡忘川，初见无面罔象——它不辨善恶，只执行遗忘。",
+      "background": "youdu",
+      "characters": [
+        "lingxi",
+        "wangxiang"
+      ],
+      "music": "mei",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "忘川上没有风，渡船却自己缓缓向前。雾中浮出一道无面的身影。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "你是来取走名字的吗？"
+        },
+        {
+          "speaker": "旁白",
+          "text": "罔象没有回答。它不分善恶，只让遗忘继续流动。"
+        }
+      ],
+      "mechanic": "explore",
+      "targets": [
+        {
+          "id": "water",
+          "x": 0.34,
+          "y": 0.46,
+          "title": "忘川水纹",
+          "text": "水中倒影淡去又浮起，没有一张面孔永远停留。"
+        },
+        {
+          "id": "shore",
+          "x": 0.78,
+          "y": 0.4,
+          "title": "对岸渡口",
+          "text": "渡船靠岸。无面的罔象沉入雾里，留下指向桑林的涟漪。"
+        }
+      ],
+      "choices": [],
+      "unlocks": [
+        "wangxiang"
+      ],
+      "effects": "水雾粒子"
+    },
+    {
+      "id": "N502",
+      "title": "第二章·帝女桑泣",
+      "plot": "P_LINGXI",
+      "chapter": "第二章 忘川",
+      "kind": "剧情",
+      "summary": "帝女泣血化桑，灵曦学会：有些名字，放下也是安放。",
+      "background": "youdu",
+      "characters": [
+        "lingxi",
+        "dinv"
+      ],
+      "music": "mei",
+      "changes": [
+        {
+          "key": "candle",
+          "op": "add",
+          "value": -1
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "帝女",
+          "text": "我把名字系在每片桑叶上，叶落时，便以为又失去他一次。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "也许落下的不是他，只是你握得太久的疼。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "帝女拭去眼角的红。一片桑叶落进灵曦掌心，远处烛影轻轻一颤。"
+        },
+        {
+          "speaker": "帝女",
+          "text": "有些名字，放下也是安放。替我将这句话带走。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "dinv",
+        "mulberry"
+      ],
+      "effects": "落叶粒子"
+    },
+    {
+      "id": "N503",
+      "title": "第二章·巫彭和解",
+      "plot": "P_LINGXI",
+      "chapter": "第二章 忘川",
+      "kind": "选择",
+      "summary": "巫彭放下了亡者之名，灵曦可认同或劝其重记。",
+      "background": "youdu",
+      "characters": [
+        "lingxi",
+        "wuxian2"
+      ],
+      "music": "mei",
+      "changes": [
+        {
+          "key": "pacts",
+          "op": "add",
+          "value": 1
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "巫彭",
+          "text": "我已经很久不再呼唤他们的名字了。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "你不怕忘记吗？"
+        },
+        {
+          "speaker": "巫彭",
+          "text": "他们来过，便已改变了我。这些改变，不需要日日点名。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [
+        {
+          "id": "peace",
+          "text": "认同他的释然",
+          "to": "N601",
+          "delta": 0,
+          "toward": false,
+          "reply": "灵曦与巫彭相对无言。香烟向上散去，离去的人终于得以安歇。"
+        },
+        {
+          "id": "recall",
+          "text": "邀他再念一次旧名",
+          "to": "N601",
+          "delta": 0,
+          "toward": false,
+          "reply": "巫彭轻轻念出那个名字。不是挽留，只是一声迟来的道别。"
+        }
+      ],
+      "unlocks": [
+        "wupeng"
+      ],
+      "effects": "烛烟粒子"
+    },
+    {
+      "id": "N601",
+      "title": "第三章·灵曦入幽都",
+      "plot": "P_LINGXI",
+      "chapter": "第三章 幽都",
+      "kind": "剧情",
+      "summary": "灵曦循帝女桑指引抵达幽都。",
+      "background": "youdu",
+      "characters": [
+        "lingxi"
+      ],
+      "music": "youdu",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "帝女桑的叶脉指向幽都。灵曦循着青光，来到彼岸花盛开的渡口。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "玄曜，你也到这里了吗？"
+        }
+      ],
+      "mechanic": "explore",
+      "targets": [
+        {
+          "id": "leaf",
+          "x": 0.3,
+          "y": 0.43,
+          "title": "桑叶的指引",
+          "text": "桑叶上的脉络亮起，指向幽都深处。"
+        },
+        {
+          "id": "gate",
+          "x": 0.75,
+          "y": 0.4,
+          "title": "雾中城门",
+          "text": "城门后传来叠在一起的声音。灵曦握住卷页，踏进幽都。"
+        }
+      ],
+      "choices": [],
+      "unlocks": [],
+      "effects": "幽雾流动"
+    },
+    {
+      "id": "N602",
+      "title": "第三章·相柳之辨·昧",
+      "plot": "P_LINGXI",
+      "chapter": "第三章 幽都",
+      "kind": "选择",
+      "summary": "相柳索名：替它铭记，或陪它告别。",
+      "background": "youdu",
+      "characters": [
+        "lingxi",
+        "xiangliu"
+      ],
+      "music": "youdu",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "相柳",
+          "text": "世人只记我的恶名。若无人再记，我是否就能安静？"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "被记住与被理解，原来不是同一件事。"
+        },
+        {
+          "speaker": "相柳",
+          "text": "执卷的人，你愿替我留下，还是陪我走到最后？"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "xiangliu"
+      ],
+      "effects": "毒雾粒子"
+    },
+    {
+      "id": "N603",
+      "title": "第三章·拾遗之页",
+      "plot": "P_LINGXI",
+      "chapter": "第三章 幽都",
+      "kind": "玩法",
+      "summary": "记忆拼图教学：拾取玄曜遗失的记忆碎片之一。",
+      "background": "youdu",
+      "characters": [
+        "lingxi"
+      ],
+      "music": "youdu",
+      "changes": [
+        {
+          "key": "fragments",
+          "op": "add",
+          "value": 1
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "石阶旁散着几片记忆，朱色的笔迹已经模糊。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "是玄曜的字。他一路记下的东西，竟有些从他自己身上遗失了。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她拾起残页，将碎片一片片拼回。"
+        }
+      ],
+      "mechanic": "puzzle",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "memory"
+      ],
+      "effects": "吸附光效"
+    },
+    {
+      "id": "N604",
+      "title": "第三章·铭记结算",
+      "plot": "P_LINGXI",
+      "chapter": "第三章 幽都",
+      "kind": "结算",
+      "summary": "01 灵曦替相柳铭记其名。\n02 选项代价落账。",
+      "background": "youdu",
+      "characters": [
+        "lingxi"
+      ],
+      "music": "youdu",
+      "changes": [
+        {
+          "key": "mcv",
+          "op": "add",
+          "value": 8
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "灵曦",
+          "text": "我会记下你的名字，也会记下你并不只有一个名字。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "青卷映起金纹，相柳的形影在卷上安静下来。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "无新增"
+    },
+    {
+      "id": "N605",
+      "title": "第三章·告别结算",
+      "plot": "P_LINGXI",
+      "chapter": "第三章 幽都",
+      "kind": "结算",
+      "summary": "01 灵曦陪相柳作最后告别。\n02 选项代价落账。",
+      "background": "youdu",
+      "characters": [
+        "lingxi"
+      ],
+      "music": "youdu",
+      "changes": [
+        {
+          "key": "mcv",
+          "op": "add",
+          "value": -8
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "灵曦",
+          "text": "我陪你。告别不必独自完成。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "最后一重回声散入薄雾。灵曦将空白留在册中，像留下一次呼吸。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "无新增"
+    },
+    {
+      "id": "N701",
+      "title": "第四章·幽都相会",
+      "plot": "P_MAIN",
+      "chapter": "第四章 交汇",
+      "kind": "交汇",
+      "summary": "双线交汇：二人各自携带半卷真相相认，交换见闻。",
+      "background": "youdu",
+      "characters": [
+        "xuanyao",
+        "lingxi",
+        "baize"
+      ],
+      "music": "youdu",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "玄曜",
+          "text": "你带回的半卷，竟能照见我已经看不清的字。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "而你的名字，让我散落的形影有了归处。"
+        },
+        {
+          "speaker": "白泽",
+          "text": "你们各自走过的，都是山海的一半。现在，将双卷放在一起。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "朱与青在卷边相接。两人交换一路见闻，幽都的灯逐盏亮起。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "汇合光环"
+    },
+    {
+      "id": "N702",
+      "title": "第四章·双卷映照",
+      "plot": "P_MAIN",
+      "chapter": "第四章 交汇",
+      "kind": "玩法",
+      "summary": "双卷映照：左右两卷互补拼合，解出相柳与罔象的关联。",
+      "background": "youdu",
+      "characters": [
+        "xuanyao",
+        "lingxi"
+      ],
+      "music": "youdu",
+      "changes": [
+        {
+          "key": "fragments",
+          "op": "add",
+          "value": 2
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "左卷记名，右卷存形。缺失的纹路在彼此的空白处得以补全。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "相柳留下的空处，与罔象经过的水纹……恰好相接。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "它们不是两场灾厄。一个被名困住，一个让无名之物消退。"
+        },
+        {
+          "speaker": "白泽",
+          "text": "让两卷互相映照，看看规律如何流动。"
+        }
+      ],
+      "mechanic": "mirror",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "truth"
+      ],
+      "effects": "拼合吸附光效"
+    },
+    {
+      "id": "N703",
+      "title": "第四章·罔象对峙",
+      "plot": "P_MAIN",
+      "chapter": "第四章 交汇",
+      "kind": "剧情",
+      "summary": "罔象现身收名；众人发现它无善无恶，只是规律。",
+      "background": "youdu",
+      "characters": [
+        "xuanyao",
+        "lingxi",
+        "wangxiang"
+      ],
+      "music": "youdu",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "罔象再度现身。众人没有拔笔，也没有退后。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "你不曾恨过这些名字。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "你也不曾怜惜它们。你只是规律。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "无面的水影缓缓转身，来路直指不周山的断脊。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "暗潮重档粒子"
+    },
+    {
+      "id": "N801",
+      "title": "第五章·不周山行",
+      "plot": "P_MAIN",
+      "chapter": "第五章 交汇",
+      "kind": "剧情",
+      "summary": "众循罔象来向抵达断山，天缺近在头顶。",
+      "background": "buzhou",
+      "characters": [
+        "xuanyao",
+        "lingxi"
+      ],
+      "music": "buzhou",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "不周山如一支折断的笔，斜指裂开的天穹。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "越接近这里，卷上的字越亮。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "一起上去。这一次，不必各走一条路。"
+        }
+      ],
+      "mechanic": "climb",
+      "targets": [
+        {
+          "id": "step1",
+          "x": 0.26,
+          "y": 0.58,
+          "title": "山腰石阶",
+          "text": "山风推着衣袖，双卷的光照亮了残阶。"
+        },
+        {
+          "id": "step2",
+          "x": 0.5,
+          "y": 0.44,
+          "title": "断纹岩台",
+          "text": "破碎的天地纹路仍在相互呼应。"
+        },
+        {
+          "id": "step3",
+          "x": 0.78,
+          "y": 0.29,
+          "title": "天缺断脊",
+          "text": "两人抵达断脊。天缺近得仿佛伸手便能触及。"
+        }
+      ],
+      "choices": [],
+      "unlocks": [],
+      "effects": "碎石坠落粒子"
+    },
+    {
+      "id": "N802",
+      "title": "第五章·共工回溯",
+      "plot": "P_MAIN",
+      "chapter": "第五章 交汇",
+      "kind": "剧情",
+      "summary": "共工回溯：撞山真相揭晓——无名即灭，是天地规律而非阴谋。",
+      "background": "buzhou",
+      "characters": [
+        "gonggong"
+      ],
+      "music": "buzhou",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "碎石中映出旧日光景。共工撞向山柱，天地的纹路在刹那间崩裂。"
+        },
+        {
+          "speaker": "共工",
+          "text": "我以为撞碎阻碍，便能改变一切。可崩裂之后，规律仍在。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "无名即灭……原来从来不是谁设下的阴谋。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "我们要决定的，是怎样与这样的天地相处。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [
+        "gonggong",
+        "truth"
+      ],
+      "effects": "天柱崩断回放特效"
+    },
+    {
+      "id": "N803",
+      "title": "第五章·天缺抉择",
+      "plot": "P_MAIN",
+      "chapter": "第五章 交汇",
+      "kind": "选择",
+      "summary": "最终抉择：以名镇物（永明）／记忘并存（共生）／明昧相济（调和）。",
+      "background": "buzhou",
+      "characters": [
+        "xuanyao",
+        "lingxi"
+      ],
+      "music": "buzhou",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "白泽",
+          "text": "走过的路已留在卷中。最后这一笔，仍由你落下。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "记得，不该成为牢笼。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "放下，也不该成为逃避。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "双卷悬于天缺之前。你的抉择将与一路积累的明昧，共同写成结局。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [
+        {
+          "id": "final_ming",
+          "text": "以名镇物 · 为万物留名",
+          "to": "N901",
+          "delta": 20,
+          "toward": false,
+          "reply": "朱卷展开。你选择承担记名之重，让更多的形体被看见。"
+        },
+        {
+          "id": "final_mei",
+          "text": "记忘并存 · 让旧事归流",
+          "to": "N901",
+          "delta": -20,
+          "toward": false,
+          "reply": "青卷舒展。你选择给遗忘留出位置，让离去之物安然归流。"
+        },
+        {
+          "id": "final_balance",
+          "text": "明昧相济 · 让双卷相照",
+          "to": "N901",
+          "delta": 20,
+          "toward": true,
+          "reply": "双卷相向。你选择在记与忘之间相互照见，而非独执一端。"
+        }
+      ],
+      "unlocks": [],
+      "effects": "选中后全屏白闪"
+    },
+    {
+      "id": "N901",
+      "title": "终章·双卷合一",
+      "plot": "P_MAIN",
+      "chapter": "终章",
+      "kind": "剧情",
+      "summary": "两卷展开化为星河；依明昧值分派结局（≥60永明／≤40共生／其余调和）。",
+      "background": "finale",
+      "characters": [],
+      "music": "ending",
+      "changes": [],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "两卷展开，纸上的山川化作星河。朱金与青光沿着天空流动，缝合一道道裂隙。"
+        },
+        {
+          "speaker": "白泽",
+          "text": "记住的，放下的，皆已成为此行的一部分。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "星河深处，一页新的山海缓缓翻开。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "双卷合一升华特效"
+    },
+    {
+      "id": "N911",
+      "title": "结局·永明卷",
+      "plot": "P_MAIN",
+      "chapter": "终章",
+      "kind": "结局",
+      "summary": "万物之名被温柔记下，名灯长明。",
+      "background": "finale",
+      "characters": [
+        "xuanyao",
+        "lingxi"
+      ],
+      "music": "ending",
+      "changes": [
+        {
+          "key": "ending",
+          "op": "set",
+          "value": 1
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "万物之名被温柔记下。名灯沿山川次第点亮，长夜从此有了可循的路。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "我会记得，也会学着将这份记忆交到别人手里。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "那便一起守灯。让名字被听见，而不是被锁住。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "永明卷 · 灯火不息，见证相传。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "灯海呼吸"
+    },
+    {
+      "id": "N912",
+      "title": "结局·共生卷",
+      "plot": "P_MAIN",
+      "chapter": "终章",
+      "kind": "结局",
+      "summary": "记与忘各得其所，灯与雾共存。",
+      "background": "finale",
+      "characters": [
+        "xuanyao",
+        "lingxi"
+      ],
+      "music": "ending",
+      "changes": [
+        {
+          "key": "ending",
+          "op": "set",
+          "value": 2
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "灯与雾一同停驻山海。留下的被珍惜，远去的也终于得到归处。"
+        },
+        {
+          "speaker": "灵曦",
+          "text": "我们不必把每一次告别，都变成一次失去。"
+        },
+        {
+          "speaker": "玄曜",
+          "text": "我仍会提笔。也会为那些空白，留好位置。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "共生卷 · 记忘有序，聚散从容。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "雾灯交替"
+    },
+    {
+      "id": "N913",
+      "title": "结局·调和卷",
+      "plot": "P_MAIN",
+      "chapter": "终章",
+      "kind": "结局",
+      "summary": "明昧相济，白泽题序收卷。",
+      "background": "finale",
+      "characters": [
+        "baize"
+      ],
+      "music": "ending",
+      "changes": [
+        {
+          "key": "ending",
+          "op": "set",
+          "value": 3
+        }
+      ],
+      "lines": [
+        {
+          "speaker": "旁白",
+          "text": "明与昧在双卷间缓缓流转。不再有一方试图吞没另一方，山海得以在呼吸之间延续。"
+        },
+        {
+          "speaker": "白泽",
+          "text": "以名观物，以忘容生。两途相济，方见全卷。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "白泽题序，收卷。远处，新一天的光正越过群山。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "调和卷 · 记有所托，忘有所安。"
+        }
+      ],
+      "mechanic": "",
+      "targets": [],
+      "choices": [],
+      "unlocks": [],
+      "effects": "卷轴合拢"
+    }
+  ],
+  "edges": [
+    {
+      "id": "E001",
+      "from": "N001",
+      "to": "N002",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E002",
+      "from": "N002",
+      "to": "N101",
+      "kind": "玩家选择",
+      "text": "随玄曜北上",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E003",
+      "from": "N002",
+      "to": "N401",
+      "kind": "玩家选择",
+      "text": "随灵曦东行",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E101",
+      "from": "N101",
+      "to": "N102",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E102",
+      "from": "N102",
+      "to": "N103",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E103",
+      "from": "N103",
+      "to": "N104",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E104",
+      "from": "N104",
+      "to": "N201",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E105",
+      "from": "N201",
+      "to": "N202",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E106",
+      "from": "N202",
+      "to": "N203",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E107",
+      "from": "N203",
+      "to": "N301",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E108",
+      "from": "N301",
+      "to": "N302",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E109",
+      "from": "N302",
+      "to": "N304",
+      "kind": "玩家选择",
+      "text": "以名镇物",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E110",
+      "from": "N302",
+      "to": "N305",
+      "kind": "玩家选择",
+      "text": "任其自忘",
+      "priority": 20,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E111",
+      "from": "N303",
+      "to": "N701",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E201",
+      "from": "N401",
+      "to": "N402",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E202",
+      "from": "N402",
+      "to": "N403",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E203",
+      "from": "N403",
+      "to": "N404",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E204",
+      "from": "N404",
+      "to": "N501",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E205",
+      "from": "N501",
+      "to": "N502",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E206",
+      "from": "N502",
+      "to": "N503",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E207",
+      "from": "N503",
+      "to": "N601",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E208",
+      "from": "N601",
+      "to": "N602",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E209",
+      "from": "N602",
+      "to": "N604",
+      "kind": "玩家选择",
+      "text": "替它铭记",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E210",
+      "from": "N602",
+      "to": "N605",
+      "kind": "玩家选择",
+      "text": "陪它告别",
+      "priority": 20,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E211",
+      "from": "N603",
+      "to": "N701",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E301",
+      "from": "N701",
+      "to": "N702",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E302",
+      "from": "N702",
+      "to": "N703",
+      "kind": "条件自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [
+        {
+          "key": "fragments",
+          "op": ">=",
+          "value": 2
+        }
+      ],
+      "any": false
+    },
+    {
+      "id": "E303",
+      "from": "N703",
+      "to": "N801",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E304",
+      "from": "N801",
+      "to": "N802",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E305",
+      "from": "N802",
+      "to": "N803",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E306",
+      "from": "N803",
+      "to": "N901",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E311",
+      "from": "N901",
+      "to": "N911",
+      "kind": "条件自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [
+        {
+          "key": "mcv",
+          "op": ">=",
+          "value": 60
+        }
+      ],
+      "any": false
+    },
+    {
+      "id": "E312",
+      "from": "N901",
+      "to": "N912",
+      "kind": "条件自动",
+      "text": "",
+      "priority": 20,
+      "conditions": [
+        {
+          "key": "mcv",
+          "op": "<=",
+          "value": 40
+        }
+      ],
+      "any": false
+    },
+    {
+      "id": "E313",
+      "from": "N901",
+      "to": "N913",
+      "kind": "兜底",
+      "text": "",
+      "priority": 30,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E112",
+      "from": "N304",
+      "to": "N303",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E113",
+      "from": "N305",
+      "to": "N303",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E212",
+      "from": "N604",
+      "to": "N603",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    },
+    {
+      "id": "E213",
+      "from": "N605",
+      "to": "N603",
+      "kind": "自动",
+      "text": "",
+      "priority": 10,
+      "conditions": [],
+      "any": false
+    }
+  ],
+  "codex": [
+    {
+      "id": "baize",
+      "title": "白泽",
+      "category": "神灵",
+      "art": "baize",
+      "text": "知万物之名的讲述者。它将残卷交予玄曜与灵曦，让答案从旅途里生长。"
+    },
+    {
+      "id": "fusang",
+      "title": "扶桑",
+      "category": "山川",
+      "art": "bg:fusang",
+      "text": "承接晨光的神木。金乌栖枝，古名沿树纹流转。"
+    },
+    {
+      "id": "jinwu",
+      "title": "金乌",
+      "category": "神灵",
+      "art": "bg:fusang",
+      "text": "栖于扶桑的三足神鸟。玄曜写下它的名字，它衔来一枚山海残简。"
+    },
+    {
+      "id": "phoenix",
+      "title": "凤凰",
+      "category": "神灵",
+      "art": "bg:danxue",
+      "text": "浴火而不留旧痕。灵曦从它身上看见放下的另一种美。"
+    },
+    {
+      "id": "zhuyin",
+      "title": "烛阴",
+      "category": "神灵",
+      "art": "zhuyin",
+      "text": "人面蛇身，衔不灭之烛。守护名字，也提醒执火之人懂得自己的限度。"
+    },
+    {
+      "id": "wuxian",
+      "title": "巫咸",
+      "category": "人物",
+      "art": "wuxian",
+      "text": "反复念诵亡者名字的巫者。记忆既是连接，也是他难以放下的重负。"
+    },
+    {
+      "id": "wupeng",
+      "title": "巫彭",
+      "category": "人物",
+      "art": "wuxian2",
+      "text": "学会与亡者和解的巫者。他相信相遇留下的改变，无须日日点名。"
+    },
+    {
+      "id": "xiangliu",
+      "title": "相柳",
+      "category": "神灵",
+      "art": "xiangliu",
+      "text": "幽都中的九首之影。它向执卷者追问：留下一个名字，是否也留下了痛苦？"
+    },
+    {
+      "id": "wangxiang",
+      "title": "罔象",
+      "category": "神灵",
+      "art": "wangxiang",
+      "text": "无面水影，不辨善恶。它执行遗忘，如水流执行流动。"
+    },
+    {
+      "id": "dinv",
+      "title": "帝女",
+      "category": "神灵",
+      "art": "dinv",
+      "text": "泣血化桑的灵体。她的桑叶记着一句话：有些名字，放下也是安放。"
+    },
+    {
+      "id": "gonggong",
+      "title": "共工",
+      "category": "神灵",
+      "art": "gonggong",
+      "text": "不周山回溯中的怒神。山柱可折，天地的规律并未因此改变。"
+    },
+    {
+      "id": "scroll",
+      "title": "山海古卷",
+      "category": "道具",
+      "art": "bg:finale",
+      "text": "一卷记名，一卷存形。分开时是残页，相照时才得见山海。"
+    },
+    {
+      "id": "candle",
+      "title": "不灭烛",
+      "category": "道具",
+      "art": "zhuyin",
+      "text": "烛旺则名存，烛微则名危。火有三阶段，随本次旅程保存。"
+    },
+    {
+      "id": "feather",
+      "title": "凤翎",
+      "category": "道具",
+      "art": "bg:danxue",
+      "text": "凤凰留下的一点余温，护灵曦穿过凶犁旱地。"
+    },
+    {
+      "id": "mulberry",
+      "title": "帝女桑叶",
+      "category": "道具",
+      "art": "dinv",
+      "text": "叶脉映出通向幽都的路。叶落，也可以是一种安放。"
+    },
+    {
+      "id": "memory",
+      "title": "拾遗之页",
+      "category": "见闻",
+      "art": "bg:youdu",
+      "text": "玄曜遗落的记忆由灵曦拾起。记忆可以由他人珍藏，不必全由一人承担。"
+    },
+    {
+      "id": "truth",
+      "title": "记与忘的规律",
+      "category": "见闻",
+      "art": "bg:buzhou",
+      "text": "无名即灭并非阴谋。双卷互补，记与忘是同一片山海中的两种流动。"
+    }
+  ]
+}

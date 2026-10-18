@@ -1,0 +1,620 @@
+{
+  "date": "2026-10-18",
+  "gameVersion": "0.4.1",
+  "engine": "Tuanjie 1.10.4 / 2022.3.62t16",
+  "buildStatus": "succeeded",
+  "core": {
+    "assertions": 377,
+    "completePaths": 24,
+    "reachableNodes": 36,
+    "endingPathCounts": [
+      10,
+      4,
+      10
+    ]
+  },
+  "webglSmoke": {
+    "url": "http://127.0.0.1:8766/",
+    "checks": [
+      "Real Unity loader completed with a nonempty canvas",
+      "Audio context running after a real mouse click",
+      "Manual load confirmed through the real modal dialog",
+      "IndexedDB confirms manual slot 1 and automatic resume at N001, dialogue line 1",
+      "Mouse flow captured: start, dialogue, settings, manual save and continue after reload",
+      "Fullscreen works after a real click",
+      "Touch flow and portrait prompt captured at mobile viewport sizes"
+    ],
+    "screenshots": [
+      "01-title.png",
+      "02-dialogue.png",
+      "03-settings.png",
+      "04-save.png",
+      "04b-manual-load.png",
+      "05-continue-after-reload.png",
+      "06-mobile-landscape.png",
+      "07-mobile-portrait.png"
+    ],
+    "audioStates": [
+      "running"
+    ],
+    "errors": [],
+    "initialLoadSeconds": 14.2,
+    "storageDatabases": [
+      "/idbfs",
+      "IDBCached",
+      "TuanjieCache"
+    ],
+    "storageFiles": [
+      {
+        "path": "/idbfs/0899db8e7ae7e1ca69db309f9e93da24/PlayerPrefs",
+        "bytes": 2452,
+        "preview": "UnityPrf\u0000\u0000\u0001\u0000\u0000\u0000\u0010\u0000\u0012shanhai.v1.profile��\u0003\u0000\u0000{\"version\":1,\"unlocked\":[],\"readLines\":[\"N001:0\"],\"endings\":[],\"checkpoints\":[{\"nodeId\":\":N001\",\"title\":\"序章·天缺惊变\",\"json\":\"{\\\"version\\\":1,\\\"nodeId\\\":\\\"N001\\\",\\\"route\\\":\\\"\\\",\\\"savedAt\\\":\\\"\\\",\\\"choiceReply\\\":\\\"\\\",\\\"line\\\":0,\\\"miniStep\\\":0,\\\"mechanicDone\\\":false,\\\"playerX\\\":0.14000000059604646,\\\"playerY\\\":0.6499999761581421,\\\"values\\\":[{\\\"key\\\":\\\"mcv\\\",\\\"value\\\":50},{\\\"key\\\":\\\"candle\\\",\\\"value\\\":0},{\\\"key\\\":\\\"fragments\\\",\\\"value\\\":0},{\\\"key\\\":\\\"pacts\\\",\\\"value\\\":0},{\\\"key\\\":\\\"ending\\\",\\\"value\\\":0}],\\\"completed\\\":[],\\\"visited\\\":[\\\"N001\\\"],\\\"inspected\\\":[],\\\"c"
+      }
+    ],
+    "manualSave": {
+      "nodeId": "N001",
+      "line": 1
+    },
+    "status": "passed",
+    "note": "Screenshots require visual review. This browser smoke test does not replace real phone testing or certify every story route in Unity."
+  },
+  "webglPlaythrough": {
+    "routes": [
+      {
+        "route": "玄曜",
+        "nodes": [
+          "N001",
+          "N002",
+          "N101",
+          "N102",
+          "N103",
+          "N104",
+          "N201",
+          "N202",
+          "N203",
+          "N301",
+          "N302",
+          "N305",
+          "N303",
+          "N701",
+          "N702",
+          "N703",
+          "N801",
+          "N802",
+          "N803",
+          "N901",
+          "N911",
+          "N801",
+          "N802",
+          "N803",
+          "N901",
+          "N913"
+        ],
+        "mechanics": [
+          "explore",
+          "trace",
+          "mount",
+          "explore",
+          "explore",
+          "mirror",
+          "climb",
+          "climb"
+        ],
+        "endings": [
+          "N911",
+          "N913"
+        ],
+        "codexEntries": 10,
+        "valuesBeforeEndingReward": [
+          {
+            "key": "mcv",
+            "value": 50
+          },
+          {
+            "key": "candle",
+            "value": 3
+          },
+          {
+            "key": "fragments",
+            "value": 2
+          },
+          {
+            "key": "pacts",
+            "value": 1
+          },
+          {
+            "key": "ending",
+            "value": 0
+          }
+        ],
+        "chapterReplay": "N801"
+      },
+      {
+        "route": "灵曦",
+        "nodes": [
+          "N001",
+          "N002",
+          "N401",
+          "N402",
+          "N403",
+          "N404",
+          "N501",
+          "N502",
+          "N503",
+          "N601",
+          "N602",
+          "N604",
+          "N603",
+          "N701",
+          "N702",
+          "N703",
+          "N801",
+          "N802",
+          "N803",
+          "N901",
+          "N912"
+        ],
+        "mechanics": [
+          "explore",
+          "rubbing",
+          "explore",
+          "explore",
+          "explore",
+          "puzzle",
+          "mirror",
+          "climb"
+        ],
+        "endings": [
+          "N912"
+        ],
+        "codexEntries": 12,
+        "valuesBeforeEndingReward": [
+          {
+            "key": "mcv",
+            "value": 22
+          },
+          {
+            "key": "candle",
+            "value": 0
+          },
+          {
+            "key": "fragments",
+            "value": 4
+          },
+          {
+            "key": "pacts",
+            "value": 1
+          },
+          {
+            "key": "ending",
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "note": "Two actual WebGL routes using mouse at 1600x900. Saves observed read-only; no state injection.",
+    "segments": [],
+    "bookmarks": [],
+    "status": "passed"
+  },
+  "touchPlaythrough": {
+    "routes": [
+      {
+        "route": "玄曜",
+        "nodes": [
+          "N001",
+          "N002",
+          "N101",
+          "N102",
+          "N103",
+          "N104",
+          "N201",
+          "N202",
+          "N203",
+          "N301",
+          "N302",
+          "N305",
+          "N303",
+          "N701",
+          "N702",
+          "N703",
+          "N801",
+          "N802",
+          "N803",
+          "N901",
+          "N911",
+          "N801",
+          "N802",
+          "N803",
+          "N901",
+          "N913"
+        ],
+        "mechanics": [
+          "explore",
+          "trace",
+          "mount",
+          "explore",
+          "explore",
+          "mirror",
+          "climb",
+          "climb"
+        ],
+        "endings": [
+          "N911",
+          "N913"
+        ],
+        "codexEntries": 10,
+        "valuesBeforeEndingReward": [
+          {
+            "key": "mcv",
+            "value": 50
+          },
+          {
+            "key": "candle",
+            "value": 3
+          },
+          {
+            "key": "fragments",
+            "value": 2
+          },
+          {
+            "key": "pacts",
+            "value": 1
+          },
+          {
+            "key": "ending",
+            "value": 0
+          }
+        ],
+        "chapterReplay": "N801"
+      },
+      {
+        "route": "灵曦",
+        "nodes": [
+          "N001",
+          "N002",
+          "N401",
+          "N402",
+          "N403",
+          "N404",
+          "N501",
+          "N502",
+          "N503",
+          "N601",
+          "N602",
+          "N604",
+          "N603",
+          "N701",
+          "N702",
+          "N703",
+          "N801",
+          "N802",
+          "N803",
+          "N901",
+          "N912"
+        ],
+        "mechanics": [
+          "explore",
+          "rubbing",
+          "explore",
+          "explore",
+          "explore",
+          "puzzle",
+          "mirror",
+          "climb"
+        ],
+        "endings": [
+          "N912"
+        ],
+        "codexEntries": 12,
+        "valuesBeforeEndingReward": [
+          {
+            "key": "mcv",
+            "value": 22
+          },
+          {
+            "key": "candle",
+            "value": 0
+          },
+          {
+            "key": "fragments",
+            "value": 4
+          },
+          {
+            "key": "pacts",
+            "value": 1
+          },
+          {
+            "key": "ending",
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "note": "Two actual WebGL routes using touch at 844x390. Saves observed read-only; no state injection.",
+    "segments": [],
+    "bookmarks": [],
+    "status": "passed"
+  },
+  "traceScaling": {
+    "errors": [],
+    "checks": [
+      {
+        "stroke": 1,
+        "width": 1894,
+        "height": 1140,
+        "input": "mouse"
+      },
+      {
+        "stroke": 2,
+        "width": 1894,
+        "height": 1140,
+        "input": "mouse"
+      },
+      {
+        "stroke": 3,
+        "width": 1894,
+        "height": 1140,
+        "input": "mouse"
+      },
+      {
+        "stroke": 4,
+        "width": 1280,
+        "height": 720,
+        "input": "mouse"
+      },
+      {
+        "stroke": 5,
+        "width": 1280,
+        "height": 720,
+        "input": "mouse"
+      },
+      {
+        "stroke": 6,
+        "width": 1280,
+        "height": 720,
+        "input": "mouse"
+      },
+      {
+        "stroke": 7,
+        "width": 1920,
+        "height": 900,
+        "input": "mouse"
+      },
+      {
+        "stroke": 8,
+        "width": 1920,
+        "height": 900,
+        "input": "mouse"
+      },
+      {
+        "stroke": 9,
+        "width": 1920,
+        "height": 900,
+        "input": "mouse"
+      },
+      {
+        "stroke": 10,
+        "width": 844,
+        "height": 390,
+        "input": "touch"
+      },
+      {
+        "stroke": 11,
+        "width": 844,
+        "height": 390,
+        "input": "touch"
+      },
+      {
+        "stroke": 12,
+        "width": 844,
+        "height": 390,
+        "input": "touch"
+      }
+    ],
+    "status": "passed"
+  },
+  "tracePixels": {
+    "status": "passed",
+    "checks": [
+      {
+        "file": "stroke-0-held.png",
+        "inkPixels": 2671,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 2
+      },
+      {
+        "file": "stroke-1-held.png",
+        "inkPixels": 5433,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 2
+      },
+      {
+        "file": "stroke-10-held.png",
+        "inkPixels": 4172,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 0
+      },
+      {
+        "file": "stroke-11-held.png",
+        "inkPixels": 4714,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 0
+      },
+      {
+        "file": "stroke-2-held.png",
+        "inkPixels": 7952,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 2
+      },
+      {
+        "file": "stroke-3-held.png",
+        "inkPixels": 5016,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 1
+      },
+      {
+        "file": "stroke-4-held.png",
+        "inkPixels": 6336,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 1
+      },
+      {
+        "file": "stroke-5-held.png",
+        "inkPixels": 7005,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 1
+      },
+      {
+        "file": "stroke-6-held.png",
+        "inkPixels": 11502,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 3
+      },
+      {
+        "file": "stroke-7-held.png",
+        "inkPixels": 14125,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 3
+      },
+      {
+        "file": "stroke-8-held.png",
+        "inkPixels": 15375,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 3
+      },
+      {
+        "file": "stroke-9-held.png",
+        "inkPixels": 3275,
+        "outsidePaper": 0,
+        "unchangedArtPixels": 0
+      }
+    ]
+  },
+  "danxueScene": {
+    "status": "passed",
+    "checks": [
+      "Scene and physical objects captured at 1894x1140",
+      "Exit stays gated before puzzle solved",
+      "Mural evidence and fan pickup persist",
+      "Short sweep and sweep outside mouth cannot clear ash",
+      "First mouth clears with desktop mouse",
+      "Refresh preserves partial mask and owned fan",
+      "Remaining mouths clear with touch at 844x390",
+      "All three cleanings required before shutters can move",
+      "Wrong linked state recoverable",
+      "Phoenix appears in original scene after 101 vent solution",
+      "Actual right staircase finishes N401"
+    ],
+    "errors": [],
+    "note": "Real Unity WebGL, no state injection. Desktop mouse and CDP touch gestures. IndexedDB is read only."
+  },
+  "interruptedDrag": {
+    "status": "passed",
+    "checks": [
+      "Portrait cancels unfinished puzzle drag; releasing after landscape does not swap.",
+      "A fresh drag still swaps normally after interruption.",
+      "Opening the menu while dragging also cancels the gesture without a swap."
+    ],
+    "errors": []
+  },
+  "visualReview": {
+    "version": "0.4.1",
+    "status": "passed",
+    "method": "Visual inspection of actual H5 screenshots, including art registration, glyphs, layer clipping, physical object identity, progress feedback and scaled input. Codex contact sheet uses cropped actual screenshots, not mockups.",
+    "screenshots": [
+      "Documentation/review/N101-scene-changed.png",
+      "Documentation/review/N201-scene-changed.png",
+      "Documentation/review/N301-scene-changed.png",
+      "Documentation/review/N401-phoenix-awake.png",
+      "Documentation/review/N403-scene-changed.png",
+      "Documentation/review/N501-scene-changed.png",
+      "Documentation/review/N601-scene-changed.png",
+      "Documentation/review/N801-scene-changed.png",
+      "Documentation/review/stroke-11-held.png",
+      "Documentation/review/N402-rubbing-partial.png",
+      "Documentation/review/N104-mount-before.png",
+      "Documentation/review/N603-puzzle-before.png",
+      "Documentation/review/N702-mirror-before.png",
+      "Documentation/review/玄曜-N911-final-scene.png",
+      "Documentation/review/灵曦-N912-final-scene.png",
+      "Documentation/review/玄曜-N913-final-scene.png",
+      "Documentation/review/codex-review.png"
+    ],
+    "source": "Builds/QA/Unity",
+    "coverage": {
+      "investigations": 8,
+      "workshops": 5,
+      "codexEntries": 17,
+      "endingScenes": 3
+    },
+    "findingsResolved": [
+      "Lantern pickup no longer overlaps the ice inscription hit area",
+      "Paper stays inside the mounting frame",
+      "Workshop header contrast increased",
+      "Rubbing mask preserves generated paper grain and blends reveal edges",
+      "World clues and mechanism panels replaced throughout the eight investigations"
+    ]
+  },
+  "investigationNodesPlayed": [
+    "N101",
+    "N201",
+    "N301",
+    "N401",
+    "N403",
+    "N501",
+    "N601",
+    "N801"
+  ],
+  "sceneRedesignScope": {
+    "integratedScenes": [
+      "N101",
+      "N201",
+      "N301",
+      "N401",
+      "N403",
+      "N501",
+      "N601",
+      "N801"
+    ],
+    "workshops": [
+      "trace",
+      "rubbing",
+      "mount",
+      "puzzle",
+      "mirror"
+    ],
+    "codex": "Correct object illustrations and scene-specific illustrations",
+    "endings": "Three distinct ending scenes",
+    "newGeneratedAssets": 27
+  },
+  "buildFiles": {
+    "Build/H5.data.unityweb": {
+      "bytes": 204104241,
+      "sha256": "fe818cb76fb6eabe950adc35eb5154acda77a98ab75599f43104fb8fd4b548f6"
+    },
+    "Build/H5.framework.js.unityweb": {
+      "bytes": 83577,
+      "sha256": "6df9a2a01726c4bbe8689aea331d34d9431c2835b6c3e12f8a4ff67bdf5f1913"
+    },
+    "Build/H5.loader.js": {
+      "bytes": 44358,
+      "sha256": "2931859c57c92d36566076bba415689450db2392bcee81f93ed1649bbbff0904"
+    },
+    "Build/H5.wasm.unityweb": {
+      "bytes": 6334970,
+      "sha256": "65804fef0288f272a35e67466632d3c6d76491382b60857a19cbb0b1820e72ad"
+    },
+    "index.html": {
+      "bytes": 2926,
+      "sha256": "849a824c3ebee5f53392967841bd255b3846513024ad510a9071ab1638c9d976"
+    }
+  },
+  "limits": [
+    "Real iOS and Android devices not tested",
+    "WeChat and Douyin mini-game SDKs not integrated",
+    "Legacy JavaScript Preview is not the current gameplay implementation"
+  ]
+}
