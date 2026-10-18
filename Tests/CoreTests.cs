@@ -139,7 +139,9 @@ static class CoreTests
         workshop.deductions.Add("red-brush");workshop.deductions.Add("blue-scroll");Check(WorkshopRules.MemoryConclusion(workshop,1),"Both character clues support shared journey");
         workshop.deductions.Add("leaves");Check(!WorkshopRules.MemoryConclusion(workshop,1),"Unrelated evidence is not accepted");
         workshop.deductions.Remove("leaves");Check(!WorkshopRules.MemoryConclusion(workshop,0),"Wrong conclusion can be retried");
-        workshop.matched.AddRange(new[]{0,1,2,3});Check(WorkshopRules.MirrorConclusion(workshop,1),"Four pairs support balanced relationship");
+        workshop.matched.AddRange(new[]{0,1,2,3});Check(!WorkshopRules.MirrorConclusion(workshop,1),"Four pairs still need testimony");
+        workshop.deductions.AddRange(new[]{"xiangliu-testimony","wangxiang-testimony"});Check(WorkshopRules.MirrorConclusion(workshop,1),"Both testimonies support balanced relationship");
+        workshop.deductions.Add("boat-testimony");Check(!WorkshopRules.MirrorConclusion(workshop,1),"Unrelated boat testimony rejected");workshop.deductions.Remove("boat-testimony");
         Check(!WorkshopRules.MirrorConclusion(workshop,0),"Names-only conclusion rejected");
         var legacy=Copy(e.State);legacy.deductions=null;e.Restore(legacy);Check(e.State.deductions!=null,"Legacy v1 saves gain deduction state");
         Console.WriteLine("PASS: "+assertions+" assertions; "+paths+" complete paths; "+reached.Count+" reachable nodes; endings="+string.Join(",",endingCounts.Skip(1)));

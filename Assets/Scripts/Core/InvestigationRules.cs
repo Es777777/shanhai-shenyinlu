@@ -65,6 +65,7 @@ namespace ShanHai
         public static bool PressLamp(InvestigationState s,int lamp)
         {
             if(!s.prepared||s.solved)return false;
+            if(s.progress>=4)return true;
             int[] order={2,0,3,1};
             if(lamp==order[s.progress])s.progress++;else s.progress=0;
             return s.progress==4;

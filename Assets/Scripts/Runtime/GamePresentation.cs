@@ -83,36 +83,54 @@ namespace ShanHai
         }
         void DrawTextScale()
         {
-            P.Label(new Rect(200,679,290,60),"文字大小",30,P.Gold);
-            if(P.Button(new Rect(520,672,240,Compact?100:78),"标准",profile.textScale<1.1f,true,30))profile.textScale=1f;
-            if(P.Button(new Rect(790,672,240,Compact?100:78),"较大",profile.textScale>=1.1f&&profile.textScale<1.25f,true,30))profile.textScale=1.15f;
-            if(P.Button(new Rect(1060,672,280,Compact?100:78),"大字",profile.textScale>=1.25f,true,30))profile.textScale=1.3f;
+            float y=Compact?704:672;
+            P.Label(new Rect(200,y+5,290,60),"阅读字号",30,P.Gold);
+            if(P.Button(new Rect(520,y,240,Compact?100:78),"标准",profile.textScale<1.1f,true,30))profile.textScale=1f;
+            if(P.Button(new Rect(790,y,240,Compact?100:78),"较大",profile.textScale>=1.1f&&profile.textScale<1.25f,true,30))profile.textScale=1.15f;
+            if(P.Button(new Rect(1060,y,280,Compact?100:78),"大字",profile.textScale>=1.25f,true,30))profile.textScale=1.3f;
         }
         void EvidenceChoice(string key,string label,Rect rect)
         {
             bool selected=engine.State.deductions.Contains(key);
-            if(P.Button(rect,(selected?"✓ ":"")+label,selected,true,Compact?33:24))
+            if(P.Button(rect,(selected?"✓ ":"")+label,selected,true,P.ReadingSize(27)))
             {if(selected)engine.State.deductions.Remove(key);else engine.State.deductions.Add(key);Persist();}
         }
         void DrawReasoning(bool memory)
         {
-            MiniPanel(memory?"残 页 · 见 闻 印 证":"双 卷 · 规 律 推 演",memory?"画面拼合了。选出能辨认两位执卷者的两处证据，再判断这页记忆为何值得留下。":"名与形已经相照。结合相柳与罔象的经历，判断双卷应如何相处。");
+            if(engine.State.reasoningOrder.Count==0){
+                engine.State.reasoningOrder.AddRange(new[]{0,1,2});
+                for(int i=2;i>0;i--){int j=UnityEngine.Random.Range(0,i+1);InteractionRules.Swap(engine.State.reasoningOrder,i,j);}Persist();
+            }
+            P.Fill(new Rect(0,94,Width,756),new Color(.015f,.035f,.04f,.45f));
+            P.Image(new Rect(180,132,1240,680),Art("Investigations/worktable"));
+            P.Fill(new Rect(220,150,1160,645),new Color(.025f,.02f,.015f,.7f));
+            P.Label(new Rect(235,160,900,65),memory?"残 页 · 见 闻 印 证":"双 卷 · 规 律 推 演",34,P.Gold);
+            P.ReadingLabel(new Rect(235,232,1120,62),memory?"哪些痕迹能证明两人曾同行？选两份证据，再作推论。":"哪些见闻暴露了双卷的局限？选两份证据，再作推论。",27);
+            if(P.Button(new Rect(1140,150,230,85),"提示 "+engine.State.reasoningHints+" / 3",false,true,27)){
+                engine.State.reasoningHints=Math.Min(3,engine.State.reasoningHints+1);miniMessage="";Persist();
+            }
             if(memory)
             {
-                P.Image(new Rect(260,315,545,295),Art("Investigations/memory"));
-                string[] keys={"red-brush","blue-scroll","lantern","leaves"},labels={"朱衣之人随身携笔","青衣之人带着卷轴","远处点亮的灯火","树上落下的秋叶"};
-                for(int i=0;i<4;i++)EvidenceChoice(keys[i],labels[i],new Rect(840,310+i*82,500,74));
+                P.Image(new Rect(250,305,530,240),Art("Investigations/memory"));
+                string[] keys={"red-brush","blue-scroll","lantern","leaves"},labels={"朱衣随身携笔","青衣怀中卷轴","远处灯火数量","秋叶的颜色"};
+                for(int i=0;i<4;i++)EvidenceChoice(keys[i],labels[i],new Rect(830,286+i*98,520,94));
             }
             else
             {
-                P.Label(new Rect(300,320,1000,200),"相柳：只剩恶名，便掩去了它的困惑。\n罔象：不辨善恶，遗忘也会带走无辜。\n两卷合看，才能既留下见证，也容纳改变。",Compact?36:29,P.Paper);
+                P.ReadingLabel(new Rect(265,310,510,245),"相柳困在名字里。\n罔象困在遗忘里。\n双卷各自遗漏了什么？",27);
+                string[] keys={"xiangliu-testimony","wangxiang-testimony","vent-testimony","boat-testimony"},labels={"相柳经历被恶名遮蔽","罔象遗忘波及无辜","丹穴风口已疏通","石舟重新获得平衡"};
+                for(int i=0;i<4;i++)EvidenceChoice(keys[i],labels[i],new Rect(830,286+i*98,520,94));
             }
-            string[] answers=memory?new[]{"用灯火的多少判定年代","以两人的器物印证共同旅途","只记下山川，抹去人物"}:new[]{"只留下名字，形影不再重要","记名与存形相互印证","让所有见闻都被遗忘"};
-            for(int i=0;i<3;i++)if(P.Button(new Rect(235+i*382,650,365,Compact?92:76),answers[i],false,true,Compact?33:24))
+            string[] hints=memory?new[]{"先观察两个人，不急着看景物。","两人的随身之物，能与哪段旅途对应？","朱笔与青卷分别属于谁？两者要一起印证。"}:new[]{"回想记名与遗忘分别造成过什么后果。","两份证据应各自对应一种局限。","相柳与罔象的遭遇，分别缺少了什么？"};
+            string feedback=miniMessage!=""?miniMessage:engine.State.reasoningHints>0?hints[engine.State.reasoningHints-1]:"证据不足时，可逐级展开提示。";
+            P.ReadingLabel(new Rect(250,552,535,130),feedback,25,P.Gold);
+            string[] answers=memory?new[]{"以灯火推断年代","以器物印证同行","以景物代替人物"}:new[]{"只留下名字","记名与存形互证","遗忘全部见闻"};
+            for(int i=0;i<3;i++)if(P.Button(new Rect(235+i*382,685,365,104),answers[engine.State.reasoningOrder[i]],false,true,P.ReadingSize(28)))
             {
-                bool correct=memory?WorkshopRules.MemoryConclusion(engine.State,i):WorkshopRules.MirrorConclusion(engine.State,i);
+                int answer=engine.State.reasoningOrder[i];
+                bool correct=memory?WorkshopRules.MemoryConclusion(engine.State,answer):WorkshopRules.MirrorConclusion(engine.State,answer);
                 if(correct){engine.State.deductions.Add(memory?"memory-understood":"duality-understood");DoneMechanic(memory?"你认出了朱笔与青卷，散失的共同记忆重新相接。":"记与忘相互制约，也彼此成全。双卷映照完成。");}
-                else {miniMessage=memory?"先找出两位执卷者各自的器物。景物相似，还不足以认出人。":"只有名字或只有遗忘，都无法留下完整的见闻。再比较两段经历。";audioBus.Sound("error");}
+                else {miniMessage=(memory?WorkshopRules.MemoryEvidence(engine.State.deductions):WorkshopRules.MirrorEvidence(engine.State.deductions))?"这条推论解释不了所选见闻，再比较一次。":"还需要两份相关证据，景物和结果未必能作证。";audioBus.Sound("error");}
             }
         }
     }

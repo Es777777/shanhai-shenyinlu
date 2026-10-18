@@ -33,17 +33,25 @@ namespace ShanHai
         {
             if (state == null || state.version != 1 || !nodes.ContainsKey(state.nodeId)) throw new ArgumentException("存档版本或节点无效");
             if (state.values == null || state.completed == null || state.visited == null || state.inspected == null || state.choices == null || state.history == null || state.puzzle == null || state.rubbed == null || state.matched == null) throw new ArgumentException("存档内容不完整");
+            if(state.values.Any(v=>v==null)||state.history.Any(h=>h==null||h.text==null||h.speaker==null)||state.history.Count>500||state.completed.Any(id=>id==null||!nodes.ContainsKey(id))||state.visited.Any(id=>id==null||!nodes.ContainsKey(id))||state.choices.Any(x=>x==null))throw new ArgumentException("存档记录无效");
+            if(state.miniStep<0||state.miniStep>12||state.matched.Any(x=>x<0||x>3)||state.matched.Distinct().Count()!=state.matched.Count||state.rubbed.Any(x=>x<0||x>=180))throw new ArgumentException("互动记录无效");
             foreach (var def in Data.variables)
                 if (state.values.Count(v => v.key == def.key) != 1) throw new ArgumentException("存档数值无效");
             if (state.line < 0 || state.line > nodes[state.nodeId].lines.Length) throw new ArgumentException("存档对白位置无效");
             if (state.puzzle.Count != 0 && (state.puzzle.Count != 6 || state.puzzle.Distinct().Count() != 6 || state.puzzle.Any(v => v < 0 || v > 5))) throw new ArgumentException("拼图存档无效");
             if (state.deductions == null) state.deductions = new List<string>();
+            if(state.reasoningOrder==null)state.reasoningOrder=new List<int>();
+            if(state.reasoningOrder.Count!=0&&(state.reasoningOrder.Count!=3||state.reasoningOrder.Distinct().Count()!=3||state.reasoningOrder.Any(x=>x<0||x>2)))throw new ArgumentException("推理顺序无效");
+            state.reasoningHints=Math.Max(0,Math.Min(3,state.reasoningHints));
             state.mountingRotation = ((state.mountingRotation % 4) + 4) % 4;
             State = state;
             // Older v1 saves have no investigation fields. Keep their story progress.
             if(State.items==null)State.items=new List<string>();
             if(State.evidence==null)State.evidence=new List<string>();
             if(State.investigation==null)State.investigation=new InvestigationState();
+            if(State.investigation.dials==null)throw new ArgumentException("机关记录不完整");
+            var inv=State.investigation;
+            if(inv.progress<0||inv.progress>(inv.node=="N801"?6:inv.node=="N301"?4:7)||inv.dials.Any(x=>x<0||x>4))throw new ArgumentException("机关状态无效");
             foreach (var def in Data.variables) Set(def.key, Get(def.key));
         }
         public int Get(string key) { var v = State.values.Find(x => x.key == key); return v == null ? 0 : v.value; }
@@ -130,6 +138,7 @@ namespace ShanHai
             State.nodeId = id; State.line = 0; State.miniStep = 0; State.mechanicDone = false;
             State.inspected.Clear(); State.puzzle.Clear(); State.rubbed.Clear(); State.matched.Clear(); State.choiceReply = "";
             State.deductions.Clear(); State.mountingRotation = 0; State.mountingSeal = -1;
+            State.reasoningOrder.Clear();State.reasoningHints=0;
             State.playerX = .14f; State.playerY = .65f;
             State.investigation=new InvestigationState();
             if (!State.visited.Contains(id)) State.visited.Add(id);

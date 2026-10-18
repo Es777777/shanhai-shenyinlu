@@ -1,5 +1,5 @@
 {
-  "version": "0.5.0",
+  "version": "0.6.0",
   "status": "passed",
   "method": "Visual inspection of actual H5 screenshots, including art registration, glyphs, layer clipping, physical object identity, progress feedback and scaled input. Codex contact sheet uses cropped actual screenshots, not mockups.",
   "screenshots": [
@@ -26,6 +26,15 @@
     "Documentation/review/844-large-text.png",
     "Documentation/review/844-settings.png",
     "Documentation/review/load-failure.png",
+    "Documentation/review/dpi2-dialogue.png",
+    "Documentation/review/import-preview.png",
+    "Documentation/review/invalid-file.png",
+    "Documentation/review/restored.png",
+    "Documentation/review/mobile-dpi3-safearea-dialogue.png",
+    "Documentation/review/N603-hint.png",
+    "Documentation/review/N702-hint.png",
+    "Documentation/review/large-notebook.png",
+    "Documentation/review/large-codex.png",
     "Documentation/review/codex-review.png"
   ],
   "source": "Builds/QA/Unity",
@@ -45,6 +54,11 @@
     "Paper stays inside the mounting frame",
     "Workshop header contrast increased",
     "Rubbing mask preserves generated paper grain and blends reveal edges",
-    "World clues and mechanism panels replaced throughout the eight investigations"
-  ]
+    "World clues and mechanism panels replaced throughout the eight investigations",
+    "Shared CSS viewport prevents high-DPI layout disagreement and panel/fullscreen overlap",
+    "Large-font notebook, codex and reasoning use measured text layout; all three hints remain visible",
+    "Import confirmation, damaged-file feedback and restore-before-import screens reviewed",
+    "Bridge variation and repair, ice/sand reveal and leaf rotation retain scene placement"
+  ],
+  "fixtureDisclosure": "Reading screenshots use deliberately complete imported test saves for layout inspection; normal mouse/touch playthroughs and the gameplay Demo do not inject state."
 }

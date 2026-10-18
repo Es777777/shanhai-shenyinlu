@@ -28,8 +28,11 @@ namespace ShanHai
         bool worldBrushing;
         Vector2 worldBrushPoint,worldWalker;
         float worldBrushDistance,boatAngle;
+        readonly float[] bridgeRaisedAt={-100,-100,-100,-100,-100,-100};
+        readonly float[] leafAngle=new float[3];
+        bool leafAnglesReady;
         void CancelWorldGesture(){worldBrushing=false;worldBrushDistance=0;}
-        void ResetWorldVisuals(){CancelWorldGesture();worldWalker=Vector2.zero;boatAngle=0;}
+        void ResetWorldVisuals(){CancelWorldGesture();worldWalker=Vector2.zero;boatAngle=0;leafAnglesReady=false;for(int i=0;i<6;i++)bridgeRaisedAt[i]=-100;}
         float WorldReveal {get{return profile.reducedMotion||worldSolvedAt<0?1:Mathf.SmoothStep(0,1,(Time.unscaledTime-worldSolvedAt)/2f);}}
         void SceneImage(string path,float alpha=1)
         {
@@ -44,6 +47,8 @@ namespace ShanHai
             if(scene.id=="N403"&&!Investigation.prepared)initial="xiongli-covered";
             if(scene.id=="N201"&&Investigation.prepared)initial="zhongshan-thawed";
             SceneImage(initial);
+            if((scene.id=="N201"||scene.id=="N403")&&Investigation.prepared&&!profile.reducedMotion&&Time.unscaledTime-worldPreparedAt<1.2f)
+                SceneImage(scene.id=="N201"?"zhongshan-room":"xiongli-covered",1-Mathf.SmoothStep(0,1,(Time.unscaledTime-worldPreparedAt)/1.2f));
             if(Investigation.solved&&scene.id!="N501"&&scene.id!="N801")SceneImage(scene.art+"-awake",WorldReveal);
             var d=InvestigationRules.Find(scene.id);
             if(scene.tool.width>0&&!Investigation.prepared&&!engine.State.items.Contains(d.tool))Prop(scene.tool,d.sprite);
@@ -289,8 +294,10 @@ namespace ShanHai
                 Rect r=new Rect(c.x-size[i]/2,c.y-size[i]/2,size[i],size[i]);
                 if(!input&&alpha>.005f)
                 {
-                    Atlas(new Rect(r.x+3,r.y+6,r.width,r.height),"Investigations/leaf-rings",i,2,2,new Color(.015f,.025f,.02f,alpha*.65f),Investigation.dials[i]*90);
-                    Atlas(r,"Investigations/leaf-rings",i,2,2,new Color(.72f,.83f,.78f,alpha),Investigation.dials[i]*90);
+                    if(!leafAnglesReady){for(int j=0;j<3;j++)leafAngle[j]=Investigation.dials[j]*90;leafAnglesReady=true;}
+                    if(Event.current.type==EventType.Repaint)leafAngle[i]=profile.reducedMotion?Investigation.dials[i]*90:Mathf.MoveTowardsAngle(leafAngle[i],Investigation.dials[i]*90,Time.unscaledDeltaTime*240);
+                    Atlas(new Rect(r.x+3,r.y+6,r.width,r.height),"Investigations/leaf-rings",i,2,2,new Color(.015f,.025f,.02f,alpha*.65f),leafAngle[i]);
+                    Atlas(r,"Investigations/leaf-rings",i,2,2,new Color(.72f,.83f,.78f,alpha),leafAngle[i]);
                     float a=(correct[i]*90-90)*Mathf.Deg2Rad;
                     Vector2 direction=new Vector2(Mathf.Cos(a),Mathf.Sin(a));
                     P.Line(c+direction*(size[i]*.47f),c+direction*(size[i]*.53f),new Color(.95f,.74f,.3f,alpha),5);
@@ -308,17 +315,21 @@ namespace ShanHai
             for(int step=0;step<6;step++)
             {
                 int cell=InvestigationRules.BridgeCells[step];Vector2 c=BridgePlace(cell);bool repaired=step<Investigation.progress;
-                float depth=1f-(2-cell/4)*.12f;
+                float depth=(1f-(2-cell/4)*.12f)*(1+(step%3-1)*.045f);
                 Rect r=new Rect(c.x-110*depth,c.y-125*depth,220*depth,220*depth);
                 if(!input)
                 {
-                    Atlas(new Rect(r.x+3,r.y+7*depth,r.width,r.height),"Investigations/bridge-layers",(repaired?2:0)+step%2,2,2,new Color(.02f,.03f,.04f,.38f));
-                    Atlas(r,"Investigations/bridge-layers",(repaired?2:0)+step%2,2,2,new Color(.83f+.17f*depth,.9f+.1f*depth,1,1));
+                    float reveal=profile.reducedMotion?1:Mathf.SmoothStep(0,1,(Time.unscaledTime-bridgeRaisedAt[step])/.75f);
+                    float angle=(step%3-1)*3;
+                    Color tint=new Color(.80f+.17f*depth,.87f+.1f*depth,.94f,1);
+                    Atlas(new Rect(r.x+3,r.y+7*depth,r.width,r.height),"Investigations/bridge-layers",(repaired?2:0)+step%2,2,2,new Color(.02f,.03f,.04f,.38f),angle);
+                    if(!repaired||reveal<1)Atlas(r,"Investigations/bridge-layers",step%2,2,2,tint,angle);
+                    if(repaired){r.y+=(1-reveal)*14; tint.a=reveal;Atlas(r,"Investigations/bridge-layers",2+step%2,2,2,tint,angle);}
                 }
                 if(input&&WorldButton(new Rect(c.x-106*depth,c.y-55*depth,212*depth,100*depth)))
                 {
                     if(InvestigationRules.BridgeStep(Investigation,cell,activeScroll))
-                    {investigationMessage="残阶稳住了，两人向前一步。接着辨认相邻的裂纹或虚影。";audioBus.Sound("stone");Persist();}
+                    {bridgeRaisedAt[Investigation.progress-1]=Time.unscaledTime;investigationMessage="残阶稳住了，两人向前一步。接着辨认相邻的裂纹或虚影。";audioBus.Sound("stone");Persist();}
                     else investigationMessage="这一步还够不到，或卷别不合。朱卷镇裂纹，青卷映虚影，要从近处逐步前行。";
                 }
             }

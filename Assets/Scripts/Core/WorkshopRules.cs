@@ -12,6 +12,8 @@ namespace ShanHai
         public static bool MemoryConclusion(SaveState state,int answer)
         { return InteractionRules.IsSolved(state.puzzle) && MemoryEvidence(state.deductions) && answer == 1; }
         public static bool MirrorConclusion(SaveState state,int answer)
-        { return state.matched.Count == 4 && answer == 1; }
+        { return state.matched.Count == 4 && MirrorEvidence(state.deductions) && answer == 1; }
+        public static bool MirrorEvidence(ICollection<string> evidence)
+        { return evidence.Contains("xiangliu-testimony") && evidence.Contains("wangxiang-testimony") && !evidence.Contains("vent-testimony") && !evidence.Contains("boat-testimony"); }
     }
 }

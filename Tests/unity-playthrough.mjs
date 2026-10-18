@@ -19,7 +19,7 @@ const touch=process.env.SHANHAI_TOUCH==='1';
 const tail=process.env.SHANHAI_DEMO_TAIL==='1';
 const recordingRun=process.env.SHANHAI_DEMO==='1'||tail;
 let demo=recordingRun&&!tail;
-const out=path.join(root,recordingRun?'Builds/Demo':'Builds/QA/Unity/'+(touch?'TouchPlaythrough':'Playthrough'));await fs.mkdir(out,{recursive:true});
+const out=path.join(root,recordingRun?(process.env.SHANHAI_DEMO_DIR||'Builds/Demo-0.6.0'):'Builds/QA/Unity/'+(touch?'TouchPlaythrough':'Playthrough'));await fs.mkdir(out,{recursive:true});
 const resume=recordingRun&&(process.env.SHANHAI_DEMO_RESUME==='1'||tail);
 const report=resume?JSON.parse(await fs.readFile(path.join(out,'completed-before-restart.json'),'utf8')):{routes:[],errors:[]};
 report.note='Two actual WebGL routes using '+(touch?'touch at 844x390':'mouse at 1600x900')+'. Saves observed read-only; no state injection.';
@@ -101,18 +101,24 @@ async function mechanic(node){
       s=await waitSaved(page,s=>s.puzzle[target]===target);
     }
     await shot(node.id+'-deduction');
-    await click(800,690);assert.equal((await readSavedData(page)).mechanicDone,false);
-    await click(1080,345);await click(1080,427);await click(1080,590);
-    await click(800,690);assert.equal((await readSavedData(page)).mechanicDone,false);
-    await click(1080,590);await click(800,690);
+    const answer=()=>readSavedData(page).then(s=>235+s.reasoningOrder.indexOf(1)*382+182);
+    await click(await answer(),735);assert.equal((await readSavedData(page)).mechanicDone,false);
+    await click(1080,333);await click(1080,431);await click(1080,627);
+    await click(await answer(),735);assert.equal((await readSavedData(page)).mechanicDone,false);
+    await click(1080,627);await click(await answer(),735);
   }else if(node.mechanic==='mirror'){
     for(const [left,right] of [2,0,3,1].entries()){
       await click(500,383+left*87);await click(1100,383+right*87);
       await waitSaved(page,s=>s.matched.includes(left));
     }
     await shot(node.id+'-deduction');
-    await click(400,690);assert.equal((await readSavedData(page)).mechanicDone,false);
-    await click(800,690);
+    let s=await readSavedData(page);const correctX=235+s.reasoningOrder.indexOf(1)*382+182;
+    await click(correctX,735);assert.equal((await readSavedData(page)).mechanicDone,false);
+    await click(1080,333);await click(1080,431);await click(1080,529);
+    await click(correctX,735);assert.equal((await readSavedData(page)).mechanicDone,false);
+    await click(1080,529);await click(235+s.reasoningOrder.indexOf(0)*382+182,735);
+    assert.equal((await readSavedData(page)).mechanicDone,false);
+    await click(correctX,735);
   }else throw new Error('Unknown mechanic '+node.mechanic);
   const completed=await waitSaved(page,s=>s.mechanicDone);
   assert(completed.completed.includes(node.id),'Mechanic reward must apply immediately');
@@ -133,6 +139,7 @@ try{
     await page.waitForFunction(()=>document.getElementById('loading')?.style.display==='none',null,{timeout:180000});
     await page.waitForTimeout(4000);
     if(demo){await page.mouse.click(780,400);await beginSegment(route===0?'xuanyao':'lingxi',route===0?'玄曜主线 · 主菜单':'灵曦主线 · 主菜单');await page.waitForTimeout(3000);}
+    if(touch){await click(585,720);await click(1200,740);await click(1360,135);await waitSaved(page,p=>p.textScale>1.29,'profile');}
     await click(310,page.viewportSize().height<650?345:535);
     const run={route:route===0?'玄曜':'灵曦',nodes:[],mechanics:[],endings:[]};report.routes.push(run);
     let replayBalanced=false;

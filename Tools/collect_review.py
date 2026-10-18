@@ -29,6 +29,15 @@ shots=[
  ('Quality/844-large-text.png','手机：字号设置后的对白'),
  ('Quality/844-settings.png','手机：设置面板'),
  ('ArtRetry/load-failure.png','断网：卷页加载失败可重试'),
+ ('Backups/dpi2-dialogue.png','高 DPI：窗口与网页控件使用统一布局'),
+ ('Backups/import-preview.png','备份：导入前预览与确认'),
+ ('Backups/invalid-file.png','备份：错误文件保留原记录'),
+ ('Backups/restored.png','备份：恢复导入前的记录'),
+ ('Usability/mobile-dpi3-safearea-dialogue.png','模拟安全区域与高 DPI 手机阅读'),
+ ('Reading/N603-hint.png','布局测试存档：大字记忆推理与三级提示'),
+ ('Reading/N702-hint.png','布局测试存档：大字双卷证据推理'),
+ ('Reading/large-notebook.png','布局测试存档：大字手记与滚动阅读'),
+ ('Reading/large-codex.png','布局测试存档：大字图鉴正文'),
  ('codex-review.png','17 条图鉴：实际游戏图像核对'),
 ]
 newest=max(p.stat().st_mtime for p in (root/args.build_dir/'Build').iterdir() if p.is_file())
@@ -38,7 +47,9 @@ for source,title in shots:
     dest=review/src.name;shutil.copy2(src,dest)
     files.append(str(dest.relative_to(root)).replace('\\','/'))
     cards.append('<figure><figcaption>'+html.escape(title)+'</figcaption><a href="'+html.escape(dest.name)+'"><img loading="lazy" src="'+html.escape(dest.name)+'"></a></figure>')
-(review/'index.html').write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>山海神隐录 0.5.0 实际画面</title><style>body{margin:0;background:#101e22;color:#e7d8ba;font:18px/1.6 system-ui}main{max-width:1440px;margin:auto;padding:28px}h1{font-weight:500}p{color:#acb9b2}section{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:24px}figure{margin:0;background:#182b2c;padding:14px}img{width:100%;height:auto;display:block;margin-top:10px}a{color:inherit}</style><main><h1>山海神隐录 · 0.5.0</h1><p>正式 H5 的实际运行截图。点击可查看原图。包括结局画面，含剧情剧透。</p><section>'+''.join(cards)+'</section></main></html>',encoding='utf-8')
-data={'version':'0.5.0','status':'passed','method':'Visual inspection of actual H5 screenshots, including art registration, glyphs, layer clipping, physical object identity, progress feedback and scaled input. Codex contact sheet uses cropped actual screenshots, not mockups.','screenshots':files,'source':'Builds/QA/Unity','coverage':{'investigations':8,'workshops':5,'codexEntries':17,'endingScenes':3},'findingsResolved':['Ending CGs no longer receive duplicate foreground actors; collection and replay remain accessible','Compact title, toolbar and persistent text-size setting','Fractional-scale portrait seams fixed by drawing the body once and feathering only pixel-aligned outer edges','Bridge perspective and leaf-gate ambient shading adjusted','Mount orientation and seal, randomized memory evidence, and mirror reasoning verified','Lantern pickup no longer overlaps the ice inscription hit area','Paper stays inside the mounting frame','Workshop header contrast increased','Rubbing mask preserves generated paper grain and blends reveal edges','World clues and mechanism panels replaced throughout the eight investigations']}
-(root/'Documentation/visual-review.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+(review/'index.html').write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>山海神隐录 0.6.0 实际画面</title><style>body{margin:0;background:#101e22;color:#e7d8ba;font:18px/1.6 system-ui}main{max-width:1440px;margin:auto;padding:28px}h1{font-weight:500}p{color:#acb9b2}section{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:24px}figure{margin:0;background:#182b2c;padding:14px}img{width:100%;height:auto;display:block;margin-top:10px}a{color:inherit}</style><main><h1>山海神隐录 · 0.6.0</h1><p>正式 H5 的实际运行截图。点击可查看原图。包括结局画面，含剧情剧透。</p><section>'+''.join(cards)+'</section></main></html>',encoding='utf-8')
+data={'version':'0.6.0','status':'passed','method':'Visual inspection of actual H5 screenshots, including art registration, glyphs, layer clipping, physical object identity, progress feedback and scaled input. Codex contact sheet uses cropped actual screenshots, not mockups.','screenshots':files,'source':'Builds/QA/Unity','coverage':{'investigations':8,'workshops':5,'codexEntries':17,'endingScenes':3},'findingsResolved':['Ending CGs no longer receive duplicate foreground actors; collection and replay remain accessible','Compact title, toolbar and persistent text-size setting','Fractional-scale portrait seams fixed by drawing the body once and feathering only pixel-aligned outer edges','Bridge perspective and leaf-gate ambient shading adjusted','Mount orientation and seal, randomized memory evidence, and mirror reasoning verified','Lantern pickup no longer overlaps the ice inscription hit area','Paper stays inside the mounting frame','Workshop header contrast increased','Rubbing mask preserves generated paper grain and blends reveal edges','World clues and mechanism panels replaced throughout the eight investigations']}
+data['findingsResolved'].extend(['Shared CSS viewport prevents high-DPI layout disagreement and panel/fullscreen overlap','Large-font notebook, codex and reasoning use measured text layout; all three hints remain visible','Import confirmation, damaged-file feedback and restore-before-import screens reviewed','Bridge variation and repair, ice/sand reveal and leaf rotation retain scene placement'])
+data['fixtureDisclosure']='Reading screenshots use deliberately complete imported test saves for layout inspection; normal mouse/touch playthroughs and the gameplay Demo do not inject state.'
+(root/'Documentation/visual-review.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
 print('Collected',len(files),'fresh review screenshots.')

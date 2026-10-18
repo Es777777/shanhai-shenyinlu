@@ -1,0 +1,409 @@
+{
+  "status": "passed",
+  "version": "0.6.0",
+  "video": "山海神隐录_完整游玩Demo_0.6.0.mp4",
+  "durationSeconds": 1485.181,
+  "width": 1600,
+  "height": 900,
+  "fps": 30,
+  "videoCodec": "h264",
+  "audioCodec": "aac",
+  "bytes": 350427848,
+  "sha256": "7b5f1f032f93cf18c07e37617194219c8c5e9c689761b756aa89e62d2b240bb0",
+  "fullDecode": "passed",
+  "sources": [
+    {
+      "key": "xuanyao",
+      "file": "xuanyao.webm",
+      "concatFile": "xuanyao-ordered.mkv",
+      "durationSeconds": 619.3309999999999,
+      "streams": {
+        "video": {
+          "packets": 17808,
+          "start": 0.0,
+          "end": 619.093,
+          "maxGap": 2.769
+        },
+        "audio": {
+          "packets": 10307,
+          "start": 0.027,
+          "end": 619.3309999999999,
+          "maxGap": 0.3310000000000173
+        }
+      },
+      "audioLevel": {
+        "samples": 59368320,
+        "rmsDb": -27.173026674617077,
+        "peakDb": -2.6943948885798945
+      },
+      "sha256": "edbdad239975f1324d46d6008f51958097463dd0f0279ae9434baf507af6422f"
+    },
+    {
+      "key": "lingxi",
+      "file": "lingxi.webm",
+      "concatFile": "lingxi-ordered.mkv",
+      "durationSeconds": 686.3499999999999,
+      "streams": {
+        "video": {
+          "packets": 20097,
+          "start": 0.0,
+          "end": 685.736,
+          "maxGap": 2.896
+        },
+        "audio": {
+          "packets": 11422,
+          "start": 0.033,
+          "end": 686.3499999999999,
+          "maxGap": 0.8690000000000282
+        }
+      },
+      "audioLevel": {
+        "samples": 65790720,
+        "rmsDb": -26.401009779581912,
+        "peakDb": -2.216950129257538
+      },
+      "sha256": "f3e03f2967716b1c1b6a6a82c35ae7344db0e4d634e018c96af4e2e88f3c2d72"
+    },
+    {
+      "key": "balanced",
+      "file": "balanced.webm",
+      "concatFile": "balanced-ordered.mkv",
+      "durationSeconds": 179.5,
+      "streams": {
+        "video": {
+          "packets": 5324,
+          "start": 0.0,
+          "end": 179.453,
+          "maxGap": 0.17300000000000182
+        },
+        "audio": {
+          "packets": 2991,
+          "start": 0.036,
+          "end": 179.5,
+          "maxGap": 0.06299999999999972
+        }
+      },
+      "audioLevel": {
+        "samples": 17228160,
+        "rmsDb": -27.312752707225144,
+        "peakDb": -2.897416412131779
+      },
+      "sha256": "8cb6a392830302b1f30a6bf3e4ccb7d0d5fc6bdc294e02f5b8a2ab43fe2e9d82"
+    }
+  ],
+  "chapters": [
+    {
+      "seconds": 0,
+      "title": "玄曜主线 · 玄曜主线 · 主菜单",
+      "node": ""
+    },
+    {
+      "seconds": 4.0415,
+      "title": "玄曜主线 · 序章·天缺惊变",
+      "node": "N001"
+    },
+    {
+      "seconds": 37.38670000000298,
+      "title": "玄曜主线 · 序章·双生启程",
+      "node": "N002"
+    },
+    {
+      "seconds": 56.06110000000894,
+      "title": "玄曜主线 · 第一章·扶桑初遇",
+      "node": "N101"
+    },
+    {
+      "seconds": 107.596,
+      "title": "玄曜主线 · 第一章·白泽授名",
+      "node": "N102"
+    },
+    {
+      "seconds": 146.55290000000596,
+      "title": "玄曜主线 · 第一章·金乌试笔",
+      "node": "N103"
+    },
+    {
+      "seconds": 162.9145,
+      "title": "玄曜主线 · 第一章·拓片装裱",
+      "node": "N104"
+    },
+    {
+      "seconds": 192.47840000000596,
+      "title": "玄曜主线 · 第二章·钟山雪径",
+      "node": "N201"
+    },
+    {
+      "seconds": 241.64,
+      "title": "玄曜主线 · 第二章·烛阴衔烛",
+      "node": "N202"
+    },
+    {
+      "seconds": 263.44390000000595,
+      "title": "玄曜主线 · 第二章·巫咸执念",
+      "node": "N203"
+    },
+    {
+      "seconds": 285.3545,
+      "title": "玄曜主线 · 第三章·玄曜入幽都",
+      "node": "N301"
+    },
+    {
+      "seconds": 333.641200000003,
+      "title": "玄曜主线 · 第三章·相柳之辨·明",
+      "node": "N302"
+    },
+    {
+      "seconds": 356.1423000000119,
+      "title": "玄曜主线 · 第三章·任忘结算",
+      "node": "N305"
+    },
+    {
+      "seconds": 367.6403000000119,
+      "title": "玄曜主线 · 第三章·强记之价",
+      "node": "N303"
+    },
+    {
+      "seconds": 386.36770000000297,
+      "title": "玄曜主线 · 第四章·幽都相会",
+      "node": "N701"
+    },
+    {
+      "seconds": 408.91980000001195,
+      "title": "玄曜主线 · 第四章·双卷映照",
+      "node": "N702"
+    },
+    {
+      "seconds": 451.861400000006,
+      "title": "玄曜主线 · 第四章·罔象对峙",
+      "node": "N703"
+    },
+    {
+      "seconds": 470.90410000000895,
+      "title": "玄曜主线 · 第五章·不周山行",
+      "node": "N801"
+    },
+    {
+      "seconds": 527.0479000000059,
+      "title": "玄曜主线 · 第五章·共工回溯",
+      "node": "N802"
+    },
+    {
+      "seconds": 550.0568000000119,
+      "title": "玄曜主线 · 第五章·天缺抉择",
+      "node": "N803"
+    },
+    {
+      "seconds": 573.4973000000119,
+      "title": "玄曜主线 · 终章·双卷合一",
+      "node": "N901"
+    },
+    {
+      "seconds": 590.8809000000059,
+      "title": "玄曜主线 · 结局·永明卷",
+      "node": "N911"
+    },
+    {
+      "seconds": 619.3397000000028,
+      "title": "灵曦主线 · 灵曦主线 · 主菜单",
+      "node": ""
+    },
+    {
+      "seconds": 623.477399999991,
+      "title": "灵曦主线 · 序章·天缺惊变",
+      "node": "N001"
+    },
+    {
+      "seconds": 656.6434999999999,
+      "title": "灵曦主线 · 序章·双生启程",
+      "node": "N002"
+    },
+    {
+      "seconds": 674.8530999999939,
+      "title": "灵曦主线 · 第一章·丹穴凤鸣",
+      "node": "N401"
+    },
+    {
+      "seconds": 716.1769999999999,
+      "title": "灵曦主线 · 第一章·传拓初成",
+      "node": "N402"
+    },
+    {
+      "seconds": 765.6705,
+      "title": "灵曦主线 · 第一章·凶犁旱魃",
+      "node": "N403"
+    },
+    {
+      "seconds": 825.321099999994,
+      "title": "灵曦主线 · 第一章·凤翎相赠",
+      "node": "N404"
+    },
+    {
+      "seconds": 838.6484999999999,
+      "title": "灵曦主线 · 第二章·忘川渡口",
+      "node": "N501"
+    },
+    {
+      "seconds": 888.5114999999998,
+      "title": "灵曦主线 · 第二章·帝女桑泣",
+      "node": "N502"
+    },
+    {
+      "seconds": 911.7427999999969,
+      "title": "灵曦主线 · 第二章·巫彭和解",
+      "node": "N503"
+    },
+    {
+      "seconds": 929.154099999994,
+      "title": "灵曦主线 · 第三章·灵曦入幽都",
+      "node": "N601"
+    },
+    {
+      "seconds": 976.0404999999998,
+      "title": "灵曦主线 · 第三章·相柳之辨·昧",
+      "node": "N602"
+    },
+    {
+      "seconds": 994.4019999999999,
+      "title": "灵曦主线 · 第三章·铭记结算",
+      "node": "N604"
+    },
+    {
+      "seconds": 1005.6655999999939,
+      "title": "灵曦主线 · 第三章·拾遗之页",
+      "node": "N603"
+    },
+    {
+      "seconds": 1041.767399999991,
+      "title": "灵曦主线 · 第四章·幽都相会",
+      "node": "N701"
+    },
+    {
+      "seconds": 1064.805899999991,
+      "title": "灵曦主线 · 第四章·双卷映照",
+      "node": "N702"
+    },
+    {
+      "seconds": 1107.905700000003,
+      "title": "灵曦主线 · 第四章·罔象对峙",
+      "node": "N703"
+    },
+    {
+      "seconds": 1127.753799999997,
+      "title": "灵曦主线 · 第五章·不周山行",
+      "node": "N801"
+    },
+    {
+      "seconds": 1184.258700000003,
+      "title": "灵曦主线 · 第五章·共工回溯",
+      "node": "N802"
+    },
+    {
+      "seconds": 1207.191899999991,
+      "title": "灵曦主线 · 第五章·天缺抉择",
+      "node": "N803"
+    },
+    {
+      "seconds": 1230.454299999997,
+      "title": "灵曦主线 · 终章·双卷合一",
+      "node": "N901"
+    },
+    {
+      "seconds": 1247.780299999997,
+      "title": "灵曦主线 · 结局·共生卷",
+      "node": "N912"
+    },
+    {
+      "seconds": 1273.2419999999997,
+      "title": "灵曦主线 · 山海图鉴",
+      "node": ""
+    },
+    {
+      "seconds": 1302.100399999991,
+      "title": "灵曦主线 · 结局收藏",
+      "node": ""
+    },
+    {
+      "seconds": 1305.6888000000117,
+      "title": "调和结局回放 · 调和结局 · 章节回放入口",
+      "node": ""
+    },
+    {
+      "seconds": 1311.3629000000058,
+      "title": "调和结局回放 · 第五章·不周山行",
+      "node": "N801"
+    },
+    {
+      "seconds": 1367.2794000000058,
+      "title": "调和结局回放 · 第五章·共工回溯",
+      "node": "N802"
+    },
+    {
+      "seconds": 1389.9744000000057,
+      "title": "调和结局回放 · 第五章·天缺抉择",
+      "node": "N803"
+    },
+    {
+      "seconds": 1413.3291000000088,
+      "title": "调和结局回放 · 终章·双卷合一",
+      "node": "N901"
+    },
+    {
+      "seconds": 1430.6164999999999,
+      "title": "调和结局回放 · 结局·调和卷",
+      "node": "N913"
+    },
+    {
+      "seconds": 1457.7679000000057,
+      "title": "调和结局回放 · 山海图鉴",
+      "node": ""
+    },
+    {
+      "seconds": 1481.6828000000116,
+      "title": "调和结局回放 · 结局收藏",
+      "node": ""
+    }
+  ],
+  "capture": "Actual Unity canvas and Web Audio output; real mouse input; saves observed read-only; no state injection",
+  "editing": "Three continuous recorded segments joined in story order without speed-up; CFR conversion repeats frames when source render is unchanged.",
+  "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f",
+  "visualReview": {
+    "reviewedAt": "2026-10-18T20:21:01+08:00",
+    "method": "Inspected decoded MP4 samples at all 54 chapters and six additional gameplay times; checked text, artwork, rendering, three ending scenes and capture continuity at chapter transitions. This is sampled visual inspection plus full-stream decode, not frame-by-frame human viewing.",
+    "chapterFrames": 54,
+    "additionalSampleSeconds": [
+      139,
+      178,
+      436,
+      511,
+      800,
+      1026
+    ],
+    "result": "passed"
+  },
+  "playerVerification": {
+    "status": "passed",
+    "errors": [],
+    "checks": [
+      {
+        "chapter": 0,
+        "expected": 0,
+        "actual": 0.313428
+      },
+      {
+        "chapter": 27,
+        "expected": 765.6705,
+        "actual": 765.990429
+      },
+      {
+        "chapter": 53,
+        "expected": 1481.6828000000116,
+        "actual": 1482.003414
+      }
+    ],
+    "metadata": {
+      "duration": 1485.181,
+      "width": 1600,
+      "height": 900
+    }
+  }
+}

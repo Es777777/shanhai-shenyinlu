@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser()
 parser.add_argument('--h5',action='store_true',help='Also package a successfully built and tested H5 export')
 parser.add_argument('--build-dir',default='Builds/H5')
-parser.add_argument('--version',default='0.5.0')
+parser.add_argument('--version',default='0.6.0')
 args=parser.parse_args()
 dest=ROOT.parent/'山海神隐录_工程与试玩.zip'
 excluded={'Library','Temp','Obj','Logs','UserSettings','.git','.downloads','.deps','__pycache__','Builds'}
@@ -38,15 +38,16 @@ if args.h5:
     interruption=ROOT/'Builds/QA/Unity/Interruptions/results.json'
     quality=ROOT/'Builds/QA/Unity/Quality/results.json'
     retry=ROOT/'Builds/QA/Unity/ArtRetry/results.json'
-    for check in [scaling,pixels,danxue,touch,interruption,quality,retry]:
+    new_checks=[ROOT/f'Builds/QA/Unity/{name}/results.json' for name in ['Backups','Usability','Reading']]
+    for check in [scaling,pixels,danxue,touch,interruption,quality,retry,*new_checks]:
         if not check.exists() or json.loads(check.read_text(encoding='utf-8')).get('status')!='passed':
             raise SystemExit('Scaled calligraphy, pixels, Danxue and full touch routes must pass before packaging.')
     manifest_hash=hashlib.sha256((build/'build-manifest.json').read_bytes()).hexdigest()
-    for check in [qa,playthrough,scaling,pixels,danxue,touch,interruption,quality,retry]:
+    for check in [qa,playthrough,scaling,pixels,danxue,touch,interruption,quality,retry,*new_checks]:
         if json.loads(check.read_text(encoding='utf-8')).get('buildManifestSha256')!=manifest_hash:
             raise SystemExit('Report belongs to another export. Run Tools/verify_export.ps1: '+str(check))
     newest_build=max(p.stat().st_mtime for p in (build/'Build').rglob('*') if p.is_file())
-    if min(qa.stat().st_mtime,playthrough.stat().st_mtime,scaling.stat().st_mtime,pixels.stat().st_mtime,danxue.stat().st_mtime,touch.stat().st_mtime,interruption.stat().st_mtime,quality.stat().st_mtime,retry.stat().st_mtime)<newest_build:
+    if min(p.stat().st_mtime for p in [qa,playthrough,scaling,pixels,danxue,touch,interruption,quality,retry,*new_checks])<newest_build:
         raise SystemExit('The export changed after verification. Run browser checks again.')
     dest=ROOT.parent/f'山海神隐录_H5游戏_{args.version}.zip'
     with zipfile.ZipFile(dest,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
@@ -64,6 +65,6 @@ if args.h5:
             '若提示同一地址正在运行其他版本，请先关闭旧游戏的服务窗口，再启动本包；沿用原地址可继续访问原浏览器存档。\n'
             '部署：把 index.html、Build、字体许可_OFL.txt、StreamingAssets（如有）按原结构上传静态网站空间。\n'
             '.unityweb 文件使用引擎解压回退，不要额外设置 Content-Encoding: gzip。\n'
-            '存档保存在当前浏览器、当前站点本地；清理网站数据会删除存档。\n'
+            '存档保存在当前浏览器、当前站点本地；清理网站数据前，请在读档/存档页进入“导出、导入与恢复备份”下载旅程文件。换设备后可导入，覆盖前会确认，导入前记录可恢复。\n'
             '横屏游玩。StreamingAssets 包含按场景加载的卷页，部署与解压时不可遗漏。H5 版未接入微信/抖音小游戏 SDK，不含账号、广告、支付或云存档。\n')
     print(dest,round(dest.stat().st_size/1048576,1),'MiB')

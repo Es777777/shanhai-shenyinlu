@@ -1,10 +1,10 @@
 """Contact sheets made from decoded movie frames for human visual review."""
 from pathlib import Path
-import json
+import json,os
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT=Path(__file__).resolve().parents[1]
-WORK=ROOT/'Builds/Demo'
+WORK=ROOT/os.environ.get('SHANHAI_DEMO_DIR','Builds/Demo-0.6.0')
 report=json.loads((WORK/'video-verification.json').read_text(encoding='utf-8'))
 font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',20)
 for start in range(0,len(report['chapters']),12):

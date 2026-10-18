@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 const root=path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const work=path.join(root,'Builds/Demo');
+const work=path.join(root,process.env.SHANHAI_DEMO_DIR||'Builds/Demo-0.6.0');
 const report=JSON.parse(await fs.readFile(path.join(work,'video-verification.json'),'utf8'));
 const require=createRequire(process.env.PLAYWRIGHT_LOADER||'C:/Users/asd/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/.loader.cjs');
 const {chromium}=require('playwright');
@@ -14,7 +14,8 @@ const result={status:'running',errors:[],checks:[]};
 try{
   const page=await browser.newPage({viewport:{width:1600,height:1100}});
   page.on('pageerror',e=>result.errors.push(e.message));
-  await page.goto(pathToFileURL(path.join(root,'../山海神隐录_Demo播放_0.4.1.html')).href);
+  const player=process.env.SHANHAI_DEMO_PLAYER||path.join(root,'../山海神隐录_Demo播放_'+report.version+'.html');
+  await page.goto(pathToFileURL(player).href);
   await page.waitForFunction(()=>document.querySelector('video').readyState>=1);
   const media=await page.locator('video').evaluate(v=>({duration:v.duration,width:v.videoWidth,height:v.videoHeight,error:v.error?.message}));
   assert(!media.error);
@@ -36,4 +37,4 @@ try{
   result.status='passed';
   console.log('PASS: local MP4 metadata, playback, first/middle/final chapter seeking; '+report.chapters.length+' chapter buttons.');
 }catch(error){result.status='failed';result.failure=error.stack;throw error;}
-finally{await fs.writeFile(path.join(work,'player-verification.json'),JSON.stringify(result,null,2));await browser.close();}
+finally{await fs.writeFile(path.join(work,process.env.SHANHAI_DEMO_PLAYER_REPORT||'player-verification.json'),JSON.stringify(result,null,2));await browser.close();}

@@ -35,6 +35,9 @@ try {
     $env:SHANHAI_DEMO_TAIL='0'
     $env:SHANHAI_TOUCH='0'
     if($Group -ne 'routes') {
+    Invoke-ExportCheck node 'Tests/unity-backups.mjs' 'Builds/QA/Unity/Backups/results.json'
+    Invoke-ExportCheck node 'Tests/unity-usability.mjs' 'Builds/QA/Unity/Usability/results.json'
+    Invoke-ExportCheck node 'Tests/unity-reading-layout.mjs' 'Builds/QA/Unity/Reading/results.json'
     Invoke-ExportCheck node 'Tests/unity-quality.mjs' 'Builds/QA/Unity/Quality/results.json'
     Invoke-ExportCheck node 'Tests/unity-art-retry.mjs' 'Builds/QA/Unity/ArtRetry/results.json'
     Invoke-ExportCheck node 'Tests/unity-webgl-smoke.mjs' 'Builds/QA/Unity/results.json'

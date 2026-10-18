@@ -38,7 +38,7 @@ namespace ShanHai.Editor
                 new GameObject("StoryGame").AddComponent<StoryGame>();
                 EditorSceneManager.SaveScene(storyScene);
             }
-            PlayerSettings.companyName="ShanHai Studio";PlayerSettings.productName="山海神隐录";PlayerSettings.bundleVersion="0.5.0";
+            PlayerSettings.companyName="ShanHai Studio";PlayerSettings.productName="山海神隐录";PlayerSettings.bundleVersion="0.6.0";
             PlayerSettings.defaultScreenWidth=1600;PlayerSettings.defaultScreenHeight=900;
             PlayerSettings.defaultInterfaceOrientation=UIOrientation.LandscapeLeft;
             PlayerSettings.runInBackground=true;
@@ -98,7 +98,7 @@ namespace ShanHai.Editor
                 using(var sha=System.Security.Cryptography.SHA256.Create())using(var stream=File.OpenRead(path))
                     files.Add(new BuildFile{path=name,bytes=stream.Length,sha256=BitConverter.ToString(sha.ComputeHash(stream)).Replace("-","").ToLowerInvariant()});
             }
-            File.WriteAllText(root+"/build-manifest.json",JsonUtility.ToJson(new BuildManifest{version="0.5.0",files=files.ToArray()},true));
+            File.WriteAllText(root+"/build-manifest.json",JsonUtility.ToJson(new BuildManifest{version=PlayerSettings.bundleVersion,files=files.ToArray()},true));
         }
         [MenuItem("山海神隐录/检查剧情与资源")]
         public static void Validate()

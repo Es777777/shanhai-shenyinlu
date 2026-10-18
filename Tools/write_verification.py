@@ -7,7 +7,7 @@ root=Path(__file__).resolve().parents[1]
 def read(relative):
     return json.loads((root/relative).read_text(encoding='utf-8'))
 def write(relative,data):
-    (root/relative).write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    (root/relative).write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
 def digest(path):
     with path.open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
 parser=argparse.ArgumentParser();parser.add_argument('--build-dir',default='Builds/H5');args=parser.parse_args()
@@ -23,11 +23,14 @@ checks={
     'tracePixels':'Builds/QA/Unity/TraceScaling/pixel-check.json',
     'danxueScene':'Builds/QA/Unity/Danxue/results.json',
     'interruptedDrag':'Builds/QA/Unity/Interruptions/results.json',
+    'saveTransfer':'Builds/QA/Unity/Backups/results.json',
+    'usability':'Builds/QA/Unity/Usability/results.json',
+    'readingFixtures':'Builds/QA/Unity/Reading/results.json',
 }
-report={'date':date.today().isoformat(),'gameVersion':'0.5.0','engine':'Tuanjie 1.10.4 / 2022.3.62t16','buildStatus':'succeeded',
-    'core':{'assertions':389,'completePaths':24,'reachableNodes':36,'endingPathCounts':[10,4,10]}}
+report={'date':date.today().isoformat(),'gameVersion':'0.6.0','engine':'Tuanjie 1.10.4 / 2022.3.62t16','buildStatus':'succeeded',
+    'core':{'assertions':391,'completePaths':24,'reachableNodes':36,'endingPathCounts':[10,4,10]},'saveIntegrity':{'assertions':25,'checks':'Checksum, nested validation, primary/profile recovery, partial-write rollback and full-collection capacity'}}
 assert 'H5_BUILD_SUCCESS' in (root/'Builds/build.log').read_text(encoding='utf-8',errors='replace')
-assert "productVersion:'0.5.0'" in (build/'index.html').read_text(encoding='utf-8')
+assert "productVersion:'0.6.0'" in (build/'index.html').read_text(encoding='utf-8')
 for key,relative in checks.items():
     data=read(relative)
     assert data.get('status')=='passed',relative
@@ -36,7 +39,7 @@ for key,relative in checks.items():
     data.pop('storageSamples',None)
     report[key]=data
 review=read('Documentation/visual-review.json')
-assert review['status']=='passed' and review['version']=='0.5.0'
+assert review['status']=='passed' and review['version']=='0.6.0'
 for relative in review['screenshots']:
     assert (root/relative).stat().st_mtime>=newest,'Stale screenshot: '+relative
 report['visualReview']=review
@@ -46,9 +49,9 @@ report['sceneRedesignScope']={'integratedScenes':nodes,'workshops':['trace','rub
 report['buildFiles']={str(p.relative_to(build)).replace('\\','/'):{'bytes':p.stat().st_size,'sha256':digest(p)} for p in sorted(build.rglob('*')) if p.is_file()}
 report['limits']=['Real iOS and Android devices not tested','WeChat and Douyin mini-game SDKs not integrated','Legacy JavaScript Preview is not the current gameplay implementation']
 write('Documentation/verification.json',report)
-audit=read('Documentation/full-game-audit.json');audit['status']='passed';audit['date']=date.today().isoformat();audit['version']='0.5.0'
+audit=read('Documentation/full-game-audit.json');audit['status']='passed';audit['date']=date.today().isoformat();audit['version']='0.6.0'
 for group in ['investigations','workshops']:
     for item in audit[group]:item['status']='implemented_and_verified'
 audit['evidence']='Documentation/verification.json';audit['visualReview']='Documentation/visual-review.json';audit['limits']=report['limits']
 write('Documentation/full-game-audit.json',audit)
-print('PASS: current build hashes, nine fresh check reports and visual review recorded.')
+print('PASS: current build hashes, twelve fresh check reports and visual review recorded.')

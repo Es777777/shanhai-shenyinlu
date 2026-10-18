@@ -7,11 +7,24 @@ namespace ShanHai
 {
     public sealed partial class StoryGame
     {
+        Vector2 readingScroll;
+        int sliderControl;
+        bool readingDrag;
+        Vector2 readingPointer;
+        void ReadingScroll(Rect view,ref Vector2 position,float total)
+        {
+            Event e=Event.current;
+            if(GUI.enabled&&total>view.height&&e.type==EventType.MouseDown&&view.Contains(e.mousePosition)){readingDrag=true;readingPointer=e.mousePosition;}
+            if(readingDrag&&e.type==EventType.MouseDrag){position.y+=readingPointer.y-e.mousePosition.y;readingPointer=e.mousePosition;e.Use();}
+            if(e.rawType==EventType.MouseUp)readingDrag=false;
+            position.y=Mathf.Clamp(position.y,0,Mathf.Max(0,total-view.height));
+        }
         void DrawPanel()
         {
             P.Fill(new Rect(0,0,Width,Height),new Color(.01f,.035f,.04f,.82f));
             P.Panel(new Rect(120,80,1360,740));
             string title=panel=="menu"?"行 卷":panel=="history"?"前 尘 · 对话回看":panel=="save"?"留 卷 · 存档":panel=="load"?"续 卷 · 读档":panel=="settings"?"调 弦 · 设置":panel=="chapters"?"山 海 行 迹":panel=="codex"?"山 海 图 鉴":panel=="endings"?"终 卷 收 藏":"此 卷 已 成";
+            if(panel=="backup")title="旅 程 备 份";
             P.Label(new Rect(170,112,1040,64),title,36,P.Gold);
             if(P.Button(new Rect(1310,Compact?98:112,112,Compact?90:48),"返回")){panel="";LocalSaves.SaveProfile(profile);return;}
             P.Line(new Vector2(170,191),new Vector2(1420,191),new Color(P.Gold.r,P.Gold.g,P.Gold.b,.4f));
@@ -23,14 +36,15 @@ namespace ShanHai
             else if(panel=="codex")DrawCodex();
             else if(panel=="endings")DrawEndings();
             else if(panel=="credits")DrawCredits();
+            else if(panel=="backup")DrawSaveTransfer();
         }
         void DrawConfirmation()
         {
             P.Fill(new Rect(0,0,Width,Height),new Color(0,.02f,.025f,.86f));
-            P.Panel(new Rect(400,280,800,330));
-            P.Label(new Rect(455,325,690,145),confirmText,29,P.Paper,TextAnchor.MiddleCenter);
-            if(P.Button(new Rect(475,505,280,60),"取消")){confirmed=null;return;}
-            if(P.Button(new Rect(845,505,280,60),"确认",true)){var action=confirmed;confirmed=null;action();}
+            P.Panel(new Rect(350,245,900,415));
+            P.Label(new Rect(405,280,790,215),confirmText,Compact?35:29,P.Paper,TextAnchor.MiddleCenter);
+            if(P.Button(new Rect(425,505,320,110),"取消")){confirmed=null;return;}
+            if(P.Button(new Rect(845,505,320,110),"确认",true)){var action=confirmed;confirmed=null;action();}
         }
         void DrawMenuPanel()
         {
@@ -49,26 +63,32 @@ namespace ShanHai
         }
         void DrawSettings()
         {
-            P.Label(new Rect(200,230,300,46),"音乐音量",27);profile.musicVolume=Slider(new Rect(550,240,650,30),profile.musicVolume,0,1);
-            P.Label(new Rect(200,315,300,46),"音效音量",27);profile.soundVolume=Slider(new Rect(550,325,650,30),profile.soundVolume,0,1);
-            P.Label(new Rect(200,400,300,46),"文字速度",27);profile.textSpeed=Slider(new Rect(550,410,650,30),profile.textSpeed,10,80);
-            P.Label(new Rect(1230,400,150,45),((int)profile.textSpeed)+" 字/秒",23,P.Gold);
-            P.Label(new Rect(200,485,300,46),"自动阅读停顿",27);profile.autoDelay=Slider(new Rect(550,495,650,30),profile.autoDelay,1,6);
-            P.Label(new Rect(1230,485,150,45),profile.autoDelay.ToString("0.0")+" 秒",23,P.Gold);
-            if(P.Button(new Rect(200,590,560,62),profile.skipUnread?"快进范围：全部对白":"快进范围：仅已读对白"))profile.skipUnread=!profile.skipUnread;
-            if(P.Button(new Rect(810,590,560,62),profile.reducedMotion?"减少动态效果：开":"减少动态效果：关"))profile.reducedMotion=!profile.reducedMotion;
+            string[] names={"音乐音量","音效音量","文字速度","自动阅读停顿"};
+            for(int i=0;i<4;i++){
+                float y=Compact?200+i*98:220+i*85;
+                P.Label(new Rect(200,y,330,80),names[i],27,P.Paper,TextAnchor.MiddleLeft);
+                float value=i==0?profile.musicVolume:i==1?profile.soundVolume:i==2?profile.textSpeed:profile.autoDelay;
+                value=Slider(new Rect(550,y,650,Compact?94:70),value,i==2?10:i==3?1:0,i==2?80:i==3?6:1);
+                if(i==0)profile.musicVolume=value;else if(i==1)profile.soundVolume=value;else if(i==2)profile.textSpeed=value;else profile.autoDelay=value;
+                P.Label(new Rect(1230,y,150,80),i<2?Mathf.RoundToInt(value*100)+"%":i==2?((int)value)+" 字/秒":value.ToString("0.0")+" 秒",23,P.Gold,TextAnchor.MiddleLeft);
+            }
+            if(P.Button(new Rect(200,590,560,Compact?100:62),profile.skipUnread?"快进范围：全部对白":"快进范围：仅已读对白"))profile.skipUnread=!profile.skipUnread;
+            if(P.Button(new Rect(810,590,560,Compact?100:62),profile.reducedMotion?"减少动态效果：开":"减少动态效果：关"))profile.reducedMotion=!profile.reducedMotion;
             DrawTextScale();
             if(!Compact) P.Label(new Rect(200,770,1170,32),"存档保存在当前浏览器中。清理站点数据会移除本地存档。",20,P.Muted);
         }
         float Slider(Rect rect,float value,float min,float max)
         {
-            P.Fill(new Rect(rect.x,rect.y+12,rect.width,4),new Color(.3f,.4f,.37f,1));
+            int id=GUIUtility.GetControlID(FocusType.Passive);float cy=rect.center.y;
+            P.Fill(new Rect(rect.x,cy-2,rect.width,4),new Color(.3f,.4f,.37f,1));
             float ratio=(value-min)/(max-min);
-            P.Fill(new Rect(rect.x,rect.y+12,rect.width*ratio,4),P.Gold);
-            P.Diamond(new Vector2(rect.x+rect.width*ratio,rect.y+14),12,P.Gold);
+            P.Fill(new Rect(rect.x,cy-2,rect.width*ratio,4),P.Gold);
+            P.Diamond(new Vector2(rect.x+rect.width*ratio,cy),Compact?20:12,P.Gold);
             Event e=Event.current;
-            if(GUI.enabled&&(e.type==EventType.MouseDown||e.type==EventType.MouseDrag)&&rect.Contains(e.mousePosition))
+            if(GUI.enabled&&e.type==EventType.MouseDown&&rect.Contains(e.mousePosition)){sliderControl=id;GUIUtility.hotControl=id;}
+            if(GUI.enabled&&sliderControl==id&&(e.type==EventType.MouseDown||e.type==EventType.MouseDrag))
             {value=Mathf.Lerp(min,max,Mathf.Clamp01((e.mousePosition.x-rect.x)/rect.width));e.Use();}
+            if(e.rawType==EventType.MouseUp&&sliderControl==id){sliderControl=0;GUIUtility.hotControl=0;}
             return value;
         }
         void DrawSlots()
@@ -87,30 +107,32 @@ namespace ShanHai
                 {
                     if(save)
                     {
-                        Action action=()=>{LocalSaves.Save(captured,engine.State);LocalSaves.SaveProfile(profile);Notify("已存入卷页 "+captured);};
+                        Action action=()=>{bool ok=LocalSaves.Save(captured,engine.State);ok=LocalSaves.SaveProfile(profile)&&ok;Notify(ok?"已存入卷页 "+captured:LocalSaves.LastError);};
                         if(state!=null)Ask("覆盖卷页 "+captured+" 中的旧存档？",action);else action();
                     }
                     else if(playing)Ask("读取这份存档？当前进度已保存在自动存档中。",()=>LoadGame(state));
                     else LoadGame(state);
                 }
             }
+            if(P.Button(new Rect(815,621,590,108),"导出、导入与恢复备份",false,true,27)){transferMessage="";OpenPanel("backup");}
         }
         void DrawHistory()
         {
             var entries=engine.State.history;
             if(entries.Count==0){P.Label(new Rect(200,270,1150,100),"尚无已读对白。",28,P.Muted);return;}
-            float total=entries.Sum(h=>Mathf.Max(82,P.Style(25).CalcHeight(new GUIContent(h.text),1040)+54));
-            scroll=GUI.BeginScrollView(new Rect(185,220,1225,540),scroll,new Rect(0,0,1185,total));
+            float total=entries.Sum(h=>Mathf.Max(100,P.ReadingStyle(27).CalcHeight(new GUIContent(h.text),1120)+65));
+            Rect view=new Rect(185,220,1225,Compact?460:510);ReadingScroll(view,ref scroll,total);
+            scroll=GUI.BeginScrollView(view,scroll,new Rect(0,0,1185,total));
             float y=0;
             foreach(var h in entries)
             {
-                float height=Mathf.Max(82,P.Style(25).CalcHeight(new GUIContent(h.text),1040)+54);
-                P.Label(new Rect(15,y+5,1120,30),h.speaker,21,P.Gold);
-                P.Label(new Rect(15,y+38,1120,height-40),h.text,25,P.Paper);
+                float height=Mathf.Max(100,P.ReadingStyle(27).CalcHeight(new GUIContent(h.text),1120)+65);
+                P.Label(new Rect(15,y+5,1120,48),h.speaker,24,P.Gold);
+                P.ReadingLabel(new Rect(15,y+55,1120,height-55),h.text,27,P.Paper);
                 y+=height;
             }
             GUI.EndScrollView();
-            if(P.Button(new Rect(1180,763,220,38),"查看最新对白",false,true,20))scroll.y=total;
+            if(P.Button(new Rect(1100,Compact?705:750,300,Compact?100:55),"查看最新对白",false,true,24))scroll.y=total;
         }
         void DrawChapters()
         {
@@ -134,19 +156,22 @@ namespace ShanHai
             for(int index=codexPage*8;index<Math.Min(entries.Length,codexPage*8+8);index++)
             {
                 int i=index-codexPage*8;var entry=entries[index];bool unlocked=profile.unlocked.Contains(entry.id);
-                if(P.Button(new Rect(190+i%2*292,278+i/2*97,272,77),unlocked?entry.title+"  /  "+entry.category:"未遇 · 待录",selectedCodex==entry.id,unlocked,23))selectedCodex=entry.id;
+                if(P.Button(new Rect(190+i%2*292,278+i/2*100,272,Compact?96:77),unlocked?entry.title+"  /  "+entry.category:"未遇 · 待录",selectedCodex==entry.id,unlocked,23)){selectedCodex=entry.id;readingScroll=Vector2.zero;}
             }
-            if(P.Button(new Rect(190,700,140,46),"上一页",false,codexPage>0))codexPage--;
+            if(P.Button(new Rect(190,700,170,Compact?100:60),"上一页",false,codexPage>0))codexPage--;
             P.Label(new Rect(355,704,200,40),(codexPage+1)+" / "+pageCount,21,P.Gold,TextAnchor.MiddleCenter);
-            if(P.Button(new Rect(600,700,140,46),"下一页",false,codexPage<pageCount-1))codexPage++;
+            if(P.Button(new Rect(570,700,170,Compact?100:60),"下一页",false,codexPage<pageCount-1))codexPage++;
             var chosen=entries.FirstOrDefault(c=>c.id==selectedCodex&&profile.unlocked.Contains(c.id));
             if(chosen==null)chosen=entries.FirstOrDefault(c=>profile.unlocked.Contains(c.id));
             if(chosen!=null)
             {
-                Rect art=new Rect(815,225,550,345);
+                Rect art=new Rect(815,225,550,270);
                 DrawCodexArt(chosen,art);
-                P.Label(new Rect(815,585,550,52),chosen.title,34,P.Gold);
-                P.Label(new Rect(815,654,550,115),chosen.text,25,P.Paper);
+                P.Label(new Rect(815,510,550,60),chosen.title,34,P.Gold);
+                float total=Mathf.Max(200,P.ReadingStyle(27).CalcHeight(new GUIContent(chosen.text),510));
+                Rect view=new Rect(815,580,550,215);ReadingScroll(view,ref readingScroll,total);
+                readingScroll=GUI.BeginScrollView(view,readingScroll,new Rect(0,0,510,total));
+                P.ReadingLabel(new Rect(0,0,510,total),chosen.text,27,P.Paper);GUI.EndScrollView();
             }
             else P.Label(new Rect(840,365,490,170),"每一次相遇\n都将成为山海的一页。",30,P.Muted,TextAnchor.MiddleCenter);
         }

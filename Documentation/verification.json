@@ -1,10 +1,10 @@
 {
   "date": "2026-10-18",
-  "gameVersion": "0.5.0",
+  "gameVersion": "0.6.0",
   "engine": "Tuanjie 1.10.4 / 2022.3.62t16",
   "buildStatus": "succeeded",
   "core": {
-    "assertions": 389,
+    "assertions": 391,
     "completePaths": 24,
     "reachableNodes": 36,
     "endingPathCounts": [
@@ -12,6 +12,10 @@
       4,
       10
     ]
+  },
+  "saveIntegrity": {
+    "assertions": 25,
+    "checks": "Checksum, nested validation, primary/profile recovery, partial-write rollback and full-collection capacity"
   },
   "quality": {
     "status": "passed",
@@ -26,8 +30,8 @@
           "width": 1600,
           "height": 900
         },
-        "titleLoadSeconds": 8.881,
-        "titleTransferBytes": 22402013,
+        "titleLoadSeconds": 5.469,
+        "titleTransferBytes": 22426270,
         "titleArtRequests": 1
       },
       {
@@ -35,22 +39,22 @@
           "width": 844,
           "height": 390
         },
-        "titleLoadSeconds": 6.983,
-        "titleTransferBytes": 22402013,
+        "titleLoadSeconds": 5.348,
+        "titleTransferBytes": 22426270,
         "titleArtRequests": 1
       }
     ],
-    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
   },
   "artRetry": {
     "status": "passed",
     "errors": [],
     "expectedHttp503": 1,
     "attempts": 2,
-    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
   },
   "webglSmoke": {
-    "url": "http://127.0.0.1:8772/",
+    "url": "http://127.0.0.1:8776/",
     "checks": [
       "Real Unity loader completed with a nonempty canvas",
       "Audio context running after a real mouse click",
@@ -74,7 +78,7 @@
       "running"
     ],
     "errors": [],
-    "initialLoadSeconds": 7.7,
+    "initialLoadSeconds": 6.9,
     "storageDatabases": [
       "/idbfs",
       "IDBCached",
@@ -82,9 +86,9 @@
     ],
     "storageFiles": [
       {
-        "path": "/idbfs/08414f55e636991cc8eabdcd65cd9e90/PlayerPrefs",
-        "bytes": 2639,
-        "preview": "UnityPrf\u0000\u0000\u0001\u0000\u0000\u0000\u0010\u0000\u0012shanhai.v1.profile��\u0003\u0000\u0000{\"version\":1,\"unlocked\":[],\"readLines\":[\"N001:0\"],\"endings\":[],\"checkpoints\":[{\"nodeId\":\":N001\",\"title\":\"序章·天缺惊变\",\"json\":\"{\\\"version\\\":1,\\\"nodeId\\\":\\\"N001\\\",\\\"route\\\":\\\"\\\",\\\"savedAt\\\":\\\"\\\",\\\"choiceReply\\\":\\\"\\\",\\\"line\\\":0,\\\"miniStep\\\":0,\\\"mechanicDone\\\":false,\\\"playerX\\\":0.14000000059604646,\\\"playerY\\\":0.6499999761581421,\\\"values\\\":[{\\\"key\\\":\\\"mcv\\\",\\\"value\\\":50},{\\\"key\\\":\\\"candle\\\",\\\"value\\\":0},{\\\"key\\\":\\\"fragments\\\",\\\"value\\\":0},{\\\"key\\\":\\\"pacts\\\",\\\"value\\\":0},{\\\"key\\\":\\\"ending\\\",\\\"value\\\":0}],\\\"completed\\\":[],\\\"visited\\\":[\\\"N001\\\"],\\\"inspected\\\":[],\\\"c"
+        "path": "/idbfs/f3cd2f7501555d9975f697c42b4b232e/PlayerPrefs",
+        "bytes": 4539,
+        "preview": "UnityPrf\u0000\u0000\u0001\u0000\u0000\u0000\u0010\u0000\u0012shanhai.v1.profile�$\u0004\u0000\u0000{\"version\":1,\"unlocked\":[],\"readLines\":[\"N001:0\"],\"endings\":[],\"checkpoints\":[{\"nodeId\":\":N001\",\"title\":\"序章·天缺惊变\",\"json\":\"{\\\"version\\\":1,\\\"nodeId\\\":\\\"N001\\\",\\\"route\\\":\\\"\\\",\\\"savedAt\\\":\\\"\\\",\\\"choiceReply\\\":\\\"\\\",\\\"line\\\":0,\\\"miniStep\\\":0,\\\"mechanicDone\\\":false,\\\"playerX\\\":0.14000000059604646,\\\"playerY\\\":0.6499999761581421,\\\"values\\\":[{\\\"key\\\":\\\"mcv\\\",\\\"value\\\":50},{\\\"key\\\":\\\"candle\\\",\\\"value\\\":0},{\\\"key\\\":\\\"fragments\\\",\\\"value\\\":0},{\\\"key\\\":\\\"pacts\\\",\\\"value\\\":0},{\\\"key\\\":\\\"ending\\\",\\\"value\\\":0}],\\\"completed\\\":[],\\\"visited\\\":[\\\"N001\\\"],\\\"inspected\\\":[],\\\"c"
       }
     ],
     "manualSave": {
@@ -93,7 +97,7 @@
     },
     "status": "passed",
     "note": "Screenshots require visual review. This browser smoke test does not replace real phone testing or certify every story route in Unity.",
-    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
   },
   "webglPlaythrough": {
     "routes": [
@@ -234,7 +238,7 @@
     "segments": [],
     "bookmarks": [],
     "status": "passed",
-    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
   },
   "touchPlaythrough": {
     "routes": [
@@ -375,7 +379,7 @@
     "segments": [],
     "bookmarks": [],
     "status": "passed",
-    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
   },
   "traceScaling": {
     "errors": [],
@@ -454,7 +458,7 @@
       }
     ],
     "status": "passed",
-    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
   },
   "tracePixels": {
     "status": "passed",
@@ -532,7 +536,7 @@
         "unchangedArtPixels": 0
       }
     ],
-    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
   },
   "danxueScene": {
     "status": "passed",
@@ -551,7 +555,7 @@
     ],
     "errors": [],
     "note": "Real Unity WebGL, no state injection. Desktop mouse and CDP touch gestures. IndexedDB is read only.",
-    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
   },
   "interruptedDrag": {
     "status": "passed",
@@ -561,10 +565,92 @@
       "Opening the menu while dragging also cancels the gesture without a swap."
     ],
     "errors": [],
-    "buildManifestSha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
+  },
+  "saveTransfer": {
+    "status": "passed",
+    "checks": [
+      "Downloaded checksum-protected archive includes actual manual save and settings",
+      "DPR 2 uses compact title and gameplay with correctly placed fullscreen button",
+      "Cancelling import leaves current progress unchanged",
+      "Corrupted file is rejected before replacing progress",
+      "Cross-browser import restores all slots and settings and survives reload",
+      "Restore-before-import recovers previous progress and clears formerly empty slots"
+    ],
+    "errors": [],
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
+  },
+  "usability": {
+    "status": "passed",
+    "cases": [
+      {
+        "name": "desktop-dpi2",
+        "viewport": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "compact": false
+        },
+        "canvas": [
+          1920,
+          1080
+        ],
+        "transfer": 22426270,
+        "titleSeconds": 6.778,
+        "checks": [
+          "Shared CSS viewport and fullscreen bounds",
+          "Enlarged slider touch area",
+          "Persistent text size",
+          "Readable codex at large font",
+          "Fullscreen hidden behind panels",
+          "Actual graphics-context loss displays reload and resumes autosave"
+        ]
+      },
+      {
+        "name": "mobile-dpi3-safearea",
+        "viewport": {
+          "x": 20,
+          "y": 0,
+          "w": 875,
+          "h": 394,
+          "compact": true
+        },
+        "canvas": [
+          1313,
+          591
+        ],
+        "transfer": 22426270,
+        "titleSeconds": 26.912,
+        "checks": [
+          "Shared CSS viewport and fullscreen bounds",
+          "Enlarged slider touch area",
+          "Persistent text size",
+          "Readable codex at large font",
+          "Fullscreen hidden behind panels"
+        ]
+      }
+    ],
+    "errors": [],
+    "note": "Desktop Chrome emulation and network throttling only, not physical device certification.",
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
+  },
+  "readingFixtures": {
+    "status": "passed",
+    "method": "Synthetic saves imported through player-facing file picker for focused large-font rendering, not evidence of full playthrough.",
+    "screenshots": [
+      "N603-large-reasoning.png",
+      "N603-hint.png",
+      "N702-large-reasoning.png",
+      "N702-hint.png",
+      "large-notebook.png",
+      "large-codex.png"
+    ],
+    "errors": [],
+    "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
   },
   "visualReview": {
-    "version": "0.5.0",
+    "version": "0.6.0",
     "status": "passed",
     "method": "Visual inspection of actual H5 screenshots, including art registration, glyphs, layer clipping, physical object identity, progress feedback and scaled input. Codex contact sheet uses cropped actual screenshots, not mockups.",
     "screenshots": [
@@ -591,6 +677,15 @@
       "Documentation/review/844-large-text.png",
       "Documentation/review/844-settings.png",
       "Documentation/review/load-failure.png",
+      "Documentation/review/dpi2-dialogue.png",
+      "Documentation/review/import-preview.png",
+      "Documentation/review/invalid-file.png",
+      "Documentation/review/restored.png",
+      "Documentation/review/mobile-dpi3-safearea-dialogue.png",
+      "Documentation/review/N603-hint.png",
+      "Documentation/review/N702-hint.png",
+      "Documentation/review/large-notebook.png",
+      "Documentation/review/large-codex.png",
       "Documentation/review/codex-review.png"
     ],
     "source": "Builds/QA/Unity",
@@ -610,8 +705,13 @@
       "Paper stays inside the mounting frame",
       "Workshop header contrast increased",
       "Rubbing mask preserves generated paper grain and blends reveal edges",
-      "World clues and mechanism panels replaced throughout the eight investigations"
-    ]
+      "World clues and mechanism panels replaced throughout the eight investigations",
+      "Shared CSS viewport prevents high-DPI layout disagreement and panel/fullscreen overlap",
+      "Large-font notebook, codex and reasoning use measured text layout; all three hints remain visible",
+      "Import confirmation, damaged-file feedback and restore-before-import screens reviewed",
+      "Bridge variation and repair, ice/sand reveal and leaf rotation retain scene placement"
+    ],
+    "fixtureDisclosure": "Reading screenshots use deliberately complete imported test saves for layout inspection; normal mouse/touch playthroughs and the gameplay Demo do not inject state."
   },
   "investigationNodesPlayed": [
     "N101",
@@ -646,29 +746,29 @@
     "newGeneratedAssets": 27
   },
   "buildFiles": {
-    "Build/H5-0.5.0-publish.data.unityweb": {
-      "bytes": 15406860,
-      "sha256": "0383c917640dc634efdda779f08b8f36c5b7234c9ac87ce241f596188714d3b9"
+    "Build/H5-0.6.0-final.data.unityweb": {
+      "bytes": 15417992,
+      "sha256": "c5b21472817f2e9d9eec2a2721b50939808b228ac0aec304606a87a911e1368c"
     },
-    "Build/H5-0.5.0-publish.framework.js.unityweb": {
-      "bytes": 83703,
-      "sha256": "cb2d9a8abba04485e15568ce59eef0ca3ec21d9a80245430de9cd88b148a6983"
+    "Build/H5-0.6.0-final.framework.js.unityweb": {
+      "bytes": 83833,
+      "sha256": "20584845332940481b149e96eaca08f2789a60fca281a38fc1ea99c58b1baea3"
     },
-    "Build/H5-0.5.0-publish.loader.js": {
+    "Build/H5-0.6.0-final.loader.js": {
       "bytes": 44358,
       "sha256": "2931859c57c92d36566076bba415689450db2392bcee81f93ed1649bbbff0904"
     },
-    "Build/H5-0.5.0-publish.wasm.unityweb": {
-      "bytes": 6429452,
-      "sha256": "2bbaa1271d91de8f880dc5779b5c12cc06e909632934089fa9dec0a73001c86b"
+    "Build/H5-0.6.0-final.wasm.unityweb": {
+      "bytes": 6442447,
+      "sha256": "cf36cf86f9ddef12dc71abfed441b36ef2615492242c871cf04c4566debf8c0b"
     },
     "build-manifest.json": {
-      "bytes": 12438,
-      "sha256": "84158060a0384119fa4729c1e503486d48c3c105d3b2d57780497c4d6612abc8"
+      "bytes": 12430,
+      "sha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f"
     },
     "index.html": {
-      "bytes": 3237,
-      "sha256": "87b3ac77994839b3d181657a9a7d1b86ece9819020680483cab89faa9f948727"
+      "bytes": 5119,
+      "sha256": "e1da7d91894d5f219444673f4271a9e55b22f86850003ab727ba71d5b4ddd31f"
     },
     "StreamingAssets/Art/Backgrounds_buzhou-205fcf10acc28129.jpg": {
       "bytes": 381127,

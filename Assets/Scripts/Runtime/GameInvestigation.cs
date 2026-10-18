@@ -74,15 +74,19 @@ namespace ShanHai
             P.Fill(new Rect(0,62,1600,788),new Color(.015f,.025f,.025f,.75f));
             P.Image(new Rect(155,145,1290,650),Art("Investigations/worktable"));
             P.Label(new Rect(215,180,1000,50),"山 海 线 索 手 记",30,P.Gold);
-            if(P.Button(new Rect(1290,176,110,44),"收起",false,true,21)){investigationFocus="";return;}
-            Rect view=new Rect(215,257,1165,490);
-            notesScroll=GUI.BeginScrollView(view,notesScroll,new Rect(0,0,1120,Math.Max(455,engine.State.evidence.Count*133)));
-            int index=0;
+            if(P.Button(new Rect(1245,155,155,95),"收起",false,true,27)){investigationFocus="";return;}
+            Rect view=new Rect(215,257,1165,490);float total=0;
+            P.Fill(new Rect(205,247,1190,510),new Color(.025f,.02f,.015f,.45f));
+            foreach(string id in engine.State.evidence){var note=InvestigationRules.Find(id);if(note!=null)total+=P.ReadingStyle(27).CalcHeight(new GUIContent(note.clue),1100)+88;}
+            ReadingScroll(view,ref notesScroll,total);
+            notesScroll=GUI.BeginScrollView(view,notesScroll,new Rect(0,0,1120,Math.Max(455,total)));
+            int index=0;float y=0;
             foreach(string id in engine.State.evidence)
             {
                 var note=InvestigationRules.Find(id);if(note==null)continue;
-                P.Label(new Rect(6,index*133,1100,38),note.clueTitle,25,P.Gold);
-                P.Label(new Rect(6,index*133+44,1100,78),note.clue,24,P.Paper);index++;
+                float body=P.ReadingStyle(27).CalcHeight(new GUIContent(note.clue),1100);
+                P.ReadingLabel(new Rect(6,y,1100,60),note.clueTitle,27,P.Gold);
+                P.ReadingLabel(new Rect(6,y+68,1100,body),note.clue,27,P.Paper);index++;y+=body+88;
             }
             if(index==0)P.Label(new Rect(15,35,1080,130),"尚未发现线索。回到场景，观察岩壁、器物和它们留下的痕迹。",26,P.Paper);
             GUI.EndScrollView();

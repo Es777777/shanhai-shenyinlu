@@ -1,0 +1,137 @@
+{
+  "reviewedAt": "2026-10-18T20:21:01+08:00",
+  "release": "v0.6.0",
+  "status": "completed_with_listed_limits",
+  "buildManifestSha256": "83c99198c085687234af898444a42aaffdaf803208c631d36f67ba32996a3c9f",
+  "method": "Source audit, real exported H5 mouse/touch routes, actual browser save-file transfer, fault-injected persistence tests and visual inspection. Reading fixtures are explicitly synthetic and separate from normal gameplay.",
+  "findings": [
+    {
+      "id": "R01",
+      "priority": 1,
+      "status": "resolved",
+      "finding": "CSS window size and framebuffer pixel size selected different layouts at high DPI.",
+      "change": "One CSS viewport calculation shared by game and DOM; safe-area-aware frame; fullscreen hidden while panels are open.",
+      "evidence": [
+        "review/dpi2-dialogue.png",
+        "review/mobile-dpi3-safearea-dialogue.png"
+      ]
+    },
+    {
+      "id": "R02",
+      "priority": 1,
+      "status": "resolved",
+      "finding": "Text size did not reach notebook/codex/reasoning; some controls were too small.",
+      "change": "Shared reading font scale, measured scrolling text, larger sliders, confirmation and navigation buttons. Corrected large-font hint clipping found during review.",
+      "evidence": [
+        "review/large-notebook.png",
+        "review/large-codex.png",
+        "review/N702-hint.png"
+      ]
+    },
+    {
+      "id": "R03",
+      "priority": 1,
+      "status": "implemented_and_verified",
+      "finding": "No portable backup or corrupt-save recovery.",
+      "change": "Checksum-protected seven-slot/profile archive, full validation, confirmation, pre-import snapshot, rolling valid copies, error disclosure and partial-write rollback.",
+      "evidence": [
+        "review/import-preview.png",
+        "review/invalid-file.png",
+        "review/restored.png"
+      ],
+      "unitAssertions": 25,
+      "fullCollectionCapacitySampleBytes": 438303
+    },
+    {
+      "id": "R04",
+      "priority": 2,
+      "status": "implemented_and_verified",
+      "finding": "Fixed conclusion position and overly direct reasoning.",
+      "change": "Persisted shuffled conclusion positions, related evidence required in both puzzles, three player-requested hints, wrong evidence/conclusion remains recoverable.",
+      "evidence": [
+        "review/N603-hint.png",
+        "review/N702-hint.png"
+      ]
+    },
+    {
+      "id": "R05",
+      "priority": 2,
+      "status": "improved_and_verified",
+      "finding": "Repeated bridge plates and abrupt scene/mechanism changes.",
+      "change": "Bridge size/angle/tone variations and repair blend, leaf rotation animation, ice/sand reveal, ambient portrait tint; reduced-motion mode respected.",
+      "evidence": [
+        "review/N801-scene-changed.png",
+        "review/N201-scene-changed.png"
+      ]
+    },
+    {
+      "id": "R06",
+      "priority": 2,
+      "status": "updated",
+      "finding": "Demo documented the old 0.4.1 version.",
+      "change": "New actual H5 recording of both routes and chapter replay for the third ending, original game audio and chapter navigation.",
+      "evidence": [
+        "demo-0.6.0.json"
+      ]
+    }
+  ],
+  "metrics": {
+    "buildBytes": 86532835,
+    "usability": [
+      {
+        "name": "desktop-dpi2",
+        "viewport": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 720,
+          "compact": false
+        },
+        "canvas": [
+          1920,
+          1080
+        ],
+        "transfer": 22426270,
+        "titleSeconds": 6.778,
+        "checks": [
+          "Shared CSS viewport and fullscreen bounds",
+          "Enlarged slider touch area",
+          "Persistent text size",
+          "Readable codex at large font",
+          "Fullscreen hidden behind panels",
+          "Actual graphics-context loss displays reload and resumes autosave"
+        ]
+      },
+      {
+        "name": "mobile-dpi3-safearea",
+        "viewport": {
+          "x": 20,
+          "y": 0,
+          "w": 875,
+          "h": 394,
+          "compact": true
+        },
+        "canvas": [
+          1313,
+          591
+        ],
+        "transfer": 22426270,
+        "titleSeconds": 26.912,
+        "checks": [
+          "Shared CSS viewport and fullscreen bounds",
+          "Enlarged slider touch area",
+          "Persistent text size",
+          "Readable codex at large font",
+          "Fullscreen hidden behind panels"
+        ]
+      }
+    ]
+  },
+  "limits": [
+    "Physical iOS/Android and WeChat/Douyin embedded-browser testing pending",
+    "WeChat/Douyin mini-game SDKs, account services and store submission not included",
+    "8 Mbit/s and safe areas are desktop Chrome simulations, not device certification",
+    "First-load transfer remains about 21.4 MiB; measured peak device/GPU memory is not available",
+    "Reasoning remains a finite narrative puzzle; added evidence and hints do not make it an open-ended deduction system"
+  ]
+}

@@ -14,7 +14,9 @@ export async function readSavedData(page,key='slot0'){
           else c.continue();
         };
       });
-      const keyAt=text.indexOf('shanhai.v1.'+key);if(keyAt<0)return null;
+      const name='shanhai.v1.'+key;let keyAt=text.indexOf(name);
+      while(keyAt>=0&&text[keyAt+name.length]==='.')keyAt=text.indexOf(name,keyAt+name.length);
+      if(keyAt<0)return null;
       // Binary length bytes can themselves equal '{'; find the JSON header.
       const start=text.indexOf('{"version":',keyAt);if(start<0)return null;
       let depth=0,quoted=false,escaped=false;

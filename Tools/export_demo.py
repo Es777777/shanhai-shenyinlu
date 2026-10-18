@@ -6,10 +6,10 @@ import numpy as np
 import imageio_ffmpeg
 
 ROOT=Path(__file__).resolve().parents[1]
-WORK=ROOT/'Builds/Demo'
+WORK=ROOT/os.environ.get('SHANHAI_DEMO_DIR','Builds/Demo-0.6.0')
 FFMPEG=str(Path('F:/Shotcut/ffmpeg.exe')) if Path('F:/Shotcut/ffmpeg.exe').exists() else imageio_ffmpeg.get_ffmpeg_exe()
 FFPROBE=Path('F:/Shotcut/ffprobe.exe')
-VERSION='0.4.1'
+VERSION=os.environ.get('SHANHAI_DEMO_VERSION','0.6.0')
 DEST=ROOT.parent/f'山海神隐录_完整游玩Demo_{VERSION}.mp4'
 ORDER=['xuanyao','lingxi-main','lingxi-tail','balanced']
 NAMES={'xuanyao':'玄曜主线','lingxi-main':'灵曦主线','lingxi-tail':'灵曦主线','balanced':'调和结局回放'}
@@ -87,7 +87,7 @@ def main():
     chapter_list[0]['seconds']=0
     concat=WORK/'source-concat.txt'
     concat.write_text(''.join(f"file '{s['concatFile']}'\nduration {s['durationSeconds']:.6f}\n" for s in sources),encoding='utf-8')
-    meta=[';FFMETADATA1','title=山海神隐录 · 完整游玩 Demo 0.4.1','artist=ShanHai Studio','comment=正式团结引擎 H5 实录；两条主线、八处调查、五类互动与三个结局；原游戏配乐与音效。']
+    meta=[';FFMETADATA1',f'title=山海神隐录 · 完整游玩 Demo {VERSION}','artist=ShanHai Studio','comment=正式团结引擎 H5 实录；两条主线、八处调查、五类互动与三个结局；原游戏配乐与音效。']
     for i,chapter in enumerate(chapter_list):
         end=chapter_list[i+1]['seconds'] if i+1<len(chapter_list) else offset
         title=chapter['title'].replace('\\','\\\\').replace('=','\\=').replace(';','\\;').replace('#','\\#')
@@ -129,9 +129,10 @@ def main():
     if not recovery:lines=[line for line in lines if not line.startswith('灵曦路线结局对白后')]
     (ROOT.parent/f'山海神隐录_Demo章节_{VERSION}.txt').write_text('\n'.join(lines)+'\n',encoding='utf-8-sig')
     buttons=''.join(f'<button data-time="{c["seconds"]:.3f}"><time>{timestamp(c["seconds"])}</time>{html.escape(c["title"])}</button>' for c in chapter_list)
-    (ROOT.parent/f'山海神隐录_Demo播放_{VERSION}.html').write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>山海神隐录 · 完整游玩 Demo</title><style>body{margin:0;background:#0a191d;color:#e8ddc6;font:16px/1.6 system-ui}main{max-width:1440px;margin:auto;padding:24px}h1{font-size:26px;font-weight:500}p{color:#b9c1b7}video{width:100%;background:#000}nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:8px;margin-top:24px}button{text-align:left;background:#142b30;color:#ecdfc1;border:1px solid #47534b;padding:12px;cursor:pointer}button:hover{background:#294247}time{color:#c5a76c;margin-right:14px}</style><main><h1>山海神隐录 · 完整游玩 Demo 0.4.1</h1><p>两条主线 · 八处调查 · 五类互动 · 三个结局。正式 H5 实录，保留游戏配乐与音效。含结局剧透。</p><video controls preload="metadata" src="'+html.escape(DEST.name)+'"></video><p>点击章节跳转；视频自带章节标记。总时长 '+timestamp(offset)+'。</p><nav>'+buttons+'</nav></main><script>const v=document.querySelector("video");document.querySelectorAll("button").forEach(b=>b.onclick=()=>{v.currentTime=Number(b.dataset.time);v.play();});</script></html>',encoding='utf-8')
+    (ROOT.parent/f'山海神隐录_Demo播放_{VERSION}.html').write_text('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>山海神隐录 · 完整游玩 Demo</title><style>body{margin:0;background:#0a191d;color:#e8ddc6;font:16px/1.6 system-ui}main{max-width:1440px;margin:auto;padding:24px}h1{font-size:26px;font-weight:500}p{color:#b9c1b7}video{width:100%;background:#000}nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:8px;margin-top:24px}button{text-align:left;background:#142b30;color:#ecdfc1;border:1px solid #47534b;padding:12px;cursor:pointer}button:hover{background:#294247}time{color:#c5a76c;margin-right:14px}</style><main><h1>山海神隐录 · 完整游玩 Demo '+VERSION+'</h1><p>两条主线 · 八处调查 · 五类互动 · 三个结局。正式 H5 实录，保留游戏配乐与音效。含结局剧透。</p><video controls preload="metadata" src="'+html.escape(DEST.name)+'"></video><p>点击章节跳转；视频自带章节标记。总时长 '+timestamp(offset)+'。</p><nav>'+buttons+'</nav></main><script>const v=document.querySelector("video");document.querySelectorAll("button").forEach(b=>b.onclick=()=>{v.currentTime=Number(b.dataset.time);v.play();});</script></html>',encoding='utf-8')
     result={'status':'awaiting_visual_review','version':VERSION,'video':DEST.name,'durationSeconds':float(info['format']['duration']),'width':1600,'height':900,'fps':30,'videoCodec':'h264','audioCodec':'aac','bytes':DEST.stat().st_size,'sha256':digest(DEST),'fullDecode':'passed','sources':sources,'chapters':chapter_list,'capture':'Actual Unity canvas and Web Audio output; real mouse input; saves observed read-only; no state injection','editing':'Four captured segments joined in story order without speed-up. Lingxi main recording ends after the final N912 dialogue; closing the scroll and collection screens were recaptured by a fresh real-input replay after a recording-browser failure. Original failure report retained as lingxi-main-capture.json. CFR conversion repeats frames when source render is unchanged.'}
     if not recovery:result['editing']='Three continuous recorded segments joined in story order without speed-up; CFR conversion repeats frames when source render is unchanged.'
+    result['buildManifestSha256']=report.get('buildManifestSha256','')
     (WORK/'video-verification.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(DEST,flush=True)
 

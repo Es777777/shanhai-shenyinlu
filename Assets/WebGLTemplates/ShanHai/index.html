@@ -1,25 +1,50 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0c2025"><link rel="icon" href="data:,"><title>山海神隐录</title>
-<style>*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;background:#071316;color:#ede4cd;font-family:serif;overflow:hidden}#unity-canvas{width:100%;height:100%;display:block;outline:none;touch-action:none}#loading{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse,#203b3e,#071316);z-index:2}h1{font-weight:400;letter-spacing:.28em;font-size:42px}p{color:#bdac85;letter-spacing:.15em}progress{width:290px;accent-color:#baa16c;height:5px}#error{white-space:pre-wrap;max-width:700px;padding:25px;color:#d5c8aa;font-size:16px}#fullscreen{position:fixed;display:none;border:1px solid #8d805d;background:#102b30e8;color:#eee1c4;padding:0;font-family:inherit;cursor:pointer;z-index:1}</style></head>
-<body><canvas id="unity-canvas" width="1600" height="900" tabindex="-1"></canvas><button id="fullscreen">全屏</button><div id="loading"><h1>山海神隐录</h1><p>正在展开山海古卷</p><progress id="progress" max="1" value="0"></progress><div id="error"></div></div>
+<style>
+*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;background:#071316;color:#ede4cd;font-family:serif;overflow:hidden}
+#game-frame{position:fixed;top:env(safe-area-inset-top,0px);right:env(safe-area-inset-right,0px);bottom:env(safe-area-inset-bottom,0px);left:env(safe-area-inset-left,0px)}
+#unity-canvas{width:100%;height:100%;display:block;outline:none;touch-action:none}
+#loading{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse,#203b3e,#071316);z-index:2}
+h1{font-weight:400;letter-spacing:.28em;font-size:42px}p{color:#bdac85;letter-spacing:.15em}progress{width:290px;accent-color:#baa16c;height:5px}
+#error{white-space:pre-wrap;max-width:700px;padding:25px;color:#d5c8aa;font-size:16px}
+#fullscreen{position:fixed;display:none;border:1px solid #8d805d;background:#102b30e8;color:#eee1c4;padding:0;font-family:inherit;cursor:pointer;z-index:1}
+#reload{font:inherit;font-size:20px;padding:12px 32px;color:#ede4cd;border:1px solid #bdac85;background:#102b30}
+</style></head>
+<body><div id="game-frame"><canvas id="unity-canvas" width="1600" height="900" tabindex="-1"></canvas></div><button id="fullscreen">全屏</button>
+<div id="loading"><h1>山海神隐录</h1><p id="loading-note">正在展开山海古卷</p><progress id="progress" max="1" value="0"></progress><div id="error"></div><button id="reload" hidden>重新加载</button></div>
+<input type="file" id="save-file" accept=".json,application/json" hidden>
 <script>
-const canvas=document.getElementById('unity-canvas');
-const loading=document.getElementById('loading');
-const fullscreen=document.getElementById('fullscreen');
-let ready=false;
+const canvas=document.getElementById('unity-canvas'),loading=document.getElementById('loading'),fullscreen=document.getElementById('fullscreen');
+let ready=false,gameInstance=null;
+// DOM controls and the game share CSS dimensions, independent of framebuffer pixels.
+window.shanhaiViewport=()=>{
+  const r=canvas.getBoundingClientRect();
+  return {x:r.x,y:r.y,w:r.width,h:r.height,compact:r.height<650||r.width<1100||/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Macintosh/.test(navigator.userAgent))};
+};
 function placeFullscreen(){
-  const w=window.innerWidth,h=window.innerHeight,s=Math.min(w/1600,h/900),compact=h<650||/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Macintosh/.test(navigator.userAgent));
+  const {x,y,w,h,compact}=window.shanhaiViewport(),s=Math.min(w/1600,h/900);
   const bx=compact?320:650,by=compact?800:856,bw=compact?280:130,bh=compact?98:37;
-  fullscreen.style.display=ready&&w>=h&&document.fullscreenEnabled!==false?'block':'none';
-  Object.assign(fullscreen.style,{left:((w-1600*s)/2+bx*s)+'px',top:((h-900*s)/2+by*s)+'px',width:(bw*s)+'px',height:(bh*s)+'px',fontSize:((compact?36:20)*s)+'px'});
+  fullscreen.style.display=ready&&!window.shanhaiOverlay&&w>=h&&document.fullscreenEnabled!==false?'block':'none';
+  Object.assign(fullscreen.style,{left:(x+(w-1600*s)/2+bx*s)+'px',top:(y+(h-900*s)/2+by*s)+'px',width:(bw*s)+'px',height:(bh*s)+'px',fontSize:((compact?36:20)*s)+'px'});
 }
-window.addEventListener('resize',placeFullscreen);
+window.addEventListener('resize',placeFullscreen);new ResizeObserver(placeFullscreen).observe(canvas);
+function failure(message){ready=false;fullscreen.style.display='none';loading.style.display='flex';document.getElementById('error').textContent=message;document.getElementById('reload').hidden=false;}
+document.getElementById('reload').onclick=()=>location.reload();
+canvas.addEventListener('webglcontextlost',()=>failure('画面暂时中断。请关闭其他占用较多内存的页面后重新加载，可从最近一次自动存档继续。'));
+window.shanhaiFiles={
+ export(name,json){const url=URL.createObjectURL(new Blob([json],{type:'application/json;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);},
+ import(target){const picker=document.getElementById('save-file');picker.value='';picker.onchange=async()=>{
+   const file=picker.files[0];if(!file)return;
+   try{if(file.size>4*1024*1024)throw new Error('备份文件不能超过 4 MiB。');const text=await file.text();gameInstance.SendMessage(target,'ReceiveSaveArchive',text);}
+   catch(e){gameInstance.SendMessage(target,'SaveFileError','无法读取备份：'+e.message);}
+ };picker.click();}
+};
 const script=document.createElement('script');script.src='Build/{{{ LOADER_FILENAME }}}';
 script.onload=()=>createUnityInstance(canvas,{
 dataUrl:'Build/{{{ DATA_FILENAME }}}',frameworkUrl:'Build/{{{ FRAMEWORK_FILENAME }}}',codeUrl:'Build/{{{ CODE_FILENAME }}}',
-streamingAssetsUrl:'StreamingAssets',companyName:'ShanHai Studio',productName:'山海神隐录',productVersion:'0.5.0',
+streamingAssetsUrl:'StreamingAssets',companyName:'ShanHai Studio',productName:'山海神隐录',productVersion:'0.6.0',
 matchWebGLToCanvasSize:true,devicePixelRatio:Math.min(window.devicePixelRatio||1,1.5)
-},p=>document.getElementById('progress').value=p).then(instance=>{loading.style.display='none';canvas.focus();ready=true;placeFullscreen();fullscreen.onclick=()=>instance.SetFullscreen(1);}).catch(e=>document.getElementById('error').textContent='加载失败：'+e+'\n请刷新页面，或使用支持 WebGL 2 的浏览器。');
-script.onerror=()=>document.getElementById('error').textContent='构建文件未能加载，请检查网络连接。';document.body.appendChild(script);
+},p=>document.getElementById('progress').value=p).then(instance=>{gameInstance=instance;loading.style.display='none';canvas.focus();ready=true;placeFullscreen();fullscreen.onclick=()=>instance.SetFullscreen(1);}).catch(e=>failure('加载失败：'+e+'\n请检查连接，或使用支持 WebGL 2 的浏览器。'));
+script.onerror=()=>failure('构建文件未能加载，请检查网络连接后重试。');document.body.appendChild(script);
 window.addEventListener('contextmenu',e=>e.preventDefault());
 </script></body></html>

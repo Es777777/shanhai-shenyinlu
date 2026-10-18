@@ -58,6 +58,8 @@ namespace ShanHai
         public List<int> rubbed = new List<int>();
         public List<int> matched = new List<int>();
         public List<string> deductions = new List<string>();
+        public List<int> reasoningOrder = new List<int>();
+        public int reasoningHints;
         public int mountingRotation, mountingSeal = -1;
         public List<HistoryEntry> history = new List<HistoryEntry>();
         public List<string> items = new List<string>();

@@ -12,7 +12,9 @@ namespace ShanHai
         PlayerProfile profile;
         GameAudio audioBus;
         ArtStream artStream;
-        bool Compact { get { return Screen.height < 650 || Application.isMobilePlatform; } }
+        bool compactLayout;
+        bool releaseGuiPointer;
+        bool Compact { get { return compactLayout; } }
         bool playing, autoPlay, skipping;
         string panel = "", notice = "", confirmText = "";
         Action confirmed;
@@ -46,11 +48,13 @@ namespace ShanHai
 #if !UNITY_WEBGL || UNITY_EDITOR
             Screen.orientation = ScreenOrientation.LandscapeLeft;
 #endif
-            profile = LocalSaves.LoadProfile();
             artStream = gameObject.AddComponent<ArtStream>();
             var text = Resources.Load<TextAsset>("Story/story");
             if (text == null) { Debug.LogError("缺少剧情数据，请运行 Tools/import_story.py"); enabled = false; return; }
-            engine = new StoryEngine(JsonUtility.FromJson<StoryData>(text.text),profile);
+            var data=JsonUtility.FromJson<StoryData>(text.text);
+            LocalSaves.Configure(data);profile = LocalSaves.LoadProfile();
+            engine = new StoryEngine(data,profile);
+            compactLayout=WebPlatform.Compact;
             P.Font = Resources.Load<Font>("Fonts/StorySerif");
             if (P.Font == null) P.Font = Font.CreateDynamicFontFromOSFont(new[] {"Microsoft YaHei","Noto Serif CJK SC","Arial"},28);
             audioBus = gameObject.AddComponent<GameAudio>(); audioBus.profile = profile;
@@ -58,7 +62,9 @@ namespace ShanHai
         }
         void Update()
         {
+            compactLayout=WebPlatform.Compact;
             if (engine == null) return;
+            if(LocalSaves.RecoveryNotice!=""){Notify(LocalSaves.RecoveryNotice,10);LocalSaves.RecoveryNotice="";}
             transitionTime = Mathf.Max(0,transitionTime-Time.unscaledDeltaTime);
             if (!playing || panel != "" || confirmed != null || Screen.height > Screen.width || artStream.Busy || artStream.Error != null) return;
             if (!engine.DialogueFinished)
@@ -82,6 +88,10 @@ namespace ShanHai
         }
         void CancelPointerGesture()
         {
+            // Only release our slider capture. Clearing every IMGUI control on
+            // each loading frame would swallow the retry button's mouse-up.
+            if(sliderControl!=0){sliderControl=0;releaseGuiPointer=true;}
+            readingDrag=false;
             tracing=draggingMount=false;drawnStroke.Clear();dragTile=-1;
             CancelFanStroke();
         }
@@ -143,7 +153,7 @@ namespace ShanHai
         void Notify(string text, float seconds = 3) { notice = text; noticeUntil = Time.unscaledTime + seconds; }
         void OpenPanel(string name)
         {
-            panel = name; scroll = Vector2.zero; skipping = false;
+            panel = name; scroll = readingScroll = Vector2.zero; skipping = false;
             CancelPointerGesture();
             if (playing) Persist();
         }
@@ -151,8 +161,11 @@ namespace ShanHai
         void OnGUI()
         {
             if (engine == null) return;
+            if(releaseGuiPointer){GUIUtility.hotControl=0;releaseGuiPointer=false;}
+            WebPlatform.SetOverlay(panel!=""||confirmed!=null||Screen.height>Screen.width||artStream.Busy||artStream.Error!=null);
             artStream.BeginFrame();
             P.SmallScreen = Compact;
+            P.TextScale = profile.textScale;
             GUI.depth = 0;
             GUI.matrix = Matrix4x4.identity;
             P.Fill(new Rect(0,0,Screen.width,Screen.height),Color.black);
@@ -277,7 +290,10 @@ namespace ShanHai
             float aspect=(float)tex.width/frames/tex.height;
             float w=rect.height*aspect;
             Rect target=new Rect(rect.center.x-w/2,rect.y,w,rect.height);
-            Color old=GUI.color; GUI.color=new Color(opacity,opacity,opacity,1);
+            Color old=GUI.color;
+            string bg=engine.Node.background;
+            Color ambient=bg=="danxue"||bg=="fusang"?new Color(1,.95f,.86f):bg=="zhongshan"||bg=="youdu"?new Color(.85f,.94f,1):new Color(.94f,.98f,.98f);
+            GUI.color=new Color(ambient.r*opacity,ambient.g*opacity,ambient.b*opacity,1);
             if(frames>1)DrawPortraitEdges(target,tex,new Rect((Mathf.Clamp(frame,0,4)+.008f)/5f,0,.984f/5,1));
             else GUI.DrawTexture(target,tex,ScaleMode.ScaleToFit,true);
             GUI.color=old;

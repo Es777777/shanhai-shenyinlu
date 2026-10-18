@@ -7,6 +7,7 @@ namespace ShanHai
     {
         public static Font Font;
         public static bool SmallScreen;
+        public static float TextScale=1;
         public static readonly Color Ink = new Color(.035f,.075f,.085f,.94f);
         public static readonly Color Gold = new Color(.76f,.64f,.4f,1);
         public static readonly Color Paper = new Color(.94f,.9f,.79f,1);
@@ -89,6 +90,10 @@ namespace ShanHai
             }
         }
         public static void Label(Rect r, string t, int size = 24, Color? color = null, TextAnchor align = TextAnchor.UpperLeft) { GUI.Label(r,t,Style(SmallScreen?Mathf.Max(size,32):size,align,color)); }
+        public static int ReadingSize(int size){return Mathf.RoundToInt((SmallScreen?Mathf.Max(size,34):size)*TextScale);}
+        public static GUIStyle ReadingStyle(int size){return Style(ReadingSize(size));}
+        public static void ReadingLabel(Rect r,string text,int size=27,Color? color=null,TextAnchor align=TextAnchor.UpperLeft)
+        {GUI.Label(r,text,Style(ReadingSize(size),align,color));}
         public static bool Button(Rect r, string text, bool accent = false, bool enabled = true, int size = 23)
         {
             bool hover = enabled && r.Contains(Event.current.mousePosition);
